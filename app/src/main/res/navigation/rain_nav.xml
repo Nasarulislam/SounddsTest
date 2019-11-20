@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rain_nav"
+    app:startDestination="@id/rainFragment">
+
+    <fragment
+        android:id="@+id/rainFragment"
+        android:name="com.example.sounddstest.Fragments.RainFragment"
+        android:label="fragment_rain"
+        tools:layout="@layout/fragment_rain" >
+        <action
+            android:id="@+id/action_rainFragment_to_relaxingFragment"
+            app:destination="@id/relaxingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/relaxingFragment"
+        android:name="com.example.sounddstest.Fragments.RelaxingFragment"
+        android:label="fragment_relaxing"
+        tools:layout="@layout/fragment_relaxing" >
+        <action
+            android:id="@+id/action_relaxingFragment_to_thirdFragment"
+            app:destination="@id/thirdFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/waterFragment"
+        android:name="com.example.sounddstest.Fragments.waterFragment"
+        android:label="waterFragment" />
+    <fragment
+        android:id="@+id/thirdFragment"
+        android:name="com.example.sounddstest.Fragments.ThirdFragment"
+        android:label="ThirdFragment" >
+        <action
+            android:id="@+id/action_thirdFragment_to_waterFragment"
+            app:destination="@id/waterFragment" />
+    </fragment>
+</navigation>

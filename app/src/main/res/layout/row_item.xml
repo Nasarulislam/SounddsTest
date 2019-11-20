@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:padding="5dp"
+android:layout_gravity="center"
+    android:layout_centerInParent="true"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/WithOutSeekbar"
+        android:onClick="withOutSeekBar"
+
+        >
+
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/ic_music_video_black_24dp"
+            android:id="@+id/imageid"
+            android:layout_centerHorizontal="true"
+
+            >
+
+        </ImageView>
+<!--
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/imageid"
+            android:singleLine="true"
+            >
+
+        </TextView>-->
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/WithSeekbar"
+        android:onClick="withSeekBar"
+        android:visibility="gone"
+        >
+
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/ic_music_video_black_24dp"
+        android:id="@+id/imageid2"
+        android:layout_centerHorizontal="true"
+        >
+
+    </ImageView>
+
+   <!-- <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/imageid2"
+        android:singleLine="true"
+       >
+
+    </TextView>-->
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/seekbarid2"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/imageid2"
+            >
+
+        </SeekBar>
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/progressshape"
+        >
+        <clip>
+            <shape
+                android:shape="rectangle" >
+                <size android:height="4.55dp"
+                    />
+
+                <corners
+                    android:radius="5dp" />
+                <solid android:color="@color/colorPrimary"/>
+            </shape>
+        </clip>
+    </item>
+    
+</selector>

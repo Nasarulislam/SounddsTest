@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+    <color name="toastColor">#1D2323</color>
+
+    <color name="RainFragmentColor">#CA5324</color>
+    <color name="RelaxingFragmentColor">#23C098</color>
+    <color name="CityFragmentColor">#DF90A6</color>
+    <color name="waterFragmentColor">#CEC46D</color>
+
+    <color name="black">#000000</color>
+
+    <color name="colorHeadText">#C4000000</color>
+    <color name="tensperent">#00000000</color>
+    <color name="splash_screen_color">#9FDEFA</color>
+
+    <color name="card_background_color">#dbfbed</color>
+
+    <color name="icons_color">#B0B0B0</color>
+    <color name="bottonColor">#B1A9A9</color>
+</resources>

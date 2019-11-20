@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp"
+
+    android:weightSum="1">
+
+   <!-- <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:id="@+id/linearLayout1"
+        android:padding="8dp"
+        android:layout_gravity="center">-->
+        <!--<TextView
+            android:gravity="left"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+
+            android:textSize="16sp"
+            android:textColor="#FF000000"////////////////
+            android:text="Ambience"
+            android:id="@+id/textView"
+            android:layout_weight=".4"
+            android:singleLine="true"
+            />-->
+      <!--  android:width="81dp"
+        android:maxLines="1"
+        android:lineSpacingMultiplier="1.17"
+        android:lineSpacingMultiplier="1.17"
+        android:height="30dp"
+         android:fontFamily="@font/roboto_regular"-->
+       <!-- <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_volume_on"
+            />-->
+   <!--     <SeekBar
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/seekBar"////////////////////
+            android:layout_marginRight="5dp"
+            android:scrollbarSize="50dp"
+            android:splitTrack="false"
+
+            android:minHeight="2dp"
+            android:maxHeight="5dp"
+            android:layout_weight=".6"
+
+            />-->
+    <TextView
+        android:gravity="left"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:fontFamily="@font/roboto_regular"
+        android:textSize="16sp"
+        android:textColor="#FF000000"
+        android:text="Ambience"
+        android:id="@+id/textView"
+        android:layout_weight=".4"
+        android:singleLine="true"
+        />
+    <SeekBar
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:id="@+id/seekBar"
+        android:layout_marginRight="5dp"
+        android:scrollbarSize="50dp"
+        android:splitTrack="false"
+        android:progressDrawable="@drawable/seekbar_style"
+        android:thumb="@drawable/custom_thumb"
+        android:minHeight="2dp"
+        android:maxHeight="5dp"
+        android:layout_weight=".6"
+        android:layout_gravity="center_vertical"
+        />
+   <!-- <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_close_black"
+        android:id="@+id/closeIcon">
+
+    </ImageView>-->
+<!--    </LinearLayout>-->
+
+<!--    android:progressDrawable="@drawable/seekbar_style"
+    android:thumb="@drawable/custom_thumb"-->
+</LinearLayout>

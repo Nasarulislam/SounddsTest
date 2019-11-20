@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/rainFragment"
+        android:title="Rain Sounds"
+        android:icon="@drawable/ic_grain_black_24dp"
+        />
+    <item
+        android:id="@+id/relaxingFragment"
+        android:title="Relaxing Sounds"
+        android:icon="@drawable/ic_person_black_24dp"
+        />
+    <item
+        android:id="@+id/thirdFragment"
+        android:title="City Sounds"
+        android:icon="@drawable/ic_location_city_black_24dp"
+        />
+    <item
+        android:id="@+id/waterFragment"
+        android:title="Water Sounds"
+        android:icon="@drawable/ic_android_black_24dp"
+        />
+</menu>

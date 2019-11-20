@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!-- <link href="https://fonts.googleapis.com/css?family=Leckerli+One|Patua+One" rel="stylesheet"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <script src="js/swiper.min.js"></script>
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <!-- <link  href="css/picker.min.css" rel="stylesheet"> -->
+    <!-- <script src="js/picker.min.js"></script> -->
+    <script src="js/fastclick.js" charset="utf-8"></script>
+    <!-- <script src="js/data.js" charset="utf-8"></script> -->
+    <script type="text/javascript">
+      var urlParams;
+      (window.onpopstate = function () {
+        var match,
+          pl = /\+/g, // Regex for replacing addition symbol with a space
+          search = /([^&=]+)=?([^&]*)/g,
+          decode = function (s) {
+            return decodeURIComponent(s.replace(pl, " "));
+          },
+          query = window.location.search.substring(1);
+
+        urlParams = {};
+        while (match = search.exec(query))
+          urlParams[decode(match[1])] = decode(match[2]);
+      })();
+
+      // if (urlParams.lang!=undefined && dataAll[urlParams.lang]!=undefined) {
+      //   data=dataAll[urlParams.lang];
+      // }
+      // else data=dataAll['en'];
+    </script>
+
+    <title>Riafy</title>
+    <style media="screen">
+    * {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-tap-highlight-color: transparent;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+}
+input{
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: transparent;
+  -moz-user-select: auto;
+  -ms-user-select: auto;
+  -khtml-user-select: auto;
+  -webkit-user-select: auto;
+  -webkit-touch-callout: auto;
+}
+@font-face {
+      font-weight: normal;
+      font-style: normal;
+    }
+    body,html,div{
+      padding: 0;margin: 0;
+    }
+
+    html {
+        background: rgb(250, 250, 250);
+    }
+
+    body{
+        padding-top: env(safe-area-inset-top);
+      font-family: "Roboto",sans-serif;
+    }
+    body,html{
+      overflow-x: hidden;
+      overflow-y: scroll; /* has to be scroll, not auto */
+      -webkit-overflow-scrolling: touch;
+      height: calc(100% + env(safe-area-inset-bottom))!important;
+    }
+    .swiper-container {
+  width: 100%;
+  height: 100%;
+}
+    .container{
+      height: 100%;
+    }
+    .topPiece{
+      height: 50%;    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    overflow: hidden;
+    }
+    .centerPiece,.bottomPiece{
+      height: 25%;
+    }
+    .bottomPiece{
+      text-align: center;
+      display: flex;
+      align-items: center;
+    }
+    .bottomContent{
+      width: 100%;
+    }
+    .footer{
+      color: gray;
+      font-size: 12px;
+      padding: 12px;
+    }
+    .footer a{
+      color: gray;
+    }
+    .continueBtn{
+      height: 48px;
+      line-height: 48px;
+      font-size: 20px;
+      /* background: #eb829a; */
+      border-radius: 16px;
+      width: 70%;
+      max-width: 320px;
+      margin: 0 auto;
+      font-weight: bold;
+      color: white;
+      letter-spacing: .07rem;
+      outline: none;
+      text-transform: uppercase;
+    }
+    .measurement input::selection {
+    /* background-color: #eb829a; */
+    color: white;
+}
+    .centerPiece{
+      width: 85%;
+      margin: 0 auto;
+      display: flex;
+    align-items: center;
+    }
+    .introTitle{
+      font-size: 28px;
+      color: rgba(0, 0, 0, 0.87);
+      line-height: 1.1;
+    }
+    .topPiece{
+      position: relative;
+    }
+    .heroShot{
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .optionsContainer .bottomPiece{
+      height: 25%;
+    }
+
+    .optionsContainer .centerPiece{
+      display: block;
+      height: 65%;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-flex-direction: column;
+      flex-direction: column;
+      -webkit-align-content: space-between;
+      align-content: space-between;
+      -webkit-flex-flow: row wrap;
+      flex-flow: row wrap;
+      }
+
+    .prefs.optionsContainer .centerPiece{
+      -webkit-align-content: flex-start;
+      align-content: flex-start;
+      }
+    .headingPiece{
+      height: 15%;
+      width: 100%;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .heading{
+      font-size: 24px;
+    }
+    .optionsBtn{
+      height: 30%;
+      width: 100%;
+      padding: 32px;
+      box-sizing: border-box;
+      border: 1px solid #eb829a;
+      box-shadow: 0px 0px 12px rgba(183, 183, 183, 0.31);
+      border: 1px solid #eaeaea;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      /* transition: background .2s ease-in; */
+    }
+
+    .option {
+    font-size: 28px;
+    text-transform: capitalize;
+    font-weight: bold;
+    }
+    .subheading{
+      color: #737373;
+      padding:8px 0;
+    }
+    .optionsBtn.optionSelected{
+      color: white;
+      /* background-color: #eb829a; */
+      transition: background .25s ease-in;
+      /* transition: color .4s ease-in; */
+    }
+    .optionsBtn.optionSelected .subheading{
+      color: white;
+      /* transition: color .4s ease-in; */
+    }
+
+
+    .goals .optionsBtn,.parameters .optionsBtn{
+      height: 22%;
+    }
+    .goals .option,.parameters .option{
+      font-size: 22px;     text-transform: none;
+    }
+
+    .subscription .topPiece{
+      height: 35%;
+      align-items: center;
+      border-bottom: 1px solid #f1f1f1;
+    }
+    .subscription .centerPiece{
+      height: 50%;
+    }
+    .subscription .bottomPiece{
+      height: 15%;
+    }
+    .subscription .optionsBtn{
+      width: calc(50% - 8px);
+      padding: 16px;
+      margin: 16px 0;
+      box-shadow: 0px 0px 12px rgba(183, 183, 183, 0.31);
+      border: 1px solid #eaeaea;
+    }
+
+    .subscription .option{
+      font-size: 14px;
+    }
+    .subscription .heroShot{
+      max-width: 640px;
+    }
+
+    .premPacks{
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .subscription .optionsBtnContent{
+      text-align: center;
+      width: 100%;
+    }
+
+    .subContent{
+      width: 100%;
+    }
+    .subscTitle{
+      font-size: 18px;
+      letter-spacing: .03rem;
+    }
+    .subscDetails{
+      color: #777;
+      font-weight: 400;
+      font-size: 12px;
+      padding: 4px 0;
+      text-transform: none;
+    }
+    .stars{
+      margin-top: 16px;
+      font-size: 18px;
+    }
+
+    .optionsBtn.wide{
+      width: 100%;
+      margin-bottom: 0;
+      margin-top: 16px;
+      /* background-color: #eb829a; */
+      /* color: white; */
+    }
+    .optionSelected .subscDetails{
+      color: #eaeaea;
+    }
+    .stars{
+      text-align: center;
+      -webkit-background-clip: text!important;
+      background-clip: text!important;
+      -webkit-text-fill-color: transparent!important;
+      background: -webkit-linear-gradient(left, #ff9068 0%, #fd746c 90%);
+      /* background: -webkit-linear-gradient(left, #8CA6DB 0%, #B993D6 90%); */
+    }
+    .userReview{
+      font-weight: 300;
+      font-size: 14px;
+      margin: 16px 0px 24px 0;
+    }
+    .uname{
+      float:right;
+      font-style: italic;
+    }
+.origvalContainer{
+  display: inline-block;
+    position: relative;
+}
+    .origval {
+    /* text-decoration: line-through; */
+    display: inline-block;
+}
+
+    span.strike {
+    width: 100%;
+    display: inline-block;
+    position: absolute;
+    background: red;
+    height: 2px;
+    left: 0;
+    top: 6px;
+    transform: rotate(-20deg);
+}
+.continueBtn.shell {
+    background: transparent;
+    /* border: 1px solid #eb829a; */
+    position: relative;
+    top: -52px;
+    border-radius: 16px;
+    height: 54px;
+    width: 74%;
+}
+.optionsBtnContent{
+  width: 100%;
+}
+
+.goals .optionsBtnContent{
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.measurement{
+  float: right;
+  width: 30%;
+  text-align: right;
+}
+.parameters  .option{
+  font-size: 16px;
+}
+.unit{
+  font-weight: 300;
+}
+input.unitVal {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  text-align: right;
+  width: 40%;
+  margin: 0 8px 0 0;
+  border-bottom: 1px dashed #ccc;
+  /* margin: 0; */
+}
+
+.metricContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border: 1px solid #eaeaea;
+  border-radius: 5px;
+  height: 36px;
+  margin-bottom: 16px;
+}
+.siselected{
+  color: white;
+  /* background: #eb829a; */
+  transition: background .2s ease-in;
+}
+
+.sival {
+    width: 50%;
+    text-align: center;
+    height: 36px;
+    border-radius: 4px 0 0 4px;
+    line-height: 36px;
+}
+.us.siselected{
+  border-radius: 0 4px 4px 0;
+}
+.parameters .parent{
+  height: 75%;
+  /* min-height: 600px; */
+}
+
+.goals .option{
+  width: 90%;
+  float: left;
+}
+
+.goals .optionSelected .optionsBtnContent::after {
+    content: "👍";
+    float: right;
+    left: 10px;
+    width: 10%;
+}
+
+.goals .optionsBtnContent::after {
+    content: "〇";
+    float: right;
+    left: 10px;
+    /* color: #eb829a; */
+    width: 10%;
+    text-align: right;
+    font-size: 22px;
+}
+
+.parameters .option {
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
+
+    @media (min-width:480px) {
+      .introTitle{
+          margin: 0 auto;
+      }
+    }
+
+    @media (max-width:420px) {
+      .option{
+        font-size: 24px;
+      }
+      .subheading{
+        font-size: 14px;
+      }
+      .continueBtn{
+        font-size: 18px;
+      }
+      .goals .option,.goals .optionsBtnContent::after{
+        font-size: 20px;
+      }
+
+      .prefs .option,.prefs .optionsBtnContent::after{
+        font-size: 16px;
+      }
+      .prefs .optionsBtn{
+        padding: 32px 24px 32px 16px;
+      }
+      .parameters .option{
+        font-size: 14px;
+      }
+      .sival{
+        font-size: 14px;
+      }
+      .subscTitle{
+        font-size: 16px;
+      }
+      .userReview{
+        font-size: 13px;
+      }
+    }
+
+    .subContent .subscTitle{
+      text-transform: uppercase;
+    }
+
+    .arabic {
+    direction: rtl;
+}
+
+body.ja .option {
+    font-weight: 400;
+    letter-spacing: .06rem;
+}
+
+.centerPiece.arabic img.icons, .centerPiece.arabic img.iconsSmall{
+    margin: 0;
+    margin-left: 16px;
+}
+
+.arabic .optionsBtnContent::after {
+    text-align: left;
+    float: left;
+}
+.arabic .subPieces .optionsBtn:nth-child(2) {
+    margin-right: 0;
+    margin-left: 2%;
+}
+
+.arabic .measurement{
+  float: left;text-align: left;
+}
+
+.arabic input.unitVal{
+  margin: 0 0 0 8px;
+}
+    </style>
+  </head>
+  <body>
+    <!-- Swiper -->
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide swiper-no-swiping" data-hash="slide1" style="display:none;">
+            <div class="container">
+              <div class="topPiece"><img id="launchScreenImg" src="" alt="" class="heroShot"></div>
+              <div class="centerPiece">
+                <div class="introTitle" id="launchScreenText"></div>
+              </div>
+              <div class="bottomPiece">
+                <div class="bottomContent">
+                  <div class="next continueBtn" id="launchScreenBtn"></div>
+                  <div class="footer" id="footer">By continuing you accept our <a id="terms" href="#">Terms of use</a> & <a id="privacy" href="#">Privacy policy</a>.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide" data-hash="slide2" id="fitnessLevelContent">
+            <div class="container optionsContainer fitness">
+              <div class="headingPiece"><div class="heading"><b id="fitnessLevelHeading"></b></div></div>
+              <div class="centerPiece">
+              </div>
+              <div class="bottomPiece">
+                <div class="bottomContent">
+                  <div class="next continueBtn">NEXT STEP</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide" data-hash="slide3" id="goalsContent">
+            <div class="container optionsContainer goals" id="goalSegment">
+              <div class="headingPiece"><div class="heading"><b id="goalsHeading"></b></div></div>
+              <div class="centerPiece">
+              </div>
+              <div class="bottomPiece">
+                <div class="bottomContent">
+                  <div class="next continueBtn">NEXT STEP</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide" data-hash="slide4" id="toggleContent">
+            <div class="container optionsContainer goals prefs">
+              <div class="headingPiece"><div class="heading"><b id="toggleHeading"></b></div></div>
+              <div class="centerPiece">
+              </div>
+              <div class="bottomPiece">
+                <div class="bottomContent">
+                  <div class="next continueBtn">NEXT STEP</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide swiper-no-swiping" data-hash="slide5"  id="parametersContent">
+            <div class="container optionsContainer parameters">
+              <div class="parent">
+                <div class="headingPiece"><div class="heading"><b id="parametersHeading">Enter your parameters</b></div></div>
+                <div class="centerPiece">
+                  <div class="metricContainer"><div onclick="convert('metric')" class="siselected sival metric" id="opt-metric">Metric</div><div onclick="convert('us')" id="opt-us" class="sival us">US</div></div>
+                      <div onclick="measure('weight')" class="optionsBtn" id="opt-weight">
+                        <div class="optionsBtnContent">
+                          <div class="option"><img src="icons/weight.png" class="iconsSmall"><span class="optionText">Weight</span><span class="measurement "><input onkeypress="checkNext(event);" onfocus="this.select();" type="number" class="unitVal weight" value="-"><span class="unit wunit">Kg</span></span></div>
+                        </div>
+                      </div>
+                        <div onclick="measure('height')" class="optionsBtn" id="opt-fit">
+                          <div class="optionsBtnContent">
+                          <div class="option"><img src="icons/scale.png" class="iconsSmall"><span class="optionText">Height</span><span class="measurement "><input onkeypress="checkNext(event);" onfocus="this.select();" type="number" class="unitVal height" value="-"><span class="unit lunit">cm</span></span></div>
+                        </div>
+                        </div>
+                      <div onclick="measure('tweight')" class="optionsBtn" id="opt-sleep">
+                        <div class="optionsBtnContent">
+                          <div class="option"><img src="icons/target.png" class="iconsSmall"><span class="optionText">Target weight</span><span class="measurement "><input onkeypress="checkNext(event);" onfocus="this.select();" type="number" class="unitVal tweight" value="-"><span class="unit wunit">Kg</span></span></div>
+                        </div>
+                      </div>
+                </div>
+              </div>
+              <div class="bottomPiece">
+                <div class="bottomContent">
+                  <div onclick="paramNext()" class="paramNext continueBtn targets">NEXT STEP</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-slide swiper-no-swiping" data-hash="slide6" id="subContent">
+            <div class="container subscription">
+              <div class="topPiece"><img id="premiumImage" src="" alt="" class="heroShot">
+                <div class="skeleton"></div>
+              </div>
+              <div class="centerPiece">
+                <div class="subContent">
+                  <div class="stars">⭐️⭐️⭐️⭐️⭐️</div>
+                  <div class="userReview" id="reviewText"></div>
+                  <div onclick="IAP('6month')" class="optionsBtn wide optionSelected" id="opt-6month">
+                    <div class="optionsBtnContent">
+                      <div class="option">
+                        <div class="subscTitle">7 DAY FREE TRIAL</div>
+                        <div class="subscDetails">Cancel any time. <span class="mthval month6">$49.99</span> / 6 month</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div onclick="IAP('lifetime')" style="display:none" class="optionsBtn wide optionSelected" id="opt-lifetime">
+                    <div class="optionsBtnContent">
+                      <div class="option">
+                        <div class="subscTitle">LIFETIME PREMIUM</div>
+                        <div class="subscDetails"><span class="origvalContainer"><span class="origval lifetimeOrig">$225</span><span class="strike"></span></span> <span class="mthval lifetime">$112.5</span></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="premPacks">
+                    <div onclick="IAP('monthly')" class="optionsBtn" id="opt-monthly">
+                      <div class="optionsBtnContent">
+                        <div class="option">
+                          <div class="subscTitle">MONTHLY</div>
+                          <div class="subscDetails"><span class="mthval monthly">$9.99</span></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div onclick="IAP('lifetime')" class="optionsBtn" id="opt-lifetime">
+                      <div class="optionsBtnContent">
+                        <div class="option">
+                          <div class="subscTitle">LIFETIME</div>
+                          <div class="subscDetails"><span class="origvalContainer"><span class="origval lifetimeOrig">$225</span><span class="strike"></span></span> <span class="mthval lifetime">$112.5</span></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div onclick="IAP('6month')" style="display:none" class="optionsBtn" id="opt-6month">
+                      <div class="optionsBtnContent">
+                        <div class="option">
+                          <div class="subscTitle">6 MONTH</div>
+                          <div class="subscDetails"><span class="origvalContainer"><span class="mthval month6">$49.99</span> / 6 month</div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                </div>
+                </div>
+              <div class="bottomPiece">
+                <div class="bottomContent">
+                  <div onclick="paramNext()" class="paramNext continueBtn">DONE</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Initialize Swiper -->
+      <script>
+      // var urlParams;
+      // (window.onpopstate = function () {
+      //   var match,
+      //     pl = /\+/g, // Regex for replacing addition symbol with a space
+      //     search = /([^&=]+)=?([^&]*)/g,
+      //     decode = function (s) {
+      //       return decodeURIComponent(s.replace(pl, " "));
+      //     },
+      //     query = window.location.search.substring(1);
+      //
+      //   urlParams = {};
+      //   while (match = search.exec(query))
+      //     urlParams[decode(match[1])] = decode(match[2]);
+      // })();
+
+      function setIAPValues(type,value){
+              switch (type) {
+                case 'monthly':
+                  document.querySelector(".monthly").innerHTML= value;
+                  break;
+                case '6month':
+                  if (document.querySelectorAll(".month6").length!=1) {
+                    document.querySelectorAll(".month6")[1].innerHTML= value;
+                  }
+                  else
+                  document.querySelector(".month6").innerHTML= value;
+                  break;
+                case '6month_trial':
+                  if (value=='P1W') {
+                    document.querySelector("#opt-6month .subscTitle").innerHTML=data['7d'];
+                  }
+                  else if(value=='P3D')
+                  {
+                    document.querySelector("#opt-6month .subscTitle").innerHTML=data['3d'];
+                  }
+                  else{
+                    document.querySelector("#opt-6month .subscTitle").innerHTML=data.getNow;
+                  }
+                  break;
+                case '6month_period':
+                  if (value=='P1M') {
+                    document.querySelector("#opt-6month .subscDetails").innerHTML= document.querySelector("#opt-6month .subscDetails").innerHTML.replace("6 month",data['1m']);
+                  }
+                  else if(value=='P1W')
+                  {
+                    document.querySelector("#opt-6month .subscDetails").innerHTML= document.querySelector("#opt-6month .subscDetails").innerHTML.replace("6 month",data['1w']);
+                  }
+                  else{
+                    document.querySelector("#opt-6month .subscDetails").innerHTML= document.querySelector("#opt-6month .subscDetails").innerHTML.replace("6 month",data['6m']);
+                  }
+                  break;
+                case 'monthly_period':
+                  if (value=='P1M') {
+                    document.querySelector("#opt-monthly .subscTitle").innerHTML=data['monthly'];
+                  }
+                  else if(value=='P1W')
+                  {
+                    document.querySelector("#opt-monthly .subscTitle").innerHTML=data['weekly'];
+                  }
+                  break;
+                case 'lifetime':
+                  var lifeTimePices=value.split("||");
+
+                  document.querySelector(".lifetime").innerHTML= lifeTimePices[0];
+                  document.querySelector("#opt-lifetime .subscTitle").innerHTML=data['lifetime'];
+                  value= value.replace(",","");
+                  if (lifeTimePices[1]!=undefined) {
+                    document.querySelector(".lifetimeOrig").innerHTML= (lifeTimePices[1]/1000000*2);
+                  }
+                  else
+                  document.querySelector(".lifetimeOrig").innerHTML= value.replace(value.replace( /[^\d\.]/g,''),value.replace( /[^\d\.]/g,'')*2);
+                  break;
+                default:
+
+              }
+            }
+      // var xhttp = new XMLHttpRequest();
+      // xhttp.onreadystatechange = function() {
+      //   if (this.readyState == 4 && this.status == 200) {
+      //    var iapPref=JSON.parse(this.responseText);
+      //    console.log(iapPref);
+      //    document.querySelector(".mthval").innerHTML=iapPref.monthly;
+      //    document.querySelector(".mthval").innerHTML=iapPref.monthly;
+      //    document.querySelector(".mthval").innerHTML=iapPref.monthly;
+      //   }
+      // };
+      // xhttp.open("GET", "https://cookbookapp.in/RIA/wellnessIAP.php?appname=wellness.walking.workout", true);
+      // xhttp.send();
+
+      if ('addEventListener' in document) {
+      	document.addEventListener('DOMContentLoaded', function() {
+      		FastClick.attach(document.body);
+      	}, false);
+      }
+        var onboardingData={};
+        onboardingData['fitness']="beginner";
+        onboardingData['goals']="weight";
+        onboardingData['gender']="Woman";
+        onboardingData['food']="Veg";
+        onboardingData['iap']="6month";
+
+        //Patchy code - maynot work in all devices. Need better alternative.
+        document.querySelector(".parent").style.minHeight=window.innerHeight*.75+"px";
+
+        function measure(selitem) {
+          document.querySelector("."+selitem).focus();
+        }
+
+        function fitness(selitem)
+        {
+            var items=document.querySelectorAll(".fitness .optionsBtn");
+            for (var item in items) {
+              if (items.hasOwnProperty(item)) {
+                items[item].classList.remove("optionSelected");
+              }
+            }
+            document.getElementById("opt-"+selitem).classList.toggle("optionSelected");
+            onboardingData['fitness']=selitem;
+        }
+        function convert(selitem)
+        {
+            var items=document.querySelectorAll(".sival");
+            for (var item in items) {
+              if (items.hasOwnProperty(item)) {
+                items[item].classList.remove("siselected");
+              }
+            }
+            document.getElementById("opt-"+selitem).classList.toggle("siselected");
+            switch (selitem) {
+              case 'metric':
+                document.querySelectorAll(".wunit")[0].innerHTML="Kg";
+                document.querySelectorAll(".wunit")[1].innerHTML="Kg";
+                document.querySelectorAll(".lunit")[0].innerHTML="cm";
+                break;
+
+              case 'us':
+                document.querySelectorAll(".wunit")[0].innerHTML="lb";
+                document.querySelectorAll(".wunit")[1].innerHTML="lb";
+                document.querySelectorAll(".lunit")[0].innerHTML="in";
+                break;
+              default:
+
+            }
+        }
+
+        function IAP(selitem)
+        {
+            var items=document.querySelectorAll(".subscription .optionsBtn");
+            for (var item in items) {
+              if (items.hasOwnProperty(item)) {
+                items[item].classList.remove("optionSelected");
+              }
+            }
+            document.getElementById("opt-"+selitem).classList.toggle("optionSelected");
+            onboardingData['iap']=selitem;
+        }
+
+        function goals(selitem)
+        {
+            document.getElementById("opt-"+selitem).classList.toggle("optionSelected");
+            var items=document.querySelectorAll(".goals .optionSelected");
+            var selectedGoals=[];
+            for (var item in items) {
+              if (items.hasOwnProperty(item)) {
+                selectedGoals[selectedGoals.length]=items[item].id.replace("opt-","");
+              }
+            }
+            onboardingData['goals']=selectedGoals.join(",");
+        }
+
+        function prefs(type,selitem)
+        {
+            var typeItems=document.querySelectorAll("."+type);
+            for (var item in typeItems) {
+              if (typeItems.hasOwnProperty(item)) {
+                typeItems[item].classList.remove("optionSelected");
+              }
+            }
+
+            switch (type) {
+              case 'g':
+              onboardingData['gender']=selitem;
+                break;
+
+              case 'f':
+                onboardingData['food']=selitem;
+                  break;
+              default:
+
+            }
+
+            console.log(onboardingData);
+
+            document.getElementById("opt-"+selitem).classList.toggle("optionSelected");
+            var items=document.querySelectorAll(".prefs .optionSelected");
+            var selectedGoals=[];
+            for (var item in items) {
+              if (items.hasOwnProperty(item)) {
+                selectedGoals[selectedGoals.length]=items[item].id.replace("opt-","");
+              }
+            }
+
+        }
+
+        function checkNext(e){
+          if (e.key=="Enter") {
+            paramNext();
+          }
+        }
+
+      function paramNext(){
+        var unitvals=document.querySelectorAll(".unitVal");
+        var flag=false;
+        for (item of unitvals) {
+          if (!item.value) {
+            item.focus();
+            flag=true;
+            break;
+          }
+          else{
+            item.blur();
+            onboardingData[item.classList[1]]=item.value;
+            console.log(onboardingData);
+          }
+        }
+        if (!flag) {
+          var mySwiper = document.querySelector('.swiper-container').swiper;
+          // mySwiper.slideNext();
+          completeOnboarding();
+        }
+      }
+
+
+
+      function completeOnboarding() {
+        // console.log('asdasd');
+        // var btns=document.querySelectorAll('.continueBtn');
+        // btns[btns.length-1].innerHTML=data.done;
+        // if (btns[btns.length-1].classList.contains('targets'))
+        // window.location.assign("http://riafy.me/premium/"+JSON.stringify(onboardingData));
+      }
+
+      </script>
+
+      <style>
+      .pulse {
+      -webkit-animation-name: pulse;
+      animation-name: pulse;
+      -webkit-animation-duration: 1s;
+      animation-duration: 1s;
+      -webkit-animation-fill-mode: both;
+      animation-fill-mode: both;
+      animation-iteration-count: infinite;
+      }
+      @-webkit-keyframes pulse {
+      0% {
+      -webkit-transform: scale3d(1, 1, 1);
+      transform: scale3d(1, 1, 1);
+      }
+      50% {
+      -webkit-transform: scale3d(1.05, 1.05, 1.05);
+      transform: scale3d(1.05, 1.05, 1.05);
+      }
+      100% {
+      -webkit-transform: scale3d(1, 1, 1);
+      transform: scale3d(1, 1, 1);
+      }
+      }
+      @keyframes pulse {
+      0% {
+      -webkit-transform: scale3d(1, 1, 1);
+      transform: scale3d(1, 1, 1);
+      }
+      50% {
+      -webkit-transform: scale3d(1.05, 1.05, 1.05);
+      transform: scale3d(1.05, 1.05, 1.05);
+      }
+      100% {
+      -webkit-transform: scale3d(1, 1, 1);
+      transform: scale3d(1, 1, 1);
+      }
+      }
+
+      .skeleton {
+        /* background-image: linear-gradient(90deg, transparent 0px, rgba(185, 224, 207, 0.9) 40px, transparent 80px); */
+        background-image: linear-gradient(90deg, transparent 0px, rgb(252, 246, 254) 40px, transparent 80px);
+        height: 100%;
+        width: 100%;
+        position: absolute;
+      -webkit-animation-name: skeleton;
+      animation-name: skeleton;
+      -webkit-animation-duration: 1.2s;
+      animation-duration: 1.2s;
+      -webkit-animation-fill-mode: both;
+      animation-fill-mode: both;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-out;
+      background-size: 100% 100%;
+      /* clip-path: polygon(30% 50%, 0 0, 0 100%); */
+      }
+
+      @keyframes skeleton {
+        0% {
+        background-position: -10px;
+        opacity: 0;
+        /* clip-path: polygon(34% 50%, 0 0, 0 100%); */
+        }
+        50%{
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        background-position: 300px;
+        /* clip-path: polygon(88% 50%, 54% 0, 54% 100%); */
+        /* clip-path: polygon(102%% 50%, 68% 0, 68% 100%); */
+        }
+      }
+
+      .subPieces .optionsBtn {
+        width: 48%;
+        display: inline-block;
+      }
+      .subPieces .optionsBtn:nth-child(2){
+        margin-right: 2%;
+      }
+      .subPieces{
+        width: 100%;
+      }
+      .subtitle{
+        margin-top: 32px;
+        margin-bottom: 8px;
+        font-size: 20px;
+        font-weight: lighter;
+        color: rgba(0, 0, 0, 0.6);
+      }
+
+      </style>
+
+      <!-- Premium skip trigger and timer -->
+      <style media="screen">
+      .skip {
+          margin-top: 8px;
+          text-decoration: underline;
+          font-size: 14px;
+          padding: 8px;
+          visibility: hidden;
+          opacity: 0;
+          transition: opacity 1s linear;
+          color: gray;
+      }
+      .skipShow{
+        opacity: 1;
+        visibility: visible;
+      }
+      img.icons {
+        height: 28px;
+        width: auto;
+        margin-right: 16px;
+        opacity: .87;
+    /* filter: invert(1); */
+}
+.optionSelected img.icons {
+    filter: invert(1);
+}
+img.iconsSmall {
+    height: 36px;
+    width: auto;
+    margin-right: 8px;
+}
+span.optionText {width: 60%;}
+      </style>
+      <script type="text/javascript">
+        function skip(){
+          window.location.href="http://riafy.me/skip";
+        }
+        // swiper.on('reachEnd', function () {
+        //   if (onboardingData.gender=='m') {
+        //     document.querySelectorAll(".heroShot")[document.querySelectorAll(".heroShot").length-1].src='images/m-before-after-keto.png';
+        //     document.querySelector(".uname").innerHTML='- Andrew B';
+        //   }
+        //   else {
+        //     document.querySelectorAll(".heroShot")[document.querySelectorAll(".heroShot").length-1].src='images/w-before-after-keto.png';
+        //     document.querySelector(".uname").innerHTML='- Cathy G';
+        //   }
+        //
+        //   setTimeout(function(){
+        //   document.querySelector("#skip").classList.add('skipShow');
+        // },10000);
+        // });
+
+        // if (onboardingData.gender=='man') {
+        //   document.querySelectorAll(".heroShot")[document.querySelectorAll(".heroShot").length-1].src='images/m-before-after-keto.png';
+        //   document.querySelector(".uname").innerHTML='- Andrew B';
+        // }
+        // else {
+        //   document.querySelectorAll(".heroShot")[document.querySelectorAll(".heroShot").length-1].src='images/w-before-after-keto.png';
+        //   document.querySelector(".uname").innerHTML='- Cathy G';
+        // }
+
+        //prepare data and create layouts
+        function addStyle(styles) {
+            /* Create style document */
+            var css = document.createElement('style');
+            css.type = 'text/css';
+            if (css.styleSheet)
+                css.styleSheet.cssText = styles;
+            else
+                css.appendChild(document.createTextNode(styles));
+            document.getElementsByTagName("body")[0].appendChild(css);
+        }
+
+        if (urlParams.lang!=undefined) {
+          var data;
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+
+              data=JSON.parse(this.response);
+
+              var highIAPCountries=data.highIAPCountries;
+              //switch buttons for low IAP countries
+              if (urlParams.simcountry!=undefined && document.querySelectorAll("#opt-lifetime").length==2) {
+                if (highIAPCountries.indexOf(urlParams.simcountry)==-1){
+                    document.querySelectorAll("#opt-lifetime")[1].remove();
+                    document.querySelectorAll("#opt-6month")[0].remove();
+                    document.querySelectorAll("#opt-6month")[0].style.display="block";
+                    document.querySelectorAll("#opt-lifetime")[0].style.display="block";
+                    IAP("lifetime");
+                }
+                else{
+                  document.querySelectorAll("#opt-lifetime")[0].remove();
+                  document.querySelectorAll("#opt-6month")[1].remove();
+                  document.querySelectorAll("#opt-6month")[0].style.display="block";
+                  document.querySelectorAll("#opt-lifetime")[0].style.display="block";
+                  IAP("6month");
+                }
+              }
+        //setup colours
+        addStyle('.continueBtn{background: '+data.colour+';} .measurement input::selection {background-color: '+data.colour+';} .optionsBtn.optionSelected{background-color: '+data.colour+';} .continueBtn.shell {border: 1px solid '+data.colour+';} .siselected{  background: '+data.colour+';} .goals .optionsBtnContent::after {color: '+data.colour+';} .topPiece{background-color: '+data.bgColour+';}');
+
+        //setup launchScreen
+        document.getElementById("launchScreenImg").src=data.launchScreenImg.replace('images/','http://fstream.in/onboarding/images/');;;
+        document.getElementById("launchScreenText").innerHTML=data.launchScreenText;
+        document.getElementById("launchScreenBtn").innerHTML=data.launchScreenBtn;
+        document.getElementById("terms").href=data.terms;
+        document.getElementById("privacy").href=data.privacy;
+
+        //setup fitness level
+        if (data.fitnessLevelHeading!=undefined && data.fitnessLevelHeading!="") {
+          console.log('as');
+          document.getElementById("fitnessLevelHeading").innerHTML=data.fitnessLevelHeading;
+          var fitnessContent="",i=0,defaultOption="optionSelected";
+          for (fitnessLevels of data.fitnessLevelOption) {
+            if (i>0) {
+              defaultOption="";
+            }
+            else{
+              onboardingData['fitness']=fitnessLevels[0].replace(/ /g,"-").replace(/(&#39;)|(')/g,'');
+            }
+            fitnessContent=fitnessContent+'<div onclick="fitness(\''+fitnessLevels[0].replace(/ /g,"-").replace(/(&#39;)|(')/g,'')+'\')" class="optionsBtn '+defaultOption+'" id="opt-'+fitnessLevels[0].replace(/ /g,"-").replace(/(&#39;)|(')/g,'')+'">  <img src="'+fitnessLevels[2].replace('icons/','http://fstream.in/onboarding/icons/')+'" class="icons">  <div class="optionsBtnContent">    <div class="option">'+fitnessLevels[0]+'</div>    <div class="subheading">'+fitnessLevels[1]+'</div>  </div></div>';
+            i++;
+          }
+          document.querySelector("#fitnessLevelContent .centerPiece").innerHTML=fitnessContent;
+        }
+        else{
+          document.getElementById("fitnessLevelContent").remove();
+        }
+
+        //setup goals
+        if (data.goalsHeading!=undefined && data.goalsHeading!="") {
+          console.log('as');
+          document.getElementById("goalsHeading").innerHTML=data.goalsHeading;
+          fitnessContent="",i=0,defaultOption="optionSelected";
+          for (fitnessLevels of data.goalsOption) {
+            if (i>0) {
+              defaultOption="";
+            }
+            else{
+              onboardingData['goals']=fitnessLevels[0].replace(/ /g,"-").replace(/(&#39;)|(')/g,'');
+            }
+            fitnessContent=fitnessContent+'<div onclick="goals(\''+fitnessLevels[0].replace(/ /g,"-").replace(/(&#39;)|(')/g,'')+'\')" class="optionsBtn '+defaultOption+'" id="opt-'+fitnessLevels[0].replace(/ /g,"-").replace(/(&#39;)|(')/g,'')+'">  <div class="optionsBtnContent">    <img src="'+fitnessLevels[1].replace('icons/','http://fstream.in/onboarding/icons/')+'" class="icons">    <div class="option">'+fitnessLevels[0]+'</div>  </div></div>';
+            i++;
+          }
+          document.querySelector("#goalsContent .centerPiece").innerHTML=fitnessContent;
+        }
+        else{
+          document.getElementById("goalsContent").remove();
+        }
+
+        //setup toggle-able parameters
+        if (data.toggleHeading!=undefined && data.toggleHeading!="") {
+          console.log('as');
+          document.getElementById("toggleHeading").innerHTML=data.toggleHeading;
+          fitnessContent="",i=0,defaultOption="optionSelected";
+          for (fitnessLevels of data.toggleOption) {
+            console.log(fitnessLevels[0]);
+            if (fitnessLevels[0]=="" || fitnessLevels[0]==undefined) {
+              break;
+            }
+            if (i>0) {
+              // defaultOption="";
+            }
+            else{
+              onboardingData[fitnessLevels[0].replace(/ /g,'-')]=fitnessLevels[1].replace(/ /g,"-").replace(/(&#39;)|(')/g,'');
+            }
+            fitnessContent=fitnessContent+'<div class="subPieces"><div class="subtitle">'+fitnessLevels[0]+'</div><div onclick="prefs(\''+fitnessLevels[0].replace(/ /g,'-')+'\',\''+fitnessLevels[1].replace(/ /g,'-')+'\')" class="optionsBtn '+defaultOption+' '+fitnessLevels[0].replace(/ /g,'-')+'" id="opt-'+fitnessLevels[1].replace(/ /g,'-')+'"><div class="optionsBtnContent"><div class="option">'+fitnessLevels[1]+'</div></div></div><div onclick="prefs(\''+fitnessLevels[0].replace(/ /g,'-')+'\',\''+fitnessLevels[2].replace(/ /g,'-')+'\')" class="optionsBtn '+fitnessLevels[0].replace(/ /g,'-')+'" id="opt-'+fitnessLevels[2].replace(/ /g,'-')+'"><div class="optionsBtnContent"><div class="option">'+fitnessLevels[2]+'</div></div></div></div>';
+            i++;
+          }
+          document.querySelector("#toggleContent .centerPiece").innerHTML=fitnessContent;
+        }
+        else{
+          document.getElementById("toggleContent").remove();
+        }
+
+        //setup parameters - weight
+        if (data.parametersHeading!=undefined && data.parametersHeading!="") {
+          document.getElementById("parametersHeading").innerHTML=data.parametersHeading;
+        }
+        else{
+          document.getElementById("parametersContent").remove();
+        }
+
+        // document.getElementById("subContent").remove();
+
+        if (document.getElementById("fitnessLevelContent")!=undefined) {
+          document.getElementById("fitnessLevelContent").remove();
+        }
+        if (document.getElementById("goalsContent")!=undefined) {
+          document.getElementById("goalsContent").remove();
+        }
+        if (document.getElementById("toggleContent")!=undefined) {
+          document.getElementById("toggleContent").remove();
+        }
+        if (document.getElementById("parametersContent")!=undefined) {
+          document.getElementById("parametersContent").remove();
+        }
+
+        // document.getElementById("goalsContent").remove();
+        // document.getElementById("toggleContent").remove();
+        // document.getElementById("parametersContent").remove();
+
+
+        var btns=document.querySelectorAll('.continueBtn');
+        btns[btns.length-1].innerHTML=data.subscriptionBtn;
+        if (!btns[btns.length-1].classList.contains('targets')) {
+          btns[btns.length-1].classList.remove('paramNext');
+          btns[btns.length-1].classList.remove('next');
+
+          btns[btns.length-1].addEventListener('click',function () {
+              // console.log("added event","http://riafy.me/premium/"+JSON.stringify(onboardingData));
+              window.location.assign("http://riafy.me/premium/"+JSON.stringify(onboardingData));
+          });
+        }
+
+        //setup Subscription page
+        switch (onboardingData.gender) {
+          case 'm':
+          case 'Man':
+          document.getElementById("premiumImage").src=data.premiumImage['m'].replace('images/','http://fstream.in/onboarding/images/');;;
+          document.getElementById("reviewText").innerHTML=data.reviewText['m']+'<span id="reviewUser" class="uname">- '+data.reviewUser['m']+'</span>';
+            break;
+          default:
+          document.getElementById("premiumImage").src=data.premiumImage['w'].replace('images/','http://fstream.in/onboarding/images/');;;
+          document.getElementById("reviewText").innerHTML=data.reviewText['w']+'<span id="reviewUser" class="uname">- '+data.reviewUser['w']+'</span>';
+
+        }
+
+        //set up Next buttons
+        var nxtBtns=document.querySelectorAll('.next');
+        for (var i = 0; i < nxtBtns.length; i++) {
+          if (nxtBtns[i].innerHTML=='NEXT STEP') {
+            nxtBtns[i].innerHTML=data.nextBtn;
+          }
+        }
+        //setup common text in other languages
+        // document.querySelector(".continueBtn.pulse").innerHTML=data.subscriptionBtn;
+        document.querySelector("#opt-6month .subscDetails").innerHTML=document.querySelector("#opt-6month .subscDetails").innerHTML.replace("Cancel any time.",data.cancel);
+        // document.getElementById("skip").innerHTML=data.getLater;
+
+        if(window.location.href.indexOf('localhost')==-1)
+        window.location.assign("http://riafy.me/refresh");
+
+}
+}
+xhttp.open("GET", "https://cookbookapp.in/RIA/gridO.php?lang="+urlParams.lang+"&simcountry="+urlParams.simcountry+"&appname="+urlParams.appname, true);
+xhttp.send();
+}
+        var swiper = new Swiper('.swiper-container', {
+          spaceBetween: 30,
+          hashNavigation: {
+            watchState: true,
+          },
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: false,
+          },
+          navigation: {
+            nextEl: '.next',
+            prevEl: '.back',
+          },
+        });
+
+        if (urlParams.lang=='ar') {
+          var centerPieces = document.getElementsByClassName("centerPiece"),
+              len = centerPieces !== null ? centerPieces.length : 0,
+              i = 0;
+          for(i; i < len; i++) {
+              centerPieces[i].className += " arabic";
+          }
+        }
+        if (urlParams.lang=='ja')
+        document.getElementsByTagName("body")[0].className='ja';
+
+
+
+        // swiper.on('reachEnd', function () {
+        //   alert(onboardingData.gender);
+        //   switch (onboardingData.gender) {
+        //     case 'm':
+        //     case 'Man':
+        //     document.getElementById("premiumImage").src=data.premiumImage['m'];
+        //     document.getElementById("reviewText").innerHTML=data.reviewText['m']+'<span id="reviewUser" class="uname">- '+data.reviewUser['m']+'</span>';
+        //       break;
+        //     default:
+        //     document.getElementById("premiumImage").src=data.premiumImage['w'];
+        //     document.getElementById("reviewText").innerHTML=data.reviewText['w']+'<span id="reviewUser" class="uname">- '+data.reviewUser['w']+'</span>';
+        //
+        //   }
+        //
+        //   setTimeout(function(){
+        //   document.querySelector("#skip").classList.add('skipShow');
+        // },10000);
+        // });
+
+      </script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">audiomix.json</domain>
+        <domain includeSubdomains="true">fstream.in</domain>
+        <domain includeSubdomains="true">riafy.me</domain>
+        <domain includeSubdomains="true">riafyme.com</domain>
+        <domain includeSubdomains="true">cookbookrecipes.in</domain>
+        <domain includeSubdomains="true">herokuapp.com</domain>
+    </domain-config>
+</network-security-config>
+

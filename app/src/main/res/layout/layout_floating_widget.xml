@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+
+            android:id="@+id/cardViewExpand"
+            android:layout_width="match_parent"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="12dp"
+            android:layout_height="260dp">
+
+        <RelativeLayout
+            android:id="@+id/workoutLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/image_or_youtube"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/youtube_imageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="140dp"
+                    android:background="@drawable/ic_launcher"
+                    android:scaleType="fitCenter"/>
+
+                <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                    android:id="@+id/youtube_player_view"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="140dp"
+                    app:showYouTubeButton="false"
+                    app:showFullScreenButton="false" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/currentExerciseTextView"
+                android:layout_below="@+id/image_or_youtube"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_black"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:padding="8dp"
+                android:textSize="20sp"
+                tools:text="Jumping Jacks" />
+            <LinearLayout
+                android:layout_below="@+id/currentExerciseTextView"
+                android:id="@+id/control_Layout"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+               <!-- <TextView
+                    android:gravity="center"
+                    android:id="@+id/exercise_time_textView"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:paddingBottom="4dp"
+                    android:text="0:00 / 0"
+                    android:textColor="@color/icons_color"
+                    android:textSize="16sp" />-->
+
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_below="@+id/control_Layout"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:paddingBottom="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+
+                <ImageView
+                    android:id="@+id/closeButton"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:padding="6dp"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/ic_expand" />
+
+                <ImageView
+                    android:id="@+id/playPauseImageView"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:onClick="PlayOrPause"
+                    android:src="@drawable/ic_play_arrow_black" />
+
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:id="@+id/nextImageView"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+
+                    android:src="@drawable/ic_close_black" />
+                <!-- android:onClick="NextExercise"-->
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:background="#282828"
+            android:visibility="gone"
+            android:id="@+id/premiumLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:background="#e7e7e7"
+                android:id="@+id/top_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/icon_image_view"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="16dp"
+                    android:background="@mipmap/ic_launcher"
+                    android:scaleType="centerCrop"/>
+
+                <LinearLayout
+                    android:paddingTop="16dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_black"
+                        android:textStyle="bold"
+                        android:gravity="start"
+                        android:textColor="#000000"
+                        android:textSize="20sp"
+                        android:text="@string/app_name" />
+
+                    <TextView
+                        android:gravity="start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textStyle="bold"
+                        android:layout_marginTop="-4dp"
+                        android:text="@string/premium"
+                        android:textColor="#DE525151"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+            <TextView
+                android:layout_below="@+id/top_layout"
+                android:id="@+id/askTestView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:textStyle="bold"
+                android:gravity="start"
+                android:paddingStart="16dp"
+                android:paddingTop="16dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="4dp"
+                android:textColor="#e7e7e7"
+                android:textSize="16sp"
+                android:text="@string/wish_workouts_kept_playing_when_you_closed_the_app" />
+
+
+            <TextView
+                android:id="@+id/getBackgroundTextView"
+                android:layout_below="@+id/askTestView"
+                android:gravity="start"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:textStyle="bold"
+                android:text="@string/get_background_play_with_premium"
+                android:textColor="#9d9d9d"
+                android:textSize="16sp" />
+
+
+            <LinearLayout
+                android:layout_below="@+id/getBackgroundTextView"
+                android:weightSum="2"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:paddingTop="36dp"
+                    android:layout_weight="1"
+                    android:id="@+id/laterTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="end|center_vertical"
+                    android:textColor="#2f71c7"
+                    android:textSize="16sp"
+                    android:text="@string/later" />
+
+                <TextView
+                    android:paddingTop="36dp"
+                    android:layout_weight="1"
+                    android:id="@+id/getPremiumTestView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textColor="#2f71c7"
+                    android:textSize="16sp"
+                    android:text="@string/start_trial" />
+
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</FrameLayout>

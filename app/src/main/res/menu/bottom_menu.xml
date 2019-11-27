@@ -7,6 +7,7 @@
         android:id="@+id/rainFragment"
         android:title="Rain Sounds"
         android:icon="@drawable/ic_grain_black_24dp"
+
         />
     <item
         android:id="@+id/relaxingFragment"
@@ -15,7 +16,7 @@
         />
     <item
         android:id="@+id/thirdFragment"
-        android:title="City Sounds"
+        android:title="Nature Sounds"
         android:icon="@drawable/ic_location_city_black_24dp"
         />
     <item

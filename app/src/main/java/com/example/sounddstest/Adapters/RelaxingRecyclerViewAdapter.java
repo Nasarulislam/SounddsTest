@@ -13,6 +13,7 @@ import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sounddstest.Activitys.MainActivity;
@@ -36,6 +38,7 @@ import com.example.sounddstest.JSONStringFileAudiomix;
 import com.example.sounddstest.R;
 import com.example.sounddstest.Services.MediaPlayerService;
 import com.example.sounddstest.Services.MediaPlayerServiceSecond;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -100,25 +103,52 @@ public class RelaxingRecyclerViewAdapter extends RecyclerView.Adapter<RelaxingRe
 
         holder.withseekBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#23C098")));
         holder.withseekBar.setThumbTintList(ColorStateList.valueOf(Color.parseColor("#23C098")));
+
+
+
+       /* try {
+
+            //  URL imageURL = new URL(imageURLArray.get(position));
+            // URL imageURL = new URL("http://fstream.in/RelaxingSoundsImages/pack1_campfirelist");
+            //Log.e("error", imageURL+"//"+imageURLArray);
+            //imageBitmap = BitmapFactory.decodeStream(imageURL.openStream());
+            Picasso.get().load(context.getString(R.string.imageUrl)+formList.get(position).getListViewImage()+".webp")
+                    .placeholder(R.drawable.loadinganimation)
+                    .into(holder.withimageView);
+            Picasso.get().load(context.getString(R.string.imageUrl)+formList.get(position).getListViewImage()+".webp")
+                    .placeholder(R.drawable.loadinganimation)
+                    .into(holder.withOutimageView);
+            //formList.get(position).getListViewImage()
+            // holder.packImages.setImageBitmap(imageBitmap);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // TODO: handle exception
+            Log.e("error", "Downloading Image Failed");
+            //viewHolder.imageView.setImageResource(R.drawable.postthumb_loading);
+
+        }*/
+        
         for (int i = 0; i < formList.size(); i++) {
             chipNames1.add(formList.get(i).getSubsound1Name());
-            chipNames1.add(formList.get(i).getSubsound2Name());
+            //chipNames1.add(formList.get(i).getSubsound2Name());
             chipurl.add(formList.get(i).getSubsound1url());
-            chipurl.add(formList.get(i).getSubsound2url());
+           // chipurl.add(formList.get(i).getSubsound2url());
         }
+        /*Log.d("nkgkkkkgk",chipurl+"/////"+chipNames1);
         Object[] st = chipNames1.toArray();
         for (Object s : st) {
             if (chipNames1.indexOf(s) != chipNames1.lastIndexOf(s)) {
                 chipNames1.remove(chipNames1.lastIndexOf(s));
             }
         }
+
         Object[] stt = chipurl.toArray();
         for (Object s : stt) {
             if (chipurl.indexOf(s) != chipurl.lastIndexOf(s)) {
                 chipurl.remove(chipurl.lastIndexOf(s));
             }
-        }
-
+        }*/
+        Log.d("nkgkkkkgk",chipurl+"/////"+chipNames1);
 //        holder.withtextView.setText(chipNames1.get(position));
   //      holder.withOuttextView.setText(chipNames1.get(position));
 
@@ -362,6 +392,12 @@ public class RelaxingRecyclerViewAdapter extends RecyclerView.Adapter<RelaxingRe
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) { }
         });
+
+        /*try {
+            FirstDownload(position);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
     }
 
     public void seekbarlistAdd(int position)
@@ -546,5 +582,100 @@ public class RelaxingRecyclerViewAdapter extends RecyclerView.Adapter<RelaxingRe
             serviceBound = false;
         }
     };
+
+
+    public void FirstDownload(final int position) {
+        int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        MAX_VOLUME = currentVolume * 10;
+        MAX_VOLUME = 100;
+        seekvolume1 = MAX_VOLUME / 2;
+        seekvolume2 = MAX_VOLUME / 4;
+        // volumeA = (float) (1 - (Math.log(MAX_VOLUME - MAX_VOLUME) / Math.log(MAX_VOLUME)));
+        volume1 = (float) (1 - (Math.log(MAX_VOLUME - MAX_VOLUME / 2) / Math.log(MAX_VOLUME)));
+        volume2 = (float) (1 - (Math.log(MAX_VOLUME - MAX_VOLUME / 4) / Math.log(MAX_VOLUME)));
+
+
+        final File file = new File(context.getFilesDir().getAbsolutePath() + chipNames1.get(position).replaceAll("_", " ") + ".mp3");
+        if (!file.exists()) {
+            Log.d("popopopopop", " file" + position + file);
+            try {
+                boolean connected = false;
+                ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                        connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
+
+                    Log.d("popopopopop", " file2" + position);
+                    //   setProgressDialog(ProgressDialog.show(getContext(), "", "Downloading...", true, true));
+                    //   set
+                    new DownloadAndPlayAsyncTask(new DownloadTaskListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.N)
+                        @Override
+                        public void onDownloadComplete() {
+
+                              /*  MediaPlayerService.mediaPlayerA = MediaPlayer.create(context, Uri.fromFile(file));
+                                //new File(path+formList.get(position).getPackName()+ ".mp3")
+                                MediaPlayerService.mediaPlayerA.setLooping(true);
+                                MediaPlayerService.mediaPlayerA.start();*/
+                            // playing = true;
+                            MediaPlayerService.mediaPlayerHashMap.put(chipNames1.get(position).replaceAll("_", " "), MediaPlayer.create(context, Uri.fromFile(file)));
+                            if (MediaPlayerService.mediaPlayerHashMap.get(chipNames1.get(position).replaceAll("_", " ")) != null) {
+                                //  MediaPlayerService.mediaPlayerHashMap.get(chipNames1.get(position).replaceAll("_", " ")).setLooping(true);
+                                // MediaPlayerService.mediaPlayerHashMap.get(chipNames1.get(position).replaceAll("_", " ")).setVolume(volume1,volume1);
+                                // MediaPlayerService.mediaPlayerHashMap.get(chipNames1.get(position).replaceAll("_", " ")).start();
+                                //   Float vl=  MediaPlayerService.mediaPlayerHashMap.get(chipNames1.get(finalI).replaceAll("_", " ")).setVolume(RecyclerViewAdapter.volume1,RecyclerViewAdapter.volume1);
+                                //.add(SecondActivity.seekvolumeA / 2);
+                               /* String fin = chipNames1.get(position);
+                                arrPackage.add(fin);
+                                SharedPreferences.Editor editor = shared.edit();
+                                Set<String> set = new HashSet<String>();
+                                set.addAll(arrPackage);
+                                editor.putStringSet("DATE_LIST", set);
+                                editor.apply();
+                                Log.d("storesharedPreferences", "" + set);
+                                */
+                                //    RainFragment.Volumevalues.add(seekvolume1);
+                                //   RainFragment.Volumevposition.add(position);
+                           /* RainFragment.volumeHashMap.put(chipNames1.get(position),seekvolume1);
+                            float sfd= RainFragment.volumeHashMap.get(chipNames1.get(position));
+                                Log.d("asdfghjkjhvhn",""+sfd);
+
+                                String hashMapString = gson.toJson(RainFragment.volumeHashMap);
+
+                                //save in shared prefs
+
+                                prefs.edit().putString(chipNames1.get(position), hashMapString).apply();*/
+                                // RainFragment.volumeHashMap.merge(chipNames1.get(position).replaceAll("_", " "),volume1,Float::sum);
+                                // RainvolumeSeekbar.add(volume1);
+                                //Log.d("asdfghjkjhvhn",volume1+"/"+RainvolumeSeekbar.size());
+
+                                //RainFragment.Volumevalues.add(position,volume1);
+
+                                /// RecyclerViewAdapter.volumeSeekbar.add(SecondActivity.seekvolumeA / 2);
+                                // adaptercall();
+                                //
+                                //  myTextViews[finalI].changeBackgroundColor(Color.parseColor(SecondActivity.chipcoloron));
+
+                            }
+                        }
+                    }, context, progressDialog).execute("url", context.getFilesDir().getAbsolutePath(),
+                            context.getString(R.string.RelaxingSoundpath) + chipurl.get(position) + ".mp3",
+
+                            chipNames1.get(position).replaceAll("_", " "));
+                    Log.d("popopopopop", position + " file3" + chipurl.get(position));
+
+                } else {
+                    //  Toast.makeText(getContext(), "No Internet Connection!!", Toast.LENGTH_SHORT).show();
+                    Toast toast = new Toast(context);
+                    toast.setDuration(Toast.LENGTH_SHORT);
+                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View view = inflater.inflate(R.layout.customtoastinternet, null);
+                    toast.setView(view);
+                    toast.show();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

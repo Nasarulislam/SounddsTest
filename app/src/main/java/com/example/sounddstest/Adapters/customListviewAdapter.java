@@ -60,6 +60,7 @@ public class customListviewAdapter extends BaseAdapter  {
     private  int seekvolume1,seekvolume2;
     public static float volume1, volume2;
     MainActivity activity;
+    public static SeekBar seekBar;
     public customListviewAdapter(List<String> data, PlayListDialog context, MainActivity activity) {
         this.data = data.toArray(new String[0]);
         this.listSeek=data;
@@ -106,6 +107,8 @@ public class customListviewAdapter extends BaseAdapter  {
         }
         holder.textView = (TextView) view.findViewById(R.id.textView);
         holder.seekBar = (SeekBar) view.findViewById(R.id.seekBar);
+        seekBar=(SeekBar)view.findViewById(R.id.seekBar);
+
         sharedPreferences =view. getContext().getSharedPreferences("App_settings", MODE_PRIVATE);
         shared = view.getContext().getSharedPreferences("App_settings", MODE_PRIVATE);
 
@@ -212,7 +215,8 @@ public class customListviewAdapter extends BaseAdapter  {
 
                             */
       /*RecyclerViewAdapter recyclerViewAdapter=new RecyclerViewAdapter(mContext,formList1);
-                            recyclerViewAdapter.notifyDataSetChanged();*//*
+                            recyclerViewAdapter.notifyDataSetChanged();*/
+      /*
                            // activity.rainFragment.reloadRecyclerview();
 
                            */
@@ -221,7 +225,8 @@ public class customListviewAdapter extends BaseAdapter  {
                             } catch (NullPointerException e) {
                                 Log.d("rainFragmenterror",e.getMessage());
                                 e.printStackTrace();
-                            }*//*
+                            }*/
+        /*
                 boolean change = sharedchange.getBoolean("bottomsheetvalue",true);
                 Log.d("bottomsheetdata"," position in adapter : "+change);
                 sharedchange.edit().putBoolean("bottomsheetvalue",!change).apply();
@@ -279,8 +284,10 @@ public class customListviewAdapter extends BaseAdapter  {
                 if (seekbarlistSub.size()==0) {
                     view.setVisibility(View.GONE);
                     Log.d("rghnmfghny", "qwerty"+seekbarlist.size());
-                   *//* PlayListDialog playListDialog=new PlayListDialog(mContext,formList1);
-                    playListDialog.dismiss();*//*
+                   */
+        /* PlayListDialog playListDialog=new PlayListDialog(mContext,formList1);
+                    playListDialog.dismiss();*/
+        /*
                    //activity.
 
                 }

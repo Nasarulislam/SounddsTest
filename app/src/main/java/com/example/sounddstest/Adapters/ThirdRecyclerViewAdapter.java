@@ -330,7 +330,8 @@ public class ThirdRecyclerViewAdapter extends RecyclerView.Adapter<ThirdRecycler
         holder.RL_withSeekbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              *//*  boolean seekShow = false;
+              */
+    /*  boolean seekShow = false;
 
                 Set<String> set = shared.getStringSet("DATE_LIST", null);
                 if (set != null)
@@ -374,7 +375,8 @@ public class ThirdRecyclerViewAdapter extends RecyclerView.Adapter<ThirdRecycler
                 }
 
 
-                notifyDataSetChanged();*//*
+                notifyDataSetChanged();*/
+    /*
                 if (MediaPlayerService.mediaPlayerHashMap.get(chipNames1.get(position).replaceAll("_", " ")) != null)
                     MediaPlayerService.mediaPlayerHashMap.get(chipNames1.get(position).replaceAll("_", " ")).stop();
                 String name = chipNames1.get(position);

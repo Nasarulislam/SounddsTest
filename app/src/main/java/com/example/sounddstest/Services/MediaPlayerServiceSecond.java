@@ -211,6 +211,7 @@ public class MediaPlayerServiceSecond extends Service {
 
         builder
 
+
                // .setContentTitle(SecondActivity.packname)
                 //.setLargeIcon(largeIcon)
 //                .setLargeIcon(MusicLibrary.getAlbumBitmap(this, description.getMediaId()))

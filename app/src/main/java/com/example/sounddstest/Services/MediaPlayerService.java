@@ -20,13 +20,9 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
-
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.sounddstest.Activitys.MainActivity;
 import com.example.sounddstest.Adapters.RecyclerViewAdapter;
 import com.example.sounddstest.Adapters.RelaxingRecyclerViewAdapter;
-import com.example.sounddstest.Fragments.RainFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,11 +30,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MediaPlayerService extends Service implements MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
-        MediaPlayer.OnInfoListener, MediaPlayer.OnBufferingUpdateListener
-
-     {
-    public static Handler mHandler = new Handler();
-    public static MediaPlayer mediaPlayerA;
+        MediaPlayer.OnInfoListener, MediaPlayer.OnBufferingUpdateListener {
+    public static final String ACTION_PLAY = "action_play";
+    public static final String ACTION_PAUSE = "action_pause";
 
   /*  public static MediaPlayer mediaPlayer1;
     public static MediaPlayer mediaPlayer2;
@@ -60,33 +54,28 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     public static MediaPlayer mediaPlayer18;
     public static MediaPlayer mediaPlayer19;
     public static MediaPlayer mediaPlayer20;*/
-
-
-   // private int mediaFile;
-   private String mediaFileA;
-    private String mediaFileB;
-    private String mediaFile1_1;
-    private String mediaFile1_2;
-    private String mediaFile2_1;
-    private String mediaFile2_2;
-   public static boolean done=false;
-
-   public static boolean stop=false;
-    public static boolean start=false;
-    public static boolean stop1=false;
-    public static boolean start1=false;
-    public static boolean stop2=false;
-    public static boolean start2=false;
-
+    public static final String ACTION_REWIND = "action_rewind";
+    public static final String ACTION_FAST_FORWARD = "action_fast_foward";
+    public static final String ACTION_NEXT = "action_next";
+    public static final String ACTION_PREVIOUS = "action_previous";
+    public static final String ACTION_STOP = "action_stop";
+    //AudioPlayer notification ID
+    private static final int NOTIFICATION_ID = 101;
+    private final static String APP_PACKAGE = "com.rstream.relaxingsounds";
+    private final static String CITIES_CHANEL_ID = "101";
+    public static Handler mHandler = new Handler();
+    public static MediaPlayer mediaPlayerA;
+    public static boolean done = false;
+    public static boolean stop = false;
+    public static boolean start = false;
+    public static boolean stop1 = false;
+    public static boolean start1 = false;
+    public static boolean stop2 = false;
+    public static boolean start2 = false;
     public static int currentDuration = 0;
     public static int maxDuration = 0;
-    AudioManager audioManager;
-    //Handle incoming phone calls
-    private boolean ongoingCall = false;
-    private PhoneStateListener phoneStateListener;
-    private TelephonyManager telephonyManager;
-    public static HashMap<String,MediaPlayer>mediaPlayerHashMap=new HashMap();
-     //    lat mediaPlayerHashMap: HashMap<String, MediaPlayer>
+    public static HashMap<String, MediaPlayer> mediaPlayerHashMap = new HashMap();
+    //    lat mediaPlayerHashMap: HashMap<String, MediaPlayer>
 ///Notification
 //         public static final String ACTION_PLAY = "com.valdioveliu.valdio.audioplayer.ACTION_PLAY";
 //         public static final String ACTION_PAUSE = "com.valdioveliu.valdio.audioplayer.ACTION_PAUSE";
@@ -94,41 +83,174 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 //         public static final String ACTION_NEXT = "com.valdioveliu.valdio.audioplayer.ACTION_NEXT";
 //         public static final String ACTION_STOP = "com.valdioveliu.valdio.audioplayer.ACTION_STOP";
 
-         //MediaSession
-         public static MediaSessionManager mediaSessionManager;
-         private static MediaSessionCompat mediaSession;
-         public static MediaControllerCompat.TransportControls transportControls;
+    //MediaSession
+    public static MediaSessionManager mediaSessionManager;
+    public static MediaControllerCompat.TransportControls transportControls;
+    public static ArrayList<String> nowplaysounds = new ArrayList<>();
+    /* public static Runnable mUpdateTimeTask=new Runnable() {
+         @Override
+         public void run() {
+             int  maxDurationA=mediaPlayerA.getDuration();
+             int currentDurationA=mediaPlayerA.getCurrentPosition();
+            int maxDurationB=mediaPlayerB.getDuration();
+             int currentDurationB=mediaPlayerB.getCurrentPosition();
 
-         //AudioPlayer notification ID
-         private static final int NOTIFICATION_ID = 101;
-  //\\\\
+             long  maxDuraction1 = mediaPlayer1_1.getDuration();
+             long  currentDuration1 = mediaPlayer1_1.getCurrentPosition();
+             long maxDuraction2=mediaPlayer1_2.getDuration();
+             long currentDuration2=mediaPlayer1_2.getCurrentPosition();
 
-         public static final String ACTION_PLAY = "action_play";
-         public static final String ACTION_PAUSE = "action_pause";
-         public static final String ACTION_REWIND = "action_rewind";
-         public static final String ACTION_FAST_FORWARD = "action_fast_foward";
-         public static final String ACTION_NEXT = "action_next";
-         public static final String ACTION_PREVIOUS = "action_previous";
-         public static final String ACTION_STOP = "action_stop";
-         private final static String APP_PACKAGE = "com.rstream.relaxingsounds";
-         private final static String CITIES_CHANEL_ID ="101";
+             long maxDuraction3=mediaPlayer2_1.getDuration();
+             long currentDuration3 = mediaPlayer2_1.getCurrentPosition();
+             long maxDuraction4=mediaPlayer2_2.getDuration();
+             long currentDuration4=mediaPlayer2_2.getCurrentPosition();
 
-         private MediaPlayer mMediaPlayer;
-         private androidx.media.MediaSessionManager mManager;
-         private MediaSession mSession;
-         private MediaSessionCompat mediaSessionCompat;
-         //   private MediaController mController;
-         private RemoteViews remoteView;
+             if (mediaPlayerA.isPlaying()){
+             if (!stop) {
+                 if (currentDurationA >= (maxDurationA - 5000)) {
+                     Log.d("gggggg","done");
+                     start = false;
+                     stop = true;
+                     startFadeOut(mediaPlayerA,SecondActivity.seekvolumeA);
+                     startFadeIn(mediaPlayerB,SecondActivity.seekvolumeA);
+                     mediaPlayerB.start();
 
-         MediaController mController ;
-         MediaMetadataCompat mediaMetadata ;
-         MediaDescriptionCompat description ;
-         public static ArrayList<String> nowplaysounds=new ArrayList<>();
-    @Override
-    public IBinder onBind(Intent intent) {
-        mSession.release();
-        return null;
-    }
+
+                 }
+             }
+             }
+             if (mediaPlayerB.isPlaying()) {
+                 if (!start) {
+                     if (currentDurationB >= (maxDurationB - 5000)) {
+                         stop = false;
+                         start = true;
+                         startFadeOut(mediaPlayerB,SecondActivity.seekvolumeA);
+                         startFadeIn(mediaPlayerA,SecondActivity.seekvolumeA);
+                         mediaPlayerA.start();
+                         Log.d("gggggg", "done33");
+                     }
+                 }
+             }
+
+             if (!stop1)
+             {
+                 if (currentDuration1 >= (maxDuraction1-5000)) {
+                     start1 = false;
+                     stop1 = true;
+                     //volume1=1;
+                   //  volume = 0;
+                     Log.d("wwwww", currentDuration3 + "Done" + stop);
+                     startFadeOut(mediaPlayer1_1,SecondActivity.seekvolume1);
+
+
+                     startFadeIn(mediaPlayer1_2,SecondActivity.seekvolume1);
+                     mediaPlayer1_2.start();
+                 }
+
+
+
+
+             }
+             if (!start1)
+             {
+                 if (currentDuration2 >= (maxDuraction2-5000)) {
+                     stop1 = false;
+                     start1 = true;
+                    // volume = 0;
+                     // volume1=1;
+                     Log.d("yyyy", currentDuration4 + "Done" + stop1);
+                     startFadeOut(mediaPlayer1_2,SecondActivity.seekvolume1);
+
+
+                     startFadeIn(mediaPlayer1_1,SecondActivity.seekvolume1);
+                     mediaPlayer1_1.start();
+
+
+
+
+                 }
+
+             }
+             if (!stop2)
+             {
+                 if (currentDuration3 >= (maxDuraction3-5000))
+                 {
+                     start2=false;
+                     stop2 = true;
+                     //volume1=1;
+                     //volume=0;
+                     Log.d("wwwww", currentDuration3 + "Done" + stop);
+                     startFadeOut(mediaPlayer2_1,SecondActivity.seekvolume2);
+
+
+                     startFadeIn(mediaPlayer2_2,SecondActivity.seekvolume2);
+                     mediaPlayer2_2.start();
+
+
+
+
+                 }
+             }
+             if (!start2)
+             {
+                 if (currentDuration4 >= (maxDuraction4-5000))
+                 {
+                     stop2=false;
+                     start2 = true;
+                    // volume=0;
+                     //volume1=1;
+                     Log.d("yyyy", currentDuration4 + "Done" + stop1);
+                     startFadeOut(mediaPlayer2_2,SecondActivity.seekvolume2);
+
+
+                     startFadeIn(mediaPlayer2_1,SecondActivity.seekvolume2);
+                     mediaPlayer2_1.start();
+
+
+
+
+                 }
+             }
+
+
+
+
+
+
+
+             mHandler.postDelayed(this, 1000);
+
+
+
+         }
+
+     };
+     public static void updateProgressBar() {
+         mHandler.postDelayed(mUpdateTimeTask, 1000);
+     }*/
+    public static float volume1, volumeV;
+    //\\\\
+    public static float volume;
+    private static MediaSessionCompat mediaSession;
+    AudioManager audioManager;
+    MediaController mController;
+    MediaMetadataCompat mediaMetadata;
+    MediaDescriptionCompat description;
+    // private int mediaFile;
+    private String mediaFileA;
+    private String mediaFileB;
+    private String mediaFile1_1;
+    private String mediaFile1_2;
+    private String mediaFile2_1;
+    private String mediaFile2_2;
+    //Handle incoming phone calls
+    private boolean ongoingCall = false;
+    private PhoneStateListener phoneStateListener;
+    private TelephonyManager telephonyManager;
+    private MediaPlayer mMediaPlayer;
+    private androidx.media.MediaSessionManager mManager;
+    private MediaSession mSession;
+    private MediaSessionCompat mediaSessionCompat;
     /*private boolean requestAudioFocus() {
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         int result = audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
@@ -168,292 +290,19 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
                 break;
         }
     }*/
+    //   private MediaController mController;
+    private RemoteViews remoteView;
 
-    @Override
-    public void onBufferingUpdate(MediaPlayer mp, int percent) {
+    /* public static void playMedia(Context context) {
 
-    }
-
-    @Override
-    public void onCompletion(MediaPlayer mp) {
-       // stopMedia();
-       // stopSelf();
-    }
-
-    @Override
-    public boolean onError(MediaPlayer mp, int what, int extra) {
-        switch (what) {
-            case MediaPlayer.MEDIA_ERROR_NOT_VALID_FOR_PROGRESSIVE_PLAYBACK:
-                Log.d("MediaPlayer Error", "MEDIA ERROR NOT VALID FOR PROGRESSIVE PLAYBACK " + extra);
-                break;
-            case MediaPlayer.MEDIA_ERROR_SERVER_DIED:
-                Log.d("MediaPlayer Error", "MEDIA ERROR SERVER DIED " + extra);
-                break;
-            case MediaPlayer.MEDIA_ERROR_UNKNOWN:
-                Log.d("MediaPlayer Error", "MEDIA ERROR UNKNOWN " + extra);
-                break;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean onInfo(MediaPlayer mp, int what, int extra) {
-        return false;
-    }
-
-    @Override
-    public void onPrepared(MediaPlayer mp) {
-        maxDuration = mp.getDuration();
-        audioManager=(AudioManager) getSystemService(AUDIO_SERVICE);
-        final int maxValue=audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-        int correntValue=audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-       // ExampleBottomSheetDialog.progresssy=(float)correntValue;
-        //playMedia();
-        //updateProgressBar();
-
-    }
-
-  /*  @Override
-    public void onSeekComplete(MediaPlayer mp) {
-
-    }*/
-
-   /* public void seekTo(int progress) {
-        mediaPlayerA.seekTo(progress);
-    }*/
-   /* @Override
-    public void onAudioFocusChange(int focusChange) {
-        //Invoked when the audio focus of the system is updated.
-    }*/
-
-    public class LocalBinder extends Binder {
-        public MediaPlayerService getService() {
-            return MediaPlayerService.this;
-        }
-    }
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        try {
-            //An audio file is passed to the service through putExtra();
-            mediaFileA = intent.getExtras().getString("media");
-            mediaFileB = intent.getExtras().getString("media");
-            mediaFile1_1 = intent.getExtras().getString("media1");
-            mediaFile1_2 = intent.getExtras().getString("media1");
-            mediaFile2_1 = intent.getExtras().getString("media2");
-            mediaFile2_2 = intent.getExtras().getString("media2");
-        } catch (NullPointerException e) {
-            stopSelf();
-        }
-
-        //Request audio focus
-       /* if (requestAudioFocus() == false) {
-            //Could not gain focus
-            stopSelf();
-        }*/
-        //if (mediaFile != null && mediaFile != "")
-        //mediaPlayerHashMap = new HashMap<>();
-        initMediaPlayer();
-
-      /*  try {
-            initMediaSession();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }*/
-        //playMedia();
-//callStateListener();
-       /* try {
-
-
-            if (mediaSessionManager == null) {
-                try {
-                    initMediaSession();
-                    initMediaPlayer();
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                    stopSelf();
-                }
-                buildNotification(PlaybackStatus.PLAYING);
-            }
-        }catch (NullPointerException e) {
-            stopSelf();
-        }
-        //Handle Intent action from MediaSession.TransportControls
-        handleIncomingActions(intent);*/
-       //initMediaPlayer();
-       // if( mManager == null ) {
-
-         //   initMediaSessions();
-
-      //  }
-       // Intent intent = new Intent( getApplicationContext(), MediaPlayerServiceSecond.class );
-        intent.setAction( MediaPlayerServiceSecond.ACTION_PLAY );
-        intent.setAction(MediaPlayerServiceSecond.ACTION_PAUSE);
-       // startService( intent1 );
-
-      //  handleIntent( intent );
-        return super.onStartCommand(intent, flags, startId);
-    }
-    @Override
-    public void onDestroy() {
-        stopForeground(true);
-        super.onDestroy();
-       /* if (mediaPlayerA != null) {
-           // stopMedia();
-            mediaPlayerA.release();
-        }*/
-        //removeAudioFocus();
-
-    }
-
-    private void initMediaPlayer() {
-
-
-
-
-        //Set up MediaPlayer event listeners
- ///MAIN SOUNDS
-        mediaPlayerA = new MediaPlayer();
-        mediaPlayerA.setOnCompletionListener(this);
-        mediaPlayerA.setOnErrorListener(this);
-        mediaPlayerA.setOnPreparedListener(this);
-        mediaPlayerA.setOnBufferingUpdateListener(this);
-       // mediaPlayerA.setOnSeekCompleteListener(this);
-        mediaPlayerA.setOnInfoListener(this);
-        mediaPlayerA.reset();
-      //  mediaPlayerA=MediaPlayer.create(this, Uri.parse(mediaFileA));
-
-        /* try {
-
-            mediaPlayerA.setDataSource(mediaFileA);
-            //mediaPlayerA=MediaPlayer.create(mediaFileA);
-        } catch (IOException e) {
-            e.printStackTrace();
-            stopSelf();
-        }*/
-       //mediaPlayerA.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        //mediaPlayerA=MediaPlayer.create(this,R.raw.dheera);
-       // mediaPlayerA.start();
-       /* try {
-            // Set the data source to the mediaFile location
-//            AssetFileDescriptor afd = getResources().openRawResourceFd(mediaFile);
-
-            String RES_PREFIX = "android.resource://com.my.package/";
-            mediaPlayerA.setDataSource(getApplicationContext(),
-                    Uri.parse(RES_PREFIX + mediaFileA));
-            mediaPlayerA.setDataSource(mediaFileA);
-        } catch (IOException e) {
-            e.printStackTrace();
-            stopSelf();
-        }*/
-//        mediaPlayerA.prepareAsync();
-
-        ////\\\\
-     /*   mediaPlayerB = new MediaPlayer();
-        //Set up MediaPlayer event listeners
-        mediaPlayerB.setOnCompletionListener(this);
-        mediaPlayerB.setOnErrorListener(this);
-        mediaPlayerB.setOnPreparedListener(this);
-        mediaPlayerB.setOnBufferingUpdateListener(this);
-        mediaPlayerB.setOnSeekCompleteListener(this);
-        mediaPlayerB.setOnInfoListener(this);
-       // mediaPlayerB.reset();
-
-        //mediaPlayerB.setAudioStreamType(AudioManager.STREAM_MUSIC);
-       // mediaPlayerB=MediaPlayer.create(this,R.raw.forestdaytimeambience);
-       *//* try {
-
-            mediaPlayerB.setDataSource(mediaFileB);
-        } catch (IOException e) {
-            e.printStackTrace();
-            stopSelf();
-        }*//*
-      //  mediaPlayerB.prepareAsync();
- ///FIRST SOUNDS
-
-        mediaPlayer1_1=new MediaPlayer();
-        mediaPlayer1_1.setOnCompletionListener(this);
-        mediaPlayer1_1.setOnErrorListener(this);
-        mediaPlayer1_1.setOnPreparedListener(this);
-        mediaPlayer1_1.setOnBufferingUpdateListener(this);
-        mediaPlayer1_1.setOnSeekCompleteListener(this);
-        mediaPlayer1_1.setOnInfoListener(this);
-
-        /////\\\\
-        mediaPlayer1_2=new MediaPlayer();
-
-        mediaPlayer1_2.setOnCompletionListener(this);
-        mediaPlayer1_2.setOnErrorListener(this);
-        mediaPlayer1_2.setOnPreparedListener(this);
-        mediaPlayer1_2.setOnBufferingUpdateListener(this);
-        mediaPlayer1_2.setOnSeekCompleteListener(this);
-        mediaPlayer1_2.setOnInfoListener(this);
-
-///SECOND SOUNDS
-
-        mediaPlayer2_1=new MediaPlayer();
-        mediaPlayer2_1.setOnCompletionListener(this);
-        mediaPlayer2_1.setOnErrorListener(this);
-        mediaPlayer2_1.setOnPreparedListener(this);
-        mediaPlayer2_1.setOnBufferingUpdateListener(this);
-        mediaPlayer2_1.setOnSeekCompleteListener(this);
-        mediaPlayer2_1.setOnInfoListener(this);
-
-        /////\\\\
-        mediaPlayer2_2=new MediaPlayer();
-
-        mediaPlayer2_2.setOnCompletionListener(this);
-        mediaPlayer2_2.setOnErrorListener(this);
-        mediaPlayer2_2.setOnPreparedListener(this);
-        mediaPlayer2_2.setOnBufferingUpdateListener(this);
-        mediaPlayer2_2.setOnSeekCompleteListener(this);
-        mediaPlayer2_2.setOnInfoListener(this);*/
-///3
-/*
-       mediaPlayer1=new MediaPlayer();
-       mediaPlayer2=new MediaPlayer();
-        mediaPlayer3 = new MediaPlayer();
-        mediaPlayer4 = new MediaPlayer();
-        mediaPlayer5 = new MediaPlayer();
-        mediaPlayer6 = new MediaPlayer();
-        mediaPlayer7 = new MediaPlayer();
-        mediaPlayer8 = new MediaPlayer();
-        mediaPlayer9 = new MediaPlayer();
-        mediaPlayer10 = new MediaPlayer();
-        mediaPlayer11 = new MediaPlayer();
-        mediaPlayer12 = new MediaPlayer();
-        mediaPlayer13 = new MediaPlayer();
-        mediaPlayer14 = new MediaPlayer();
-        mediaPlayer15 = new MediaPlayer();
-        mediaPlayer16 = new MediaPlayer();
-        mediaPlayer17 = new MediaPlayer();
-        mediaPlayer18= new MediaPlayer();
-        mediaPlayer19= new MediaPlayer();
-        mediaPlayer20 = new MediaPlayer();*/
-
-
-
-
-
-
-
-
-
-
-
-       /* requestAudioFocus();
-        removeAudioFocus();*/
-
-    }
-
-   /* public static void playMedia(Context context) {
-
-    *//*  // startFadeIn(mediaPlayerA,SecondActivity.seekvolumeA);
+     *//*  // startFadeIn(mediaPlayerA,SecondActivity.seekvolumeA);
             mediaPlayerA.start();
       //  startFadeIn(mediaPlayer1_1,SecondActivity.seekvolume1);
             mediaPlayer1_1.start();
       // startFadeIn(mediaPlayer2_1,SecondActivity.seekvolume2);
             mediaPlayer2_1.start();
-*//*
+*/
+   /*
 
         if (!SecondActivity.chipboolean1)
         { mediaPlayer1 = MediaPlayer.create(context, R.raw.fire);
@@ -622,8 +471,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             mediaPlayer20.start();
         }
     }*/
-    public static void playSubMedia()
-    {
+    public static void playSubMedia() {
       /*  mediaPlayer3A.start();
         mediaPlayer4A.start();
         mediaPlayer5A.start();
@@ -636,7 +484,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         mediaPlayer12A.start();*/
 
     }
-    public static void muteVolume(){
+
+    public static void muteVolume() {
   /*      mediaPlayer3A.setVolume(0,0);
         mediaPlayer4A.setVolume(0,0);
         mediaPlayer5A.setVolume(0,0);
@@ -651,16 +500,15 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     }
 
     public static void stopMedia() {
-        Log.d("nowplaysounds", "click" );
-        for (int i = 0; i< RecyclerViewAdapter.formList.size(); i++)
-        {
-            if ( mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " "))!=null) {
+        Log.d("nowplaysounds", "click");
+        for (int i = 0; i < RecyclerViewAdapter.formList.size(); i++) {
+            if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " ")) != null) {
                 if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " ")).isPlaying()) {
                     mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " ")).stop();
 
                 }
             }
-            if ( mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " "))!=null) {
+            if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")) != null) {
 
                 if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")).isPlaying()) {
                     mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")).stop();
@@ -669,15 +517,14 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             }
         }
 
-        for (int i = 0; i< RelaxingRecyclerViewAdapter.formList.size(); i++)
-        {
-            if ( mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " "))!=null) {
+        for (int i = 0; i < RelaxingRecyclerViewAdapter.formList.size(); i++) {
+            if (mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " ")) != null) {
                 if (mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " ")).isPlaying()) {
                     mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " ")).stop();
 
                 }
             }
-            if ( mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " "))!=null) {
+            if (mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")) != null) {
 
                 if (mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")).isPlaying()) {
                     mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")).stop();
@@ -688,8 +535,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     }
 
     public static void pauseMedia() {
-        Log.d("nowplaysounds", "click" );
-       nowplaysounds.clear();
+        Log.d("nowplaysounds", "click");
+        nowplaysounds.clear();
         /* if (mediaPlayerA==null)
             return;
         else if (mediaPlayerA.isPlaying())
@@ -697,16 +544,15 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             mediaPlayerA.pause();
            // SecondActivity.resumePositionA = mediaPlayerA.getCurrentPosition();
         }*/
-        for (int i = 0; i< RecyclerViewAdapter.formList.size(); i++)
-        {
-            if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " "))!=null) {
+        for (int i = 0; i < RecyclerViewAdapter.formList.size(); i++) {
+            if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " ")) != null) {
                 if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " ")).isPlaying()) {
                     mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " ")).pause();
                     nowplaysounds.add(RecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " "));
                     Log.d("nowplaysounds", "" + nowplaysounds);
                 }
             }
-            if ( mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " "))!=null) {
+            if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")) != null) {
 
                 if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")).isPlaying()) {
                     mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")).pause();
@@ -716,16 +562,15 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             }
         }
 
-        for (int i = 0; i< RelaxingRecyclerViewAdapter.formList.size(); i++)
-        {
-            if ( mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " "))!=null) {
+        for (int i = 0; i < RelaxingRecyclerViewAdapter.formList.size(); i++) {
+            if (mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " ")) != null) {
                 if (mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " ")).isPlaying()) {
                     mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " ")).pause();
                     nowplaysounds.add(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " "));
                     Log.d("nowplaysounds", "" + nowplaysounds);
                 }
             }
-            if ( mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " "))!=null) {
+            if (mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")) != null) {
 
                 if (mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")).isPlaying()) {
                     mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")).pause();
@@ -736,44 +581,56 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         }
     }
 
+  /*  @Override
+    public void onSeekComplete(MediaPlayer mp) {
 
-         public static void PlayingMedia() {
+    }*/
 
-             for (int i = 0; i< RecyclerViewAdapter.formList.size(); i++)
-             {
-                 if ( mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " "))!=null) {
-                     if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " ")).isPlaying()) {
-                       //  mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " ")).stop();
-                         MainActivity.Companion.setPlayingBolean(true);
-                     }
-                 }
-                 if ( mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " "))!=null) {
+   /* public void seekTo(int progress) {
+        mediaPlayerA.seekTo(progress);
+    }*/
+   /* @Override
+    public void onAudioFocusChange(int focusChange) {
+        //Invoked when the audio focus of the system is updated.
+    }*/
 
-                     if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")).isPlaying()) {
-                       //  mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")).stop();
-                         MainActivity.Companion.setPlayingBolean(true);
-                     }
-                 }
-             }
+    public static void PlayingMedia() {
 
-             for (int i = 0; i< RelaxingRecyclerViewAdapter.formList.size(); i++)
-             {
-                 if ( mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " "))!=null) {
-                     if (mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " ")).isPlaying()) {
-                       //  mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " ")).stop();
-                         MainActivity.Companion.setPlayingBolean(true);
-                     }
-                 }
-                 if ( mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " "))!=null) {
+        for (int i = 0; i < RecyclerViewAdapter.formList.size(); i++) {
+            if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " ")) != null) {
+                if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " ")).isPlaying()) {
+                    //  mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " ")).stop();
+                    MainActivity.Companion.setPlayingBolean(true);
+                }
 
-                     if (mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")).isPlaying()) {
-                       //  mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")).stop();
-                         MainActivity.Companion.setPlayingBolean(true);
-                     }
-                 }
-             }
+            }
+            if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")) != null) {
 
-         }
+                if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")).isPlaying()) {
+                    //  mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")).stop();
+                    MainActivity.Companion.setPlayingBolean(true);
+                }
+            }
+        }
+
+        for (int i = 0; i < RelaxingRecyclerViewAdapter.formList.size(); i++) {
+            if (mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " ")) != null) {
+                if (mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " ")).isPlaying()) {
+                    //  mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound1Name().replaceAll("_", " ")).stop();
+                    MainActivity.Companion.setPlayingBolean(true);
+                }
+            }
+            if (mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")) != null) {
+
+                if (mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")).isPlaying()) {
+                    //  mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")).stop();
+                    MainActivity.Companion.setPlayingBolean(true);
+                }
+            }
+        }
+
+    }
+
     public static void resumeMedia() {
        /* if (mediaPlayerA==null)
             return;
@@ -782,190 +639,47 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             mediaPlayerA.start();
         }*/
 
-        for (int i=0;i<nowplaysounds.size();i++)
-        {
-            if ( mediaPlayerHashMap.get(nowplaysounds.get(i))!=null) {
-              //  if (mediaPlayerHashMap.get(MainActivity.formList.get(i).getSubsound1Name().replaceAll("_", " ")).isPlaying()) {
-                    mediaPlayerHashMap.get(nowplaysounds.get(i)).start();
-                    mediaPlayerHashMap.get(nowplaysounds.get(i)).setLooping(true);
-                   // nowplaysounds.add(MainActivity.formList.get(i).getSubsound1Name().replaceAll("_", " "));
-                    Log.d("nowplaysounds", "" + nowplaysounds);
+        for (int i = 0; i < nowplaysounds.size(); i++) {
+            if (mediaPlayerHashMap.get(nowplaysounds.get(i)) != null) {
+                //  if (mediaPlayerHashMap.get(MainActivity.formList.get(i).getSubsound1Name().replaceAll("_", " ")).isPlaying()) {
+                mediaPlayerHashMap.get(nowplaysounds.get(i)).start();
+                mediaPlayerHashMap.get(nowplaysounds.get(i)).setLooping(true);
+                // nowplaysounds.add(MainActivity.formList.get(i).getSubsound1Name().replaceAll("_", " "));
+                Log.d("nowplaysounds", "" + nowplaysounds);
 
-               // }
+                // }
             }
 
         }
         MainActivity.Companion.setPlayingBolean(true);
 
     }
-   /* public static Runnable mUpdateTimeTask=new Runnable() {
-        @Override
-        public void run() {
-            int  maxDurationA=mediaPlayerA.getDuration();
-            int currentDurationA=mediaPlayerA.getCurrentPosition();
-           int maxDurationB=mediaPlayerB.getDuration();
-            int currentDurationB=mediaPlayerB.getCurrentPosition();
 
-            long  maxDuraction1 = mediaPlayer1_1.getDuration();
-            long  currentDuration1 = mediaPlayer1_1.getCurrentPosition();
-            long maxDuraction2=mediaPlayer1_2.getDuration();
-            long currentDuration2=mediaPlayer1_2.getCurrentPosition();
-
-            long maxDuraction3=mediaPlayer2_1.getDuration();
-            long currentDuration3 = mediaPlayer2_1.getCurrentPosition();
-            long maxDuraction4=mediaPlayer2_2.getDuration();
-            long currentDuration4=mediaPlayer2_2.getCurrentPosition();
-
-            if (mediaPlayerA.isPlaying()){
-            if (!stop) {
-                if (currentDurationA >= (maxDurationA - 5000)) {
-                    Log.d("gggggg","done");
-                    start = false;
-                    stop = true;
-                    startFadeOut(mediaPlayerA,SecondActivity.seekvolumeA);
-                    startFadeIn(mediaPlayerB,SecondActivity.seekvolumeA);
-                    mediaPlayerB.start();
-
-
-                }
-            }
-            }
-            if (mediaPlayerB.isPlaying()) {
-                if (!start) {
-                    if (currentDurationB >= (maxDurationB - 5000)) {
-                        stop = false;
-                        start = true;
-                        startFadeOut(mediaPlayerB,SecondActivity.seekvolumeA);
-                        startFadeIn(mediaPlayerA,SecondActivity.seekvolumeA);
-                        mediaPlayerA.start();
-                        Log.d("gggggg", "done33");
-                    }
-                }
-            }
-
-            if (!stop1)
-            {
-                if (currentDuration1 >= (maxDuraction1-5000)) {
-                    start1 = false;
-                    stop1 = true;
-                    //volume1=1;
-                  //  volume = 0;
-                    Log.d("wwwww", currentDuration3 + "Done" + stop);
-                    startFadeOut(mediaPlayer1_1,SecondActivity.seekvolume1);
-
-
-                    startFadeIn(mediaPlayer1_2,SecondActivity.seekvolume1);
-                    mediaPlayer1_2.start();
-                }
-
-
-
-
-            }
-            if (!start1)
-            {
-                if (currentDuration2 >= (maxDuraction2-5000)) {
-                    stop1 = false;
-                    start1 = true;
-                   // volume = 0;
-                    // volume1=1;
-                    Log.d("yyyy", currentDuration4 + "Done" + stop1);
-                    startFadeOut(mediaPlayer1_2,SecondActivity.seekvolume1);
-
-
-                    startFadeIn(mediaPlayer1_1,SecondActivity.seekvolume1);
-                    mediaPlayer1_1.start();
-
-
-
-
-                }
-
-            }
-            if (!stop2)
-            {
-                if (currentDuration3 >= (maxDuraction3-5000))
-                {
-                    start2=false;
-                    stop2 = true;
-                    //volume1=1;
-                    //volume=0;
-                    Log.d("wwwww", currentDuration3 + "Done" + stop);
-                    startFadeOut(mediaPlayer2_1,SecondActivity.seekvolume2);
-
-
-                    startFadeIn(mediaPlayer2_2,SecondActivity.seekvolume2);
-                    mediaPlayer2_2.start();
-
-
-
-
-                }
-            }
-            if (!start2)
-            {
-                if (currentDuration4 >= (maxDuraction4-5000))
-                {
-                    stop2=false;
-                    start2 = true;
-                   // volume=0;
-                    //volume1=1;
-                    Log.d("yyyy", currentDuration4 + "Done" + stop1);
-                    startFadeOut(mediaPlayer2_2,SecondActivity.seekvolume2);
-
-
-                    startFadeIn(mediaPlayer2_1,SecondActivity.seekvolume2);
-                    mediaPlayer2_1.start();
-
-
-
-
-                }
-            }
-
-
-
-
-
-
-
-            mHandler.postDelayed(this, 1000);
-
-
-
-        }
-
-    };
-    public static void updateProgressBar() {
-        mHandler.postDelayed(mUpdateTimeTask, 1000);
-    }*/
-    public static float volume1,volumeV ;
-public static float volume;
-    public static void startFadeIn(final MediaPlayer media, final int seekVolume){
-        volume=0;
-       // media.setVolume(volume,volume);
+    public static void startFadeIn(final MediaPlayer media, final int seekVolume) {
+        volume = 0;
+        // media.setVolume(volume,volume);
         //long mDuraction= media.getDuration();
 
-        final long FADE_DURATION =5000;
+        final long FADE_DURATION = 5000;
         //final long FADE_DURATION = (mDuraction*25/100);//The duration of the fade
         //The amount of time between volume changes. The smaller this is, the smoother the fade
         final int FADE_INTERVAL = 10;
         //final float MAX_VOLUME = 1.5f;//The volume will increase from 0 to 1
         final int MAX_VOLUME = seekVolume;
-        long numberOfSteps = FADE_DURATION/FADE_INTERVAL; //Calculate the number of fade steps
+        long numberOfSteps = FADE_DURATION / FADE_INTERVAL; //Calculate the number of fade steps
         //Calculate by how much the volume changes each step
-        final float deltaVolume = MAX_VOLUME / (float)numberOfSteps;
+        final float deltaVolume = MAX_VOLUME / (float) numberOfSteps;
 
         //Create a new Timer and Timer task to run the fading outside the main UI thread
         final Timer timer = new Timer(true);
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                fadeInStep(deltaVolume,media); //Do a fade step
-                Log.d("volume33",""+volume);
+                fadeInStep(deltaVolume, media); //Do a fade step
+                Log.d("volume33", "" + volume);
                 //Cancel and Purge the Timer if the desired volume has been reached
-                if(volume>=seekVolume){
-                    Log.d("jjjvolume44",""+volume);
+                if (volume >= seekVolume) {
+                    Log.d("jjjvolume44", "" + volume);
                     timer.cancel();
                     timer.purge();
 
@@ -973,38 +687,39 @@ public static float volume;
             }
         };
 
-        timer.schedule(timerTask,FADE_INTERVAL,FADE_INTERVAL);
+        timer.schedule(timerTask, FADE_INTERVAL, FADE_INTERVAL);
     }
-    public static void startFadeOut(final MediaPlayer media, int seekVolume){
+
+    public static void startFadeOut(final MediaPlayer media, int seekVolume) {
         // volume1=audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
         // long mDuraction= media.getDuration();
-        volume1=seekVolume;
-        Log.d("seeeeeeeee",""+seekVolume);
-       // Log.d("pppvolume111z",correntValue+""+progresssy);
-         //  media.setVolume(volume,volume);
-        final long FADE_DURATION =5000;
+        volume1 = seekVolume;
+        Log.d("seeeeeeeee", "" + seekVolume);
+        // Log.d("pppvolume111z",correntValue+""+progresssy);
+        //  media.setVolume(volume,volume);
+        final long FADE_DURATION = 5000;
         //final long FADE_DURATION = (mDuraction*25/100); //The duration of the fade
-        Log.d("bbbb","mkmkmkmk");
+        Log.d("bbbb", "mkmkmkmk");
         //The amount of time between volume changes. The smaller this is, the smoother the fade
         final int FADE_INTERVAL = 10;
         final int MAX_VOLUME = seekVolume; //The volume will increase from 0 to 1
-        long numberOfSteps = FADE_DURATION/FADE_INTERVAL; //Calculate the number of fade steps
+        long numberOfSteps = FADE_DURATION / FADE_INTERVAL; //Calculate the number of fade steps
         //Calculate by how much the volume changes each step
-        final float deltaVolume = MAX_VOLUME / (float)numberOfSteps;
+        final float deltaVolume = MAX_VOLUME / (float) numberOfSteps;
 
         //Create a new Timer and Timer task to run the fading outside the main UI thread
         final Timer timer = new Timer(true);
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                Log.d("volume222",""+volume1);
-                fadeOutStep(deltaVolume,media); //Do a fade step
+                Log.d("volume222", "" + volume1);
+                fadeOutStep(deltaVolume, media); //Do a fade step
                 //Cancel and Purge the Timer if the desired volume has been reached
-                if(volume1<=0){
-                    Log.d("kkkvolume111z",""+volume1);
+                if (volume1 <= 0) {
+                    Log.d("kkkvolume111z", "" + volume1);
                     timer.cancel();
                     timer.purge();
-                    done=true;
+                    done = true;
                     //media.stop();
 
                 }
@@ -1013,18 +728,324 @@ public static float volume;
 
         };
 
-        timer.schedule(timerTask,FADE_INTERVAL,FADE_INTERVAL);
+        timer.schedule(timerTask, FADE_INTERVAL, FADE_INTERVAL);
     }
-    public static void fadeInStep(float deltaVolume, MediaPlayer media){
+
+    public static void fadeInStep(float deltaVolume, MediaPlayer media) {
         media.setVolume(volume, volume);
         volume += deltaVolume;
 
     }
-    public static void fadeOutStep(float deltaVolume, MediaPlayer media){
+
+    public static void fadeOutStep(float deltaVolume, MediaPlayer media) {
 
         media.setVolume(volume1, volume1);
         volume1 -= deltaVolume;
 
+    }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        mSession.release();
+        return null;
+    }
+
+    @Override
+    public void onBufferingUpdate(MediaPlayer mp, int percent) {
+
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        // stopMedia();
+        // stopSelf();
+    }
+
+    @Override
+    public boolean onError(MediaPlayer mp, int what, int extra) {
+        switch (what) {
+            case MediaPlayer.MEDIA_ERROR_NOT_VALID_FOR_PROGRESSIVE_PLAYBACK:
+                Log.d("MediaPlayer Error", "MEDIA ERROR NOT VALID FOR PROGRESSIVE PLAYBACK " + extra);
+                break;
+            case MediaPlayer.MEDIA_ERROR_SERVER_DIED:
+                Log.d("MediaPlayer Error", "MEDIA ERROR SERVER DIED " + extra);
+                break;
+            case MediaPlayer.MEDIA_ERROR_UNKNOWN:
+                Log.d("MediaPlayer Error", "MEDIA ERROR UNKNOWN " + extra);
+                break;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onInfo(MediaPlayer mp, int what, int extra) {
+        return false;
+    }
+
+    @Override
+    public void onPrepared(MediaPlayer mp) {
+        maxDuration = mp.getDuration();
+        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        final int maxValue = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        int correntValue = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        // ExampleBottomSheetDialog.progresssy=(float)correntValue;
+        //playMedia();
+        //updateProgressBar();
+
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        try {
+            //An audio file is passed to the service through putExtra();
+            mediaFileA = intent.getExtras().getString("media");
+            mediaFileB = intent.getExtras().getString("media");
+            mediaFile1_1 = intent.getExtras().getString("media1");
+            mediaFile1_2 = intent.getExtras().getString("media1");
+            mediaFile2_1 = intent.getExtras().getString("media2");
+            mediaFile2_2 = intent.getExtras().getString("media2");
+        } catch (NullPointerException e) {
+            stopSelf();
+        }
+
+        //Request audio focus
+       /* if (requestAudioFocus() == false) {
+            //Could not gain focus
+            stopSelf();
+        }*/
+        //if (mediaFile != null && mediaFile != "")
+        //mediaPlayerHashMap = new HashMap<>();
+        initMediaPlayer();
+
+      /*  try {
+            initMediaSession();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }*/
+        //playMedia();
+//callStateListener();
+       /* try {
+
+
+            if (mediaSessionManager == null) {
+                try {
+                    initMediaSession();
+                    initMediaPlayer();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                    stopSelf();
+                }
+                buildNotification(PlaybackStatus.PLAYING);
+            }
+        }catch (NullPointerException e) {
+            stopSelf();
+        }
+        //Handle Intent action from MediaSession.TransportControls
+        handleIncomingActions(intent);*/
+        //initMediaPlayer();
+        // if( mManager == null ) {
+
+        //   initMediaSessions();
+
+        //  }
+        // Intent intent = new Intent( getApplicationContext(), MediaPlayerServiceSecond.class );
+        intent.setAction(MediaPlayerServiceSecond.ACTION_PLAY);
+        intent.setAction(MediaPlayerServiceSecond.ACTION_PAUSE);
+        // startService( intent1 );
+
+        //  handleIntent( intent );
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    public void onDestroy() {
+        stopForeground(true);
+        super.onDestroy();
+       /* if (mediaPlayerA != null) {
+           // stopMedia();
+            mediaPlayerA.release();
+        }*/
+        //removeAudioFocus();
+
+    }
+
+    private void initMediaPlayer() {
+
+
+        //Set up MediaPlayer event listeners
+        ///MAIN SOUNDS
+        mediaPlayerA = new MediaPlayer();
+        mediaPlayerA.setOnCompletionListener(this);
+        mediaPlayerA.setOnErrorListener(this);
+        mediaPlayerA.setOnPreparedListener(this);
+        mediaPlayerA.setOnBufferingUpdateListener(this);
+        // mediaPlayerA.setOnSeekCompleteListener(this);
+        mediaPlayerA.setOnInfoListener(this);
+        mediaPlayerA.reset();
+        //  mediaPlayerA=MediaPlayer.create(this, Uri.parse(mediaFileA));
+
+        /* try {
+
+            mediaPlayerA.setDataSource(mediaFileA);
+            //mediaPlayerA=MediaPlayer.create(mediaFileA);
+        } catch (IOException e) {
+            e.printStackTrace();
+            stopSelf();
+        }*/
+        //mediaPlayerA.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        //mediaPlayerA=MediaPlayer.create(this,R.raw.dheera);
+        // mediaPlayerA.start();
+       /* try {
+            // Set the data source to the mediaFile location
+//            AssetFileDescriptor afd = getResources().openRawResourceFd(mediaFile);
+
+            String RES_PREFIX = "android.resource://com.my.package/";
+            mediaPlayerA.setDataSource(getApplicationContext(),
+                    Uri.parse(RES_PREFIX + mediaFileA));
+            mediaPlayerA.setDataSource(mediaFileA);
+        } catch (IOException e) {
+            e.printStackTrace();
+            stopSelf();
+        }*/
+//        mediaPlayerA.prepareAsync();
+
+        ////\\\\
+     /*   mediaPlayerB = new MediaPlayer();
+        //Set up MediaPlayer event listeners
+        mediaPlayerB.setOnCompletionListener(this);
+        mediaPlayerB.setOnErrorListener(this);
+        mediaPlayerB.setOnPreparedListener(this);
+        mediaPlayerB.setOnBufferingUpdateListener(this);
+        mediaPlayerB.setOnSeekCompleteListener(this);
+        mediaPlayerB.setOnInfoListener(this);
+       // mediaPlayerB.reset();
+
+        //mediaPlayerB.setAudioStreamType(AudioManager.STREAM_MUSIC);
+       // mediaPlayerB=MediaPlayer.create(this,R.raw.forestdaytimeambience);
+       *//* try {
+
+            mediaPlayerB.setDataSource(mediaFileB);
+        } catch (IOException e) {
+            e.printStackTrace();
+            stopSelf();
+        }*//*
+      //  mediaPlayerB.prepareAsync();
+ ///FIRST SOUNDS
+
+        mediaPlayer1_1=new MediaPlayer();
+        mediaPlayer1_1.setOnCompletionListener(this);
+        mediaPlayer1_1.setOnErrorListener(this);
+        mediaPlayer1_1.setOnPreparedListener(this);
+        mediaPlayer1_1.setOnBufferingUpdateListener(this);
+        mediaPlayer1_1.setOnSeekCompleteListener(this);
+        mediaPlayer1_1.setOnInfoListener(this);
+
+        /////\\\\
+        mediaPlayer1_2=new MediaPlayer();
+
+        mediaPlayer1_2.setOnCompletionListener(this);
+        mediaPlayer1_2.setOnErrorListener(this);
+        mediaPlayer1_2.setOnPreparedListener(this);
+        mediaPlayer1_2.setOnBufferingUpdateListener(this);
+        mediaPlayer1_2.setOnSeekCompleteListener(this);
+        mediaPlayer1_2.setOnInfoListener(this);
+
+///SECOND SOUNDS
+
+        mediaPlayer2_1=new MediaPlayer();
+        mediaPlayer2_1.setOnCompletionListener(this);
+        mediaPlayer2_1.setOnErrorListener(this);
+        mediaPlayer2_1.setOnPreparedListener(this);
+        mediaPlayer2_1.setOnBufferingUpdateListener(this);
+        mediaPlayer2_1.setOnSeekCompleteListener(this);
+        mediaPlayer2_1.setOnInfoListener(this);
+
+        /////\\\\
+        mediaPlayer2_2=new MediaPlayer();
+
+        mediaPlayer2_2.setOnCompletionListener(this);
+        mediaPlayer2_2.setOnErrorListener(this);
+        mediaPlayer2_2.setOnPreparedListener(this);
+        mediaPlayer2_2.setOnBufferingUpdateListener(this);
+        mediaPlayer2_2.setOnSeekCompleteListener(this);
+        mediaPlayer2_2.setOnInfoListener(this);*/
+///3
+/*
+       mediaPlayer1=new MediaPlayer();
+       mediaPlayer2=new MediaPlayer();
+        mediaPlayer3 = new MediaPlayer();
+        mediaPlayer4 = new MediaPlayer();
+        mediaPlayer5 = new MediaPlayer();
+        mediaPlayer6 = new MediaPlayer();
+        mediaPlayer7 = new MediaPlayer();
+        mediaPlayer8 = new MediaPlayer();
+        mediaPlayer9 = new MediaPlayer();
+        mediaPlayer10 = new MediaPlayer();
+        mediaPlayer11 = new MediaPlayer();
+        mediaPlayer12 = new MediaPlayer();
+        mediaPlayer13 = new MediaPlayer();
+        mediaPlayer14 = new MediaPlayer();
+        mediaPlayer15 = new MediaPlayer();
+        mediaPlayer16 = new MediaPlayer();
+        mediaPlayer17 = new MediaPlayer();
+        mediaPlayer18= new MediaPlayer();
+        mediaPlayer19= new MediaPlayer();
+        mediaPlayer20 = new MediaPlayer();*/
+
+
+
+
+
+
+
+
+
+
+
+       /* requestAudioFocus();
+        removeAudioFocus();*/
+
+    }
+
+    //Handle incoming phone calls
+    private void callStateListener() {
+        // Get the telephony manager
+        telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        //Starting listening for PhoneState changes
+        phoneStateListener = new PhoneStateListener() {
+            @Override
+            public void onCallStateChanged(int state, String incomingNumber) {
+                switch (state) {
+                    //if at least one call exists or the phone is ringing
+                    //pause the MediaPlayer
+                    case TelephonyManager.CALL_STATE_OFFHOOK:
+                        pauseMedia();
+                        //substopMedia();
+                    case TelephonyManager.CALL_STATE_RINGING:
+                        // if (mediaPlayer != null) {
+                        pauseMedia();
+                        //substopMedia();
+                        ongoingCall = true;
+                        // }
+                        break;
+                    case TelephonyManager.CALL_STATE_IDLE:
+                        // Phone idle. Start playing.
+                        // if (mediaPlayer != null) {
+                        if (ongoingCall) {
+                            ongoingCall = false;
+                            // resumeMedia();
+                            //resumeMedia();
+                            // playMedia(MediaPlayerService.this);
+                        }
+                        //}
+                        break;
+                }
+            }
+        };
+        // Register the listener with the telephony manager
+        // Listen for changes to the device call state.
+        telephonyManager.listen(phoneStateListener,
+                PhoneStateListener.LISTEN_CALL_STATE);
     }
    /* private void allSounds()
     {
@@ -1159,59 +1180,18 @@ public static float volume;
        }
    }*/
 
-    //Handle incoming phone calls
-    private void callStateListener() {
-        // Get the telephony manager
-        telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        //Starting listening for PhoneState changes
-        phoneStateListener = new PhoneStateListener() {
-            @Override
-            public void onCallStateChanged(int state, String incomingNumber) {
-                switch (state) {
-                    //if at least one call exists or the phone is ringing
-                    //pause the MediaPlayer
-                    case TelephonyManager.CALL_STATE_OFFHOOK:
-                        pauseMedia();
-                        //substopMedia();
-                    case TelephonyManager.CALL_STATE_RINGING:
-                       // if (mediaPlayer != null) {
-                            pauseMedia();
-                            //substopMedia();
-                            ongoingCall = true;
-                       // }
-                        break;
-                    case TelephonyManager.CALL_STATE_IDLE:
-                        // Phone idle. Start playing.
-                      // if (mediaPlayer != null) {
-                            if (ongoingCall) {
-                                ongoingCall = false;
-                               // resumeMedia();
-                                //resumeMedia();
-                               // playMedia(MediaPlayerService.this);
-                            }
-                       //}
-                        break;
-                }
-            }
-        };
-        // Register the listener with the telephony manager
-        // Listen for changes to the device call state.
-        telephonyManager.listen(phoneStateListener,
-                PhoneStateListener.LISTEN_CALL_STATE);
+    @Override
+    public boolean onUnbind(Intent intent) {
+        mSession.release();
+        return super.onUnbind(intent);
     }
 ///Notification media stop
 
-
-
-
-         @Override
-         public boolean onUnbind(Intent intent) {
-             mSession.release();
-             return super.onUnbind(intent);
-         }
-
-
-
+    public class LocalBinder extends Binder {
+        public MediaPlayerService getService() {
+            return MediaPlayerService.this;
+        }
+    }
 
 
 }

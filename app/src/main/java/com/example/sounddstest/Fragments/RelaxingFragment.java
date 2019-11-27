@@ -74,18 +74,7 @@ public class RelaxingFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootview=inflater.inflate(R.layout.fragment_relaxing, container, false);
-       // soundbutton = rootview.findViewById(R.id.sound2);
-        //mediaPlayer2 = MediaPlayer.create(getContext(), R.raw.fire);
-       //\ bottomNavigationView.setBackground(getResources().getDrawable(R.color.RelaxingFragmentColor));
-        //rootview.setBackground(getResources().getDrawable(R.color.colorAccent));
-       //\ linearLayout.setBackground(getResources().getDrawable(R.color.RelaxingFragmentColor));
-       /* soundbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MainActivity.mediaPlayer2.start();
 
-            }
-        });*/
 
         loadData();
         recyclerView=rootview.findViewById(R.id.recyclerViewRelaxing);
@@ -95,30 +84,20 @@ public class RelaxingFragment extends Fragment {
         recyclerView.setAdapter(recyclerViewAdapter);
 
         IconColorChange(getResources().getColor(R.color.RelaxingFragmentColor),R.drawable.ic_volume_up_black_list);
-       // MainActivity.listimageView.setBackground(wrappedDrawable);
         ((MainActivity)getActivity()).listimageView.setBackground(wrappedDrawable);
         IconColorChange(getResources().getColor(R.color.RelaxingFragmentColor),R.drawable.ic_play_arrow_black);
-       // MainActivity.playImageView.setBackground(wrappedDrawable);
         ((MainActivity)getActivity()).playImageView.setBackground(wrappedDrawable);
         IconColorChange(getResources().getColor(R.color.RelaxingFragmentColor),R.drawable.ic_pause_black_24dp);
-       // MainActivity.pauseImageView.setBackground(wrappedDrawable);
         ((MainActivity)getActivity()).pauseImageView.setBackground(wrappedDrawable);
         IconColorChange(getResources().getColor(R.color.RelaxingFragmentColor),R.drawable.ic_timer_start);
-        //MainActivity.timerStartImageView.setBackground(wrappedDrawable);
         ((MainActivity)getActivity()).timerStartImageView.setBackground(wrappedDrawable);
         IconColorChange(getResources().getColor(R.color.RelaxingFragmentColor),R.drawable.ic_timer_black);
-     //   MainActivity.timerImageView.setBackground(wrappedDrawable);
         ((MainActivity)getActivity()).timerImageView.setBackground(wrappedDrawable);
-        // IconColorChange(Color.RED,R.drawable.);
-       // MainActivity.timerTextView.setTextColor(getResources().getColor(R.color.RelaxingFragmentColor));
         ((MainActivity) getActivity()).timerTextVieww.setTextColor(getResources().getColor(R.color.RelaxingFragmentColor));
-    /*    timertextView.setTextColor(getResources().getColor(R.color.RelaxingFragmentColor));
-        ((MainActivity)getActivity()).Companion.setTimertextView(timertextView);*/
-
-
         IconColorChange(getResources().getColor(R.color.RelaxingFragmentColor),R.drawable.ic_music_video_black_24dp);
         relaxingFragmenttext=(TextView)rootview.findViewById(R.id.relaxingFragmentText);
         relaxingFragmenttext.setTextColor(getResources().getColor(R.color.RelaxingFragmentColor));
+
         return rootview;
     }
     private void loadData() {
@@ -154,22 +133,15 @@ public class RelaxingFragment extends Fragment {
         IconColorChange(getResources().getColor(R.color.RelaxingFragmentColor),R.drawable.ic_volume_up_black_list);
         ((MainActivity)getActivity()).listimageView.setBackground(wrappedDrawable);
 
-      //  MainActivity.listimageView.setBackground(wrappedDrawable);
         IconColorChange(getResources().getColor(R.color.RelaxingFragmentColor),R.drawable.ic_play_arrow_black);
-      //  MainActivity.playImageView.setBackground(wrappedDrawable);
         ((MainActivity)getActivity()).playImageView.setBackground(wrappedDrawable);
         IconColorChange(getResources().getColor(R.color.RelaxingFragmentColor),R.drawable.ic_pause_black_24dp);
-      //  MainActivity.pauseImageView.setBackground(wrappedDrawable);
         ((MainActivity)getActivity()).pauseImageView.setBackground(wrappedDrawable);
         IconColorChange(getResources().getColor(R.color.RelaxingFragmentColor),R.drawable.ic_timer_start);
-       // MainActivity.timerStartImageView.setBackground(wrappedDrawable);
         ((MainActivity)getActivity()).timerStartImageView.setBackground(wrappedDrawable);
         IconColorChange(getResources().getColor(R.color.RelaxingFragmentColor),R.drawable.ic_timer_black);
-        //MainActivity.timerImageView.setBackground(wrappedDrawable);
         ((MainActivity)getActivity()).timerImageView.setBackground(wrappedDrawable);
 
-        // IconColorChange(Color.RED,R.drawable.);
-        //((MainActivity)getActivity()).timerTextVieww.setTextColor(getResources().getColor(R.color.RelaxingFragmentColor));
         ((MainActivity)getActivity()).Companion.setTimerView(timerView);
         timerView.setTextColor(getResources().getColor(R.color.RelaxingFragmentColor));
         IconColorChange(getResources().getColor(R.color.RelaxingFragmentColor),R.drawable.ic_music_video_black_24dp);

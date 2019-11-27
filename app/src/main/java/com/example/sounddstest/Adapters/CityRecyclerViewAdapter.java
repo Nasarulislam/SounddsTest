@@ -153,7 +153,8 @@ public class CityRecyclerViewAdapter extends RecyclerView.Adapter<CityRecyclerVi
        /* listner = new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
             public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-               *//* Log.d("bottomsheetdata", "isible "+ s );
+               */
+       /* Log.d("bottomsheetdata", "isible "+ s );
                 //   if (s.equals("bottomsheetvalue"))
                // Unselected();
                 Log.d("bottomsheetdata", "isib" );
@@ -180,7 +181,8 @@ public class CityRecyclerViewAdapter extends RecyclerView.Adapter<CityRecyclerVi
                         Log.d("qwertyu", "visible" + seekbarlist);
 
                     }
-                }*//*
+                }*/
+       /*
                if (s.equals("bottomsheetvalue")) {
                   // notifyItemChanged(1);
                    notifyDataSetChanged();

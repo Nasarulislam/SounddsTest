@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text=" "
+            android:text="Water Sounds "
             android:textSize="20dp"
             android:textColor="@color/waterFragmentColor"
             android:padding="5dp"
@@ -43,7 +43,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/thirdRecyclerView"
+            android:id="@+id/forthRecyclerView"
             android:padding="10dp">
 
         </androidx.recyclerview.widget.RecyclerView>

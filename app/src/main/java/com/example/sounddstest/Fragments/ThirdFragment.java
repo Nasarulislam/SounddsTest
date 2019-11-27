@@ -2,19 +2,27 @@ package com.example.sounddstest.Fragments;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.widget.TextView;
 
 import com.example.sounddstest.Activitys.MainActivity;
+import com.example.sounddstest.Adapters.NatureRecyclerViewAdapter;
 import com.example.sounddstest.Adapters.RecyclerViewAdapter;
+import com.example.sounddstest.Adapters.RelaxingRecyclerViewAdapter;
 import com.example.sounddstest.JSONStringFileAudiomix;
 import com.example.sounddstest.R;
 import com.google.gson.Gson;
@@ -22,65 +30,43 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.example.sounddstest.Activitys.MainActivity.bottomNavigationView;
 import static com.example.sounddstest.Activitys.MainActivity.linearLayout;
+import static com.example.sounddstest.Activitys.MainActivity.timerView;
+//import static com.example.sounddstest.Activitys.MainActivity.timertextView;
 
 
 public class ThirdFragment extends Fragment {
 
-
     Button soundbutton;
-    RecyclerView recyclerView;
-    RecyclerViewAdapter recyclerViewAdapter;
-    SharedPreferences sharedPreferences;
-    View rootView;
-    SharedPreferences shared;
-    Set<String> set;
 
+    // Button soundbutton;
+    RecyclerView recyclerView;
+    NatureRecyclerViewAdapter recyclerViewAdapter;
+    SharedPreferences sharedPreferences;
+    Drawable wrappedDrawable;
+    public static List<JSONStringFileAudiomix> formList1;
+    TextView relaxingFragmenttext;
+    //public  static MediaPlayer mediaPlayer2;
     public static List<Integer> Volumevalues = new ArrayList<Integer>();
     public static List<Integer> Volumevposition = new ArrayList<Integer>();
-
-  //  lateinit var mediaPlayerHashMap: HashMap<String, MediaPlayer>
-    public static HashMap<String, Integer>volumeHashMap;
-
-    public static List<JSONStringFileAudiomix> formList1;
-    public static List<String> rainPlayList;
     public ThirdFragment(List<JSONStringFileAudiomix> formList1) {
         // Required empty public constructor
         this.formList1=formList1;
     }
-    public ThirdFragment(){
+    public ThirdFragment() {
+        // Required empty public constructor
 
     }
 
-
-
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         formList1= new ArrayList<>();
-       shared= getContext().getSharedPreferences("App_settings", MODE_PRIVATE);
-     set = shared.getStringSet("RAIN_SOUNDS", null);
-     rainPlayList=new ArrayList<>();
-        volumeHashMap=new HashMap<>();
-       /* formList1.add("Red");
-        formList1.add("Green");
-        formList1.add("blue");
-        formList1.add("Red");
-        formList1.add("Green");
-        formList1.add("blue");
-        formList1.add("Red");
-        formList1.add("Green");
-        formList1.add("blue");
-        formList1.add("Red");
-        formList1.add("Green");
-        formList1.add("blue");*/
     }
 
     @SuppressLint("ResourceAsColor")
@@ -88,48 +74,38 @@ public class ThirdFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-         rootView=inflater.inflate(R.layout.fragment_city_sounds, container, false);
-      //  soundbutton = rootView.findViewById(R.id.sound1);
-      //  mediaPlayer1 = MediaPlayer.create(rootView.getCoRntext(), R.raw.ambience_campfire);
-     //   bottomNavigationView.setBackground(getResources().getDrawable(R.color.CityFragmentColor));
-       // linearLayout.setBackground(getResources().getDrawable(R.color.CityFragmentColor));
-        //imageView.setColorFilter(R.color.RainFragmentColor);
-        //imageView1.setColorFilter(R.color.RainFragmentColor);
-        //imageView2.setColorFilter(R.color.RainFragmentColor);
-        shared= getContext().getSharedPreferences("App_settings", MODE_PRIVATE);
-        set = shared.getStringSet("RAIN_SOUNDS", null);
-        rainPlayList=new ArrayList<>();
-       // rootView.setBackground(getResources().getDrawable(R.color.colorPrimaryDark));
-        loadData();
-        //reloadRecyclerview((MainActivity) getActivity());
-        recyclerView=rootView.findViewById(R.id.thirdRecyclerView);
-        recyclerViewAdapter=new RecyclerViewAdapter(getActivity(),formList1,(MainActivity)getActivity());
+        View rootview=inflater.inflate(R.layout.fragment_city_sounds, container, false);
 
-      //  recyclerViewAdapter.notifyDataSetChanged();
+
+        loadData();
+        recyclerView=rootview.findViewById(R.id.thirdRecyclerView);
+        recyclerViewAdapter=new NatureRecyclerViewAdapter(getActivity(),formList1,(MainActivity) getActivity());
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 3);
         recyclerView.setLayoutManager(mLayoutManager);
-       // recyclerView.setAdapter(recyclerViewAdapter);
+        recyclerView.setAdapter(recyclerViewAdapter);
 
-        /*soundbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        IconColorChange(getResources().getColor(R.color.CityFragmentColor),R.drawable.ic_volume_up_black_list);
+        ((MainActivity)getActivity()).listimageView.setBackground(wrappedDrawable);
+        IconColorChange(getResources().getColor(R.color.CityFragmentColor),R.drawable.ic_play_arrow_black);
+        ((MainActivity)getActivity()).playImageView.setBackground(wrappedDrawable);
+        IconColorChange(getResources().getColor(R.color.CityFragmentColor),R.drawable.ic_pause_black_24dp);
+        ((MainActivity)getActivity()).pauseImageView.setBackground(wrappedDrawable);
+        IconColorChange(getResources().getColor(R.color.CityFragmentColor),R.drawable.ic_timer_start);
+        ((MainActivity)getActivity()).timerStartImageView.setBackground(wrappedDrawable);
+        IconColorChange(getResources().getColor(R.color.CityFragmentColor),R.drawable.ic_timer_black);
+        ((MainActivity)getActivity()).timerImageView.setBackground(wrappedDrawable);
+        ((MainActivity) getActivity()).timerTextVieww.setTextColor(getResources().getColor(R.color.CityFragmentColor));
+        IconColorChange(getResources().getColor(R.color.CityFragmentColor),R.drawable.ic_music_video_black_24dp);
+        relaxingFragmenttext=(TextView)rootview.findViewById(R.id.CityFragmentColor);
+        relaxingFragmenttext.setTextColor(getResources().getColor(R.color.CityFragmentColor));
 
-            MainActivity.mediaPlayer.start();
-
-            }
-        });*/
-
-        return rootView;
-    }
-
-    public void setRecyclerView(){
-
+        return rootview;
     }
     private void loadData() {
         // SharedPreferences
         sharedPreferences = getContext().getSharedPreferences("sharedpreferences", MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = sharedPreferences.getString(getResources().getString(R.string.RainJsonData), null);
+        String json = sharedPreferences.getString(getResources().getString(R.string.RelaxingJsonData), null);
         /*if (json!=null)
             Log.d("shared",""+json);*/
         Type type = new TypeToken<List<JSONStringFileAudiomix>>() {}.getType();
@@ -143,31 +119,32 @@ public class ThirdFragment extends Fragment {
        /* RecyclerViewAdapter myadapter=new RecyclerViewAdapter(this,lstJSONStringFile);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(myadapter);*/
-       // setuprecycleview(formList);
+        // setuprecycleview(formList);
 
     }
-    public void reloadRecyclerview(MainActivity activity){
-
-      //  recyclerViewAdapter.notifyDataSetChanged();
-        rainPlayList=new ArrayList<>();
-        shared= activity.getSharedPreferences("App_settings", MODE_PRIVATE);
-        Set<String> set = new HashSet<String>();
-        set= shared.getStringSet("RAIN_SOUNDS", null);
-        Log.d("thtyty","1"+set);
-        rainPlayList.addAll(set);
-        Log.d("thtyty",rainPlayList+"1"+set);
-        //recyclerViewAdapter.setItems(rainPlayList);
-        RecyclerViewAdapter recyclerViewAdapter=new RecyclerViewAdapter(activity,formList1,(MainActivity)getActivity());
-        recyclerViewAdapter.notifyDataSetChanged();
-
-       // recyclerViewAdapter.set
-        /*RecyclerView recyclerView=rootView.findViewById(R.id.recyclerView);
-        RecyclerViewAdapter recyclerViewAdapter=new RecyclerViewAdapter(activity,formList1);
-        recyclerViewAdapter.notifyDataSetChanged();
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(activity, 3);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setAdapter(recyclerViewAdapter);*/
-
+    public void IconColorChange(Integer color,Integer integer){
+        Drawable unwrappedDrawable = AppCompatResources.getDrawable(getContext(),integer );
+        wrappedDrawable= DrawableCompat.wrap(unwrappedDrawable);
+        DrawableCompat.setTint(wrappedDrawable, color);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        IconColorChange(getResources().getColor(R.color.CityFragmentColor),R.drawable.ic_volume_up_black_list);
+        ((MainActivity)getActivity()).listimageView.setBackground(wrappedDrawable);
+
+        IconColorChange(getResources().getColor(R.color.CityFragmentColor),R.drawable.ic_play_arrow_black);
+        ((MainActivity)getActivity()).playImageView.setBackground(wrappedDrawable);
+        IconColorChange(getResources().getColor(R.color.CityFragmentColor),R.drawable.ic_pause_black_24dp);
+        ((MainActivity)getActivity()).pauseImageView.setBackground(wrappedDrawable);
+        IconColorChange(getResources().getColor(R.color.CityFragmentColor),R.drawable.ic_timer_start);
+        ((MainActivity)getActivity()).timerStartImageView.setBackground(wrappedDrawable);
+        IconColorChange(getResources().getColor(R.color.CityFragmentColor),R.drawable.ic_timer_black);
+        ((MainActivity)getActivity()).timerImageView.setBackground(wrappedDrawable);
+
+        ((MainActivity)getActivity()).Companion.setTimerView(timerView);
+        timerView.setTextColor(getResources().getColor(R.color.CityFragmentColor));
+        IconColorChange(getResources().getColor(R.color.CityFragmentColor),R.drawable.ic_music_video_black_24dp);
+    }
 }

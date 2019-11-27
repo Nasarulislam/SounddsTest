@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sounddstest.Activitys.MainActivity;
+import com.example.sounddstest.Adapters.NatureRecyclerViewAdapter;
 import com.example.sounddstest.Adapters.RecyclerViewAdapter;
 import com.example.sounddstest.JSONStringFileAudiomix;
 import com.example.sounddstest.R;
@@ -37,7 +38,7 @@ public class waterFragment extends Fragment {
 
     Button soundbutton;
     RecyclerView recyclerView;
-    RecyclerViewAdapter recyclerViewAdapter;
+    NatureRecyclerViewAdapter recyclerViewAdapter;
     SharedPreferences sharedPreferences;
     View rootView;
     SharedPreferences shared;
@@ -58,8 +59,6 @@ public class waterFragment extends Fragment {
     public waterFragment(){
 
     }
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,7 +87,7 @@ public class waterFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-         rootView=inflater.inflate(R.layout.fragment_city_sounds, container, false);
+         rootView=inflater.inflate(R.layout.fragment_water_sounds, container, false);
       //  soundbutton = rootView.findViewById(R.id.sound1);
       //  mediaPlayer1 = MediaPlayer.create(rootView.getCoRntext(), R.raw.ambience_campfire);
      //   bottomNavigationView.setBackground(getResources().getDrawable(R.color.waterFragmentColor));
@@ -102,12 +101,14 @@ public class waterFragment extends Fragment {
        // rootView.setBackground(getResources().getDrawable(R.color.colorPrimaryDark));
         loadData();
         //reloadRecyclerview((MainActivity) getActivity());
-        recyclerView=rootView.findViewById(R.id.thirdRecyclerView);
-        recyclerViewAdapter=new RecyclerViewAdapter(getActivity(),formList1,(MainActivity)getActivity());
-
-      //  recyclerViewAdapter.notifyDataSetChanged();
+        recyclerView=rootView.findViewById(R.id.forthRecyclerView);
+        recyclerViewAdapter=new NatureRecyclerViewAdapter(getActivity(),formList1,(MainActivity) getActivity());
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 3);
         recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setAdapter(recyclerViewAdapter);
+      //  recyclerViewAdapter.notifyDataSetChanged();
+        //RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 3);
+        //recyclerView.setLayoutManager(mLayoutManager);
        // recyclerView.setAdapter(recyclerViewAdapter);
 
         /*soundbutton.setOnClickListener(new View.OnClickListener() {

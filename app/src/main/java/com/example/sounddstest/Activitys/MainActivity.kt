@@ -1,31 +1,26 @@
 package com.example.sounddstest.Activitys
 
 import android.app.AlertDialog
-import android.app.Dialog
 import android.app.NotificationManager
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Color
 import android.graphics.PorterDuff
-import android.graphics.drawable.Drawable
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.PersistableBundle
 import android.provider.Settings
 import android.util.Log
-import android.view.KeyEvent
-import android.view.MenuItem
 import android.view.View
-import android.widget.*
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -35,28 +30,23 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import com.example.sounddstest.Adapters.TimerListAdapter
+import com.example.sounddstest.Fragments.RainFragment.formList1
 import com.example.sounddstest.JSONStringFileAudiomix
+import com.example.sounddstest.Overlay.FloatingWidgetShowService
 import com.example.sounddstest.PlayListDialog
 import com.example.sounddstest.R
-import com.example.sounddstest.Fragments.RainFragment
-import com.example.sounddstest.Fragments.RainFragment.formList1
-import com.example.sounddstest.Overlay.FloatingWidgetShowService
 import com.example.sounddstest.Services.MediaPlayerService
 import com.example.sounddstest.Services.MediaPlayerServiceSecond
 import com.example.sounddstest.TImerListDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.internal.ContextUtils.getActivity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.play_list.*
 import org.json.JSONException
 import org.json.JSONObject
-import java.util.ArrayList
-import java.util.HashMap
-import java.util.HashSet
+import java.util.*
 import kotlin.properties.Delegates
+
 //import kotlinx.android.synthetic.main.activity_main.timerTextView as timerTextView1
 
 class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListener {
@@ -67,8 +57,8 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
     public lateinit var pauseImageView: ImageView
     public lateinit var ListPlaySound: ImageView
 
-    public  lateinit var timerStartImageView: ImageView
-    public  lateinit var timerImageView: ImageView
+    public lateinit var timerStartImageView: ImageView
+    public lateinit var timerImageView: ImageView
     lateinit var timerTextVieww: TextView
 
     public lateinit var PlayRelativee: RelativeLayout
@@ -76,10 +66,10 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
     //public lateinit var relativeTimerStart:RelativeLayout
     //public lateinit var relativeTimerStopp:RelativeLayout
 
-    public lateinit var timeString:String
-    public lateinit var relativeTimerStartt:RelativeLayout
-    public lateinit var relativeTimerStopp:RelativeLayout
-    public lateinit var timerRelativee:RelativeLayout
+    public lateinit var timeString: String
+    public lateinit var relativeTimerStartt: RelativeLayout
+    public lateinit var relativeTimerStopp: RelativeLayout
+    public lateinit var timerRelativee: RelativeLayout
 
     internal lateinit var sharedPreferences: SharedPreferences
     private var JSON_URL: String? = null
@@ -89,13 +79,14 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
     private var RelaxingJsonData: String? = null
     private val seekbarlist = ArrayList<String>()
     private var mAudioManager: AudioManager? = null
-    lateinit var alertDialog:AlertDialog
-    lateinit var floatingIntent:Intent
+    lateinit var alertDialog: AlertDialog
+    lateinit var floatingIntent: Intent
     var id by Delegates.notNull<Int>()
     val SYSTEM_ALERT_WINDOW_PERMISSION = 7
-//
-    public    var countDownTimer: CountDownTimer?=null
+    //
+    public var countDownTimer: CountDownTimer? = null
     lateinit var context: Context
+
     //lateinit var countDownTimer: CountDownTimer
     public companion object {
         var rainFragment = com.example.sounddstest.Fragments.RainFragment()
@@ -116,89 +107,89 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
         lateinit var volumeSeekbar: ArrayList<Int>
         lateinit var ListvolumeSeekbar: ArrayList<Int>
         var cuphoneVolume: Int = 0
-        lateinit var timeString:String
-        lateinit var relativeTimerStart:RelativeLayout
-        lateinit var relativeTimerStop:RelativeLayout
-        lateinit var timerRelative:RelativeLayout
-       // fun countDwn(stime: Int):Int =1
+        lateinit var timeString: String
+        lateinit var relativeTimerStart: RelativeLayout
+        lateinit var relativeTimerStop: RelativeLayout
+        lateinit var timerRelative: RelativeLayout
+        // fun countDwn(stime: Int):Int =1
         //lateinit
-       // lateinit var countDownTimer: CountDownTimer
-      //  lateinit var timerTextView:TextView
+        // lateinit var countDownTimer: CountDownTimer
+        //  lateinit var timerTextView:TextView
         lateinit var activity: TImerListDialog
         lateinit var sharedPreferences: SharedPreferences
         lateinit var stringImageName: String
-          var   secoundsleftPause:Long=0
+        var secoundsleftPause: Long = 0
         lateinit var cardView: CardView
         lateinit var timerView: TextView
 
-         var playingBolean:Boolean=false
+        var playingBolean: Boolean = false
 
-         lateinit var PlayRelativ: RelativeLayout
-         lateinit var PuaseRelativ: RelativeLayout
+        lateinit var PlayRelativ: RelativeLayout
+        lateinit var PuaseRelativ: RelativeLayout
 
-        fun dismisTimer(context: Context,activity: MainActivity){
-            val tImerListDialog=TImerListDialog(context,activity)
-            Log.d("axerfbgtghn", "ok" )
+        fun dismisTimer(context: Context, activity: MainActivity) {
+            val tImerListDialog = TImerListDialog(context, activity)
+            Log.d("axerfbgtghn", "ok")
             tImerListDialog.dismiss()
 
 
         }
 
 
-
     }
+
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        timerTextVieww =findViewById(R.id.timerTextView)
+        Log.d("uhhjhuhjh", "nasaru")
+        timerTextVieww = findViewById(R.id.timerTextView)
         JSON_URL = resources.getString(R.string.JSON_URL)
         RainJSON_URL = resources.getString(R.string.RainJSON_URL)
-        RainJsonData=resources.getString(R.string.RainJsonData)
-        RelaxingJsonData=resources.getString(R.string.RelaxingJsonData)
+        RainJsonData = resources.getString(R.string.RainJsonData)
+        RelaxingJsonData = resources.getString(R.string.RelaxingJsonData)
 
-        activity=TImerListDialog(this, this)
+        activity = TImerListDialog(this, this)
         formList = ArrayList()
-        seekbarlistsub=ArrayList()
+        seekbarlistsub = ArrayList()
         //mediaPlayerHashMap = HashMap()
-        VolumeHashMap= HashMap()
-        volumeSeekbar= ArrayList()
+        VolumeHashMap = HashMap()
+        volumeSeekbar = ArrayList()
 
-        relativeTimerStart=findViewById(R.id.relative_timer_start)as RelativeLayout
-        relativeTimerStop=findViewById(R.id.relative_timer_stop)as RelativeLayout
-        relativeTimerStartt=findViewById(R.id.relative_timer_start)as RelativeLayout
-        relativeTimerStopp=findViewById(R.id.relative_timer_stop)as RelativeLayout
-        timerRelative=findViewById(R.id.timer_relative)
+        relativeTimerStart = findViewById(R.id.relative_timer_start) as RelativeLayout
+        relativeTimerStop = findViewById(R.id.relative_timer_stop) as RelativeLayout
+        relativeTimerStartt = findViewById(R.id.relative_timer_start) as RelativeLayout
+        relativeTimerStopp = findViewById(R.id.relative_timer_stop) as RelativeLayout
+        timerRelative = findViewById(R.id.timer_relative)
 
-         listimageView=findViewById(R.id.listPlaySound)as ImageView
-         playImageView=findViewById(R.id.playImage)as ImageView
-         pauseImageView=findViewById(R.id.puaseImage)as ImageView
-         timerStartImageView=findViewById(R.id.timerStart)as ImageView
-         timerImageView=findViewById(R.id.timerImage)as ImageView
+        listimageView = findViewById(R.id.listPlaySound) as ImageView
+        playImageView = findViewById(R.id.playImage) as ImageView
+        pauseImageView = findViewById(R.id.puaseImage) as ImageView
+        timerStartImageView = findViewById(R.id.timerStart) as ImageView
+        timerImageView = findViewById(R.id.timerImage) as ImageView
 
-        PlayRelativee=findViewById(R.id.playRelative)as RelativeLayout
-        PuaseRelativee=findViewById(R.id.puaseRelative)as RelativeLayout
-        PlayRelativ=findViewById(R.id.playRelative)as RelativeLayout
-        PuaseRelativ=findViewById(R.id.puaseRelative)as RelativeLayout
-      //timerTextView=findViewById(R.id.timerTextView)as ImageView
+        PlayRelativee = findViewById(R.id.playRelative) as RelativeLayout
+        PuaseRelativee = findViewById(R.id.puaseRelative) as RelativeLayout
+        PlayRelativ = findViewById(R.id.playRelative) as RelativeLayout
+        PuaseRelativ = findViewById(R.id.puaseRelative) as RelativeLayout
+        //timerTextView=findViewById(R.id.timerTextView)as ImageView
         //listimageView.setColorFilter(R.color.colorAccent)
         //listimageView.colorFilter.
 
-       // timerTextView =findViewById(R.id.timerTextView)as TextViewLog.d("xtfcvv","above text")
-        Log.d("xtfcvv","above text inititalise")
+        // timerTextView =findViewById(R.id.timerTextView)as TextViewLog.d("xtfcvv","above text")
+        Log.d("xtfcvv", "above text inititalise")
 
         //timerTextVieww.text="fgekfaj"
-        cardView=findViewById(R.id.disCardView)
-       /* relativeTimerStop.setOnClickListener {
-            relativeTimerStop.visibility=View.GONE
-            relativeTimerStart.visibility=View.VISIBLE
-        }
-        relativeTimerStart.setOnClickListener {
-            relativeTimerStart.visibility=View.GONE
-            relativeTimerStop.visibility=View.VISIBLE
-        }*/
+        cardView = findViewById(R.id.disCardView)
+        /* relativeTimerStop.setOnClickListener {
+             relativeTimerStop.visibility=View.GONE
+             relativeTimerStart.visibility=View.VISIBLE
+         }
+         relativeTimerStart.setOnClickListener {
+             relativeTimerStart.visibility=View.GONE
+             relativeTimerStop.visibility=View.VISIBLE
+         }*/
 
         val host: NavHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
@@ -206,31 +197,34 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
         appBarConfiguration = AppBarConfiguration(navController.graph)
 
         //  bottom_navigation.setupWithNavController(navController)
-        NavigationUI.setupWithNavController(bottom_navigation,navController)
+        NavigationUI.setupWithNavController(bottom_navigation, navController)
         jsontest(RainJSON_URL!!, RainJsonData!!)
         jsontest(JSON_URL!!, RelaxingJsonData!!)
 
         //soundIni()
-        bottomNavigationView=findViewById(R.id.bottom_navigation)
-        linearLayout=findViewById(R.id.linearMain)
-            //        rainFragment = supportFragmentManager.findFragmentById(R.id.rainFragment) as RainFragment
+        bottomNavigationView = findViewById(R.id.bottom_navigation)
+
+        linearLayout = findViewById(R.id.linearMain)
+        //        rainFragment = supportFragmentManager.findFragmentById(R.id.rainFragment) as RainFragment
         // rainFragment.callAboutUsActivity()
         shared = getSharedPreferences("App_settings", Context.MODE_PRIVATE)
-    // Clear Seekbarlist
+        // Clear Seekbarlist
         //rainFragment= RainFragment()
-     /*  val editor = shared.edit()
-        editor.remove("RAIN_SOUNDS")
-        editor.remove("RELAXING_SOUNDS")
-        editor.remove("LIST_SOUNDS")
-        editor.remove("position")
-        editor.commit()*/
+        /*  val editor = shared.edit()
+           editor.remove("RAIN_SOUNDS")
+           editor.remove("RELAXING_SOUNDS")
+           editor.remove("LIST_SOUNDS")
+           editor.remove("position")
+           editor.commit()*/
 
-        timerView =findViewById(R.id.timerTextView)
-        val ss:Boolean = intent.getBooleanExtra("fromwidget",false)
-        if (ss){
+        timerView = findViewById(R.id.timerTextView)
+        val ss: Boolean = intent.getBooleanExtra("fromwidget", false)
+        if (ss) {
             finish()
         }
         cardView.visibility = View.GONE
+
+        // Playing Sounds in Listview
         val set5 = shared.getStringSet("LIST_SOUNDS", null)
         if (set5 != null)
             (seekbarlistsub as ArrayList<String>).addAll(set5)
@@ -239,32 +233,18 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
         } else {
             cardView.visibility = View.GONE
         }
-
+// for volume control
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         cuphoneVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
         MAX_VOLUME = cuphoneVolume * 10
-
         mAudioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-       /* mAudioManager.requestAudioFocus(
-            this,
-            AudioManager.STREAM_MUSIC,
-            AudioManager.AUDIOFOCUS_GAIN
-        )*/
 
-        var iconpos = shared.getBoolean("puaseIcon", false)
-      //  TimerImage=findViewById(R.id.timerImage)as ImageView
-    /*    TimerImage.setOnClickListener {
-           // rainFragment.reloadRecyclerview(this)
-            *//*  if(mediaPlayer.isPlaying)
-              mediaPlayer.stop()*//*
-           soundIni()
-            //playmedia()
-        }*/
+// Overlay
         alertDialog = AlertDialog.Builder(this).create()
         floatingIntent = Intent(this, FloatingWidgetShowService::class.java)
-        timerView.text=intent.getStringExtra("exercise")
-        if (timerView.text!=null)
-        Log.d("exercisekn",""+ timerView.text)
+        timerView.text = intent.getStringExtra("exercise")
+        if (timerView.text != null)
+            Log.d("exercisekn", "" + timerView.text)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
             alertDialog.setTitle(resources.getString(R.string.overlay_permission_request))
             alertDialog.setMessage(resources.getString(R.string.overay_permission_message))
@@ -275,58 +255,51 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
                     RuntimePermissionForUser()
                 })
 
-                alertDialog.show()
+            alertDialog.show()
         }
 
-        val floatingWidgetShowService= FloatingWidgetShowService();
+        val floatingWidgetShowService = FloatingWidgetShowService();
         floatingWidgetShowService.stopSelf();
-        timerRelative.setOnClickListener {
-            Log.d("asdfghjkhgghjg","dane")
 
-            val tImerListDialog=TImerListDialog(this,this)
+        // Set Timer
+        timerRelative.setOnClickListener {
+            Log.d("asdfghjkhgghjg", "dane")
+
+            val tImerListDialog = TImerListDialog(this, this)
             tImerListDialog.show()
         }
-        PlayRelativee=findViewById(R.id.playRelative)as RelativeLayout
+
+        // Play Puase button
+        PlayRelativee = findViewById(R.id.playRelative) as RelativeLayout
         PlayRelativee.setOnClickListener {
-            PuaseRelativee.visibility=View.VISIBLE
-            PlayRelativee.visibility=View.GONE
+            PuaseRelativee.visibility = View.VISIBLE
+            PlayRelativee.visibility = View.GONE
             MediaPlayerService.resumeMedia()
+            Log.d("timeeer", "")
+            try {
+                if (secoundsleftPause > 0) {
+                    countDownTimer?.cancel()
+                    countdown(secoundsleftPause, this)
+                }
 
-           // MainActivity.countDownTimer.onTick(secoundsleftPause)
-           // MainActivity.countDownTimer.start()
 
-            Log.d("timeeer","")
-            if (secoundsleftPause>0) {
-                countDownTimer?.cancel()
-                countdown(secoundsleftPause, this)
+                val intent = Intent(applicationContext, MediaPlayerServiceSecond::class.java)
+                // val intent = Intent(this, MediaPlayerServiceSecond.ACTION_NEXT::class.java)
+                // intent.putExtra("Activity",applicationContext)
+                intent.action = MediaPlayerServiceSecond.ACTION_NEXT
+                startService(intent)
+            } catch (e: Exception) {
             }
 
-
-            val intent = Intent(applicationContext, MediaPlayerServiceSecond::class.java)
-           // val intent = Intent(this, MediaPlayerServiceSecond.ACTION_NEXT::class.java)
-           // intent.putExtra("Activity",applicationContext)
-            intent.action = MediaPlayerServiceSecond.ACTION_NEXT
-            startService(intent)
-            /*if (!iconpos) {
-                PlaypuaseImage.setBackgroundResource(R.drawable.ic_play_arrow_black)
-                MediaPlayerService.pauseMedia()
-                iconpos=true;
-            }
-            else{
-                PlaypuaseImage.setBackgroundResource(R.drawable.ic_pause_black_24dp)
-                MediaPlayerService.resumeMedia()
-                iconpos=false;
-            }*/
-         //   stopmedia()
         }
-        PuaseRelativee=findViewById(R.id.puaseRelative)as RelativeLayout
+        PuaseRelativee = findViewById(R.id.puaseRelative) as RelativeLayout
         PuaseRelativee.setOnClickListener {
-           PuaseRelativee.visibility=View.GONE
-            PlayRelativee.visibility=View.VISIBLE
+            PuaseRelativee.visibility = View.GONE
+            PlayRelativee.visibility = View.VISIBLE
 
             MediaPlayerService.pauseMedia()
-            if (countDownTimer!=null)
-            countDownTimer?.cancel()
+            if (countDownTimer != null)
+                countDownTimer?.cancel()
             //countdown(100)
             val intent = Intent(applicationContext, MediaPlayerServiceSecond::class.java)
             //intent.action = MediaPlayerServiceSecond.ACTION_NEXT
@@ -335,94 +308,111 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
             //val intent = Intent(this, MediaPlayerServiceSecond.ACTION_PREVIOUS::class.java)
             startService(intent)
         }
-        ListPlaySound=findViewById(R.id.listPlaySound)as ImageView
-       // imageView2.setColorFilter(resources.getColor(R.color.RainFragmentColor))
-        ListPlaySound.setColorFilter(ListPlaySound.getContext().getResources().getColor(R.color.RainFragmentColor), PorterDuff.Mode.SRC_ATOP);
-        ListPlaySound.setOnClickListener {
-            loadData(RainJsonData!!)
-            val playListDialog = PlayListDialog(this,this, formList1)
-            val set4 = shared.getStringSet("LIST_SOUNDS", null)
-            if (set4 != null) {
-                seekbarlist.clear()
-                seekbarlist.addAll(set4)
-            }
-            Log.d("asdfghjk", "15$seekbarlist")
-            val stg4 = seekbarlist.toTypedArray()
-            for (s in stg4) {
-                if (seekbarlist.indexOf(s) != seekbarlist.lastIndexOf(s)) {
-                    seekbarlist.removeAt(seekbarlist.lastIndexOf(s))
-                }
-            }
-            Log.d("asdfghjk", "25$seekbarlist")
-            if (seekbarlist.size > 0)
-            playListDialog.show()
-        }
-           var countDownTimer: CountDownTimer?=null
-     //   if ((this as MainActivity).countDownTimer!=null)
-            if (countDownTimer!=null)
-        {   relativeTimerStart.setVisibility(View.VISIBLE);
-        relativeTimerStop.setVisibility(View.GONE);}
-        else
-        {  relativeTimerStop.setVisibility(View.VISIBLE);
-        relativeTimerStart.setVisibility(View.GONE);}
 
-       /* MediaPlayerService.PlayingMedia()
-        Log.d("hkjjkbjkj", "ok" + playingBolean)
-        if (playingBolean) {
-            PuaseRelativee.visibility=View.VISIBLE
-            PlayRelativee.visibility=View.GONE
+        // Play List
+        ListPlaySound = findViewById(R.id.listPlaySound) as ImageView
+        ListPlaySound.setColorFilter(
+            ListPlaySound.getContext().getResources().getColor(R.color.RainFragmentColor),
+            PorterDuff.Mode.SRC_ATOP
+        );
+        ListPlaySound.setOnClickListener {
+            try {
+                loadData(RainJsonData!!)
+                val playListDialog = PlayListDialog(this, this, formList1)
+                val set4 = shared.getStringSet("LIST_SOUNDS", null)
+                if (set4 != null) {
+                    seekbarlist.clear()
+                    seekbarlist.addAll(set4)
+                }
+                Log.d("asdfghjk", "15$seekbarlist")
+                val stg4 = seekbarlist.toTypedArray()
+                for (s in stg4) {
+                    if (seekbarlist.indexOf(s) != seekbarlist.lastIndexOf(s)) {
+                        seekbarlist.removeAt(seekbarlist.lastIndexOf(s))
+                    }
+                }
+                Log.d("asdfghjk", "25$seekbarlist")
+                if (seekbarlist.size > 0)
+                    playListDialog.show()
+            } catch (e: Exception) {
+            }
         }
-        else{
-            PuaseRelativee.visibility=View.GONE
-            PlayRelativee.visibility=View.VISIBLE
-        }*/
+
+        // Timer Visibility
+        var countDownTimer: CountDownTimer? = null
+        //   if ((this as MainActivity).countDownTimer!=null)
+        if (countDownTimer != null) {
+            relativeTimerStart.setVisibility(View.VISIBLE);
+            relativeTimerStop.setVisibility(View.GONE);
+        } else {
+            relativeTimerStop.setVisibility(View.VISIBLE);
+            relativeTimerStart.setVisibility(View.GONE);
+        }
+
+        // Play Puase Button Visibility
+        try {
+            playingBolean = false
+            MediaPlayerService.PlayingMedia()
+            Log.d("hkjjkbjkj", "ok" + playingBolean)
+            if (playingBolean) {
+                Log.d("uhhjhuhjh", "ok")
+                PuaseRelativee.visibility = View.VISIBLE
+                PlayRelativee.visibility = View.GONE
+            } else {
+                Log.d("uhhjhuhjh", "else")
+
+                PuaseRelativee.visibility = View.GONE
+                PlayRelativee.visibility = View.VISIBLE
+            }
+        } catch (e: Exception) {
+        }
 
 
     }
-    public fun countdown(stime:Long, activity: MainActivity ) {
-         countDownTimer = object : CountDownTimer((stime  ).toLong(), 1000) {
+
+    // Timer CountDown Funtion
+    public fun countdown(stime: Long, activity: MainActivity) {
+        countDownTimer = object : CountDownTimer((stime).toLong(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 Log.d("bbbbbb", "" + stime)
-
-                updateTimer(millisUntilFinished.toInt() / 1000,activity)
-                secoundsleftPause= millisUntilFinished
-                MediaPlayerServiceSecond.secondspause=millisUntilFinished
+                updateTimer(millisUntilFinished.toInt() / 1000, activity)
+                secoundsleftPause = millisUntilFinished
+                MediaPlayerServiceSecond.secondspause = millisUntilFinished
 
             }
+
             override fun onFinish() {
-                //UltraPagerAdapter.countDownextview.setText("0");
-                /* val linearLayout = window.decorView.findViewWithTag(ultraViewPager.getCurrentItem())
-                 val textView = linearLayout.findViewById(R.id.pager_textview)*/
-                //( this.activity as MainActivity).timerTextVieww.text=("00:00")
-                // textView.setText(stime);
-                // TimerListAdapter.dismissSharedPreferences.edit().putInt("position", 0).commit();
-                // buttonContinue.setText("Continue")
+                if (countDownTimer != null)
+                    countDownTimer?.cancel()
+                secoundsleftPause = 0
+                MediaPlayerServiceSecond.secondspause = 0
+                try {
+                    relativeTimerStop.visibility = View.VISIBLE
+                    relativeTimerStart.visibility = View.GONE
+                    Log.d("jbdbjknk", "okokko")
+                    MediaPlayerService.pauseMedia()
 
-                relativeTimerStop.visibility=View.VISIBLE
-                relativeTimerStart.visibility=View.GONE
-                MediaPlayerService.pauseMedia()
+                    PlayRelativ.visibility = View.VISIBLE
+                    PuaseRelativ.visibility = View.GONE
+                    val intent = Intent(applicationContext, MediaPlayerServiceSecond::class.java)
+                    intent.action = MediaPlayerServiceSecond.ACTION_PREVIOUS
+                    startService(intent)
 
-
+                } catch (e: Exception) {
+                }
             }
 
         }.start()
     }
-    public fun updateTimer(secondsLeft: Int,activity: MainActivity) {
 
-        /*val minute = secondsLeft
-         val minuteString = Integer.toString(minute)
-         Log.d("minutemmm", "$minute--$secondsLeft")
+    public fun updateTimer(secondsLeft: Int, activity: MainActivity) {
 
-         timerTextView.setText(minuteString)*/
-        /*   val linearLayout = window.decorView.findViewWithTag(ultraViewPager.getCurrentItem())
-           val textView = linearLayout.findViewById(R.id.pager_textview)
-           textView.setText(minuteString)*/
         val hour = secondsLeft / 3600
         val minute = (secondsLeft - hour * 3600) / 60
         val seconds = secondsLeft - (minute * 60 + hour * 3600)
         val dur = minute * 62000
         val send = seconds * 1050
-        //String durString=Integer.toString(dur);
+
         var secondString = Integer.toString(seconds)
         var minuteString = Integer.toString(minute)
         var hoursString = Integer.toString(hour)
@@ -435,71 +425,20 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
         if (hour <= 9) {
             hoursString = "0$hoursString"
         }
-       //timerTextView.setText(Integer.toString(hour)+":"+Integer.toString(minute)+":"+secondString);
-        // timerTextView.text = "$minuteString:$secondString"
-       // timerTextVieww.text="$minuteString:$secondString"
-        //val textView=fin
-      // timerTextVieww.text="$minuteString:$secondString"
-      // timerTextVieww= getActivity(conte)findViewById(R.id.timerTextView) as TextView
-      // timerTextVieww.setText("$minuteString:$secondString")
-      // timertextView.setText("$minuteString:$secondString")
-      // context=this
-       //activity.startActivity(getIntent())
-      // (this as MainActivity).timerTextVieww.text = "$minuteString:$secondString"
-      /* var textView=activity.findViewById(R.id.timerTextView)as TextView
-       Log.d("dnfi","gone")
-       textView.setText("$minuteString:$secondString")*/
-       // timefun( Companion.timeString)
-       // fl.exerciseTimeUpTextView.text="$minuteString:$secondString"
 
-       MainActivity.timerView.text="$minuteString:$secondString"
-        Companion.timeString ="$minuteString:$secondString"
+        MainActivity.timerView.text = "$minuteString:$secondString"
+        Companion.timeString = "$minuteString:$secondString"
 
     }
-    fun timefun(tempstring: String){
-      // TextView timerTetVieww=findViewById(R.id.timerTextView) as TextView
-         timerTextVieww.setText(tempstring) as TextView
-    }
+
+
+    // Fragment navigation
     override fun onSupportNavigateUp(): Boolean {
         return findNavController(R.id.nav_host_fragment).navigateUp(appBarConfiguration)
     }
-    fun stopmedia() {
-        //   mediaPlayer1 = MediaPlayer.create(this, R.raw.ambience_campfire);
 
-        if (mediaPlayer != null && mediaPlayer.isPlaying) {
-            mediaPlayer.stop()
-            mediaPlayer.release()
-            //mediaPlayer = null
-        }
-        if (mediaPlayer2 != null&& mediaPlayer2.isPlaying) {
-            mediaPlayer2.stop()
-            mediaPlayer2.release()
-            //mediaPlayer = null
-        }
-        if (mediaPlayer3 != null&& mediaPlayer3.isPlaying) {
-            mediaPlayer3.stop()
-            mediaPlayer3.release()
-            //mediaPlayer = null
-        }
-    }
-    fun playmedia(){
-        mediaPlayer.start()
-        mediaPlayer2.start()
-        mediaPlayer3.start()
-    }
-    public  fun soundIni(){
-        mediaPlayer = MediaPlayer.create(applicationContext,
-            R.raw.ambience_campfire
-        )
-        mediaPlayer2 = MediaPlayer.create(applicationContext,
-            R.raw.fire
-        )
-        mediaPlayer3 = MediaPlayer.create(applicationContext,
-            R.raw.owl
-        )
-    }
-
-    private fun jsontest(JSON_URLl:String,SP_String:String) {
+    // Data from server using JSON
+    private fun jsontest(JSON_URLl: String, SP_String: String) {
         Log.d("formList", "2")
         val stringRequest = StringRequest(
             Request.Method.GET, JSON_URLl,
@@ -518,13 +457,7 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
                         //getting the json object of the particular index inside the array
                         val jo_inside = heroArray.getJSONObject(i)
                         Log.d("formList", "3")
-                        //creating a hero object and giving them the values from json object
-                        //  Hero hero = new Hero(heroObject.getString("name"), heroObject.getString("imageurl"));
 
-                        //adding the hero to herolist
-                        //   heroList.add(hero);
-
-                        //  jo_inside=response.getJSONObject(i);
                         val jsonStringFileAudiomix =
                             JSONStringFileAudiomix() //jo_inside.getString("packName")
                         jsonStringFileAudiomix.setPackName(jo_inside.getString("packName"))
@@ -545,7 +478,7 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
                         jsonStringFileAudiomix.setSecondPageImage(jo_inside.getString("secondPageImage"))
 
                         formList?.add(jsonStringFileAudiomix)
-                       // RainFragment.formList1.add(jsonStringFileAudiomix)
+                        // RainFragment.formList1.add(jsonStringFileAudiomix)
                     }
                     Log.d("formList", "" + formList)
                     //creating custom adapter object
@@ -562,7 +495,7 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
                 saveData(SP_String)
             }, Response.ErrorListener { error ->
                 //displaying the error in toast if occurrs
-              //  Toast.makeText(applicationContext, error.message, Toast.LENGTH_SHORT).show()
+                //  Toast.makeText(applicationContext, error.message, Toast.LENGTH_SHORT).show()
             })
 
         val requestQueue = Volley.newRequestQueue(this)
@@ -572,6 +505,8 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
 
         //setuprecycleview(formList);
     }
+
+    // Save Data from server
     private fun saveData(SP_String: String) {   //SharedPreferences
 
         sharedPreferences = getSharedPreferences("sharedpreferences", Context.MODE_PRIVATE)
@@ -585,6 +520,8 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
         loadData(SP_String)
 
     }
+
+    // Load Data
     private fun loadData(SP_String: String) {
         // SharedPreferences
         sharedPreferences = getSharedPreferences("sharedpreferences", Context.MODE_PRIVATE)
@@ -595,85 +532,24 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
         val type = object : TypeToken<List<JSONStringFileAudiomix>>() {
 
         }.type
-        formList = gson.fromJson<List<JSONStringFileAudiomix>>(json, type) as MutableList<JSONStringFileAudiomix>?
+        formList = gson.fromJson<List<JSONStringFileAudiomix>>(
+            json,
+            type
+        ) as MutableList<JSONStringFileAudiomix>?
         Log.d("loaddata", "" + formList)
 
         if (formList == null) {
             formList = ArrayList()
             Log.d("loaddata", "lololo")
         }
-         /*RecyclerViewAdapter myadapter=new RecyclerViewAdapter(this,lstJSONStringFile);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(myadapter);*/
+        /*RecyclerViewAdapter myadapter=new RecyclerViewAdapter(this,lstJSONStringFile);
+       recyclerView.setLayoutManager(new LinearLayoutManager(this));
+       recyclerView.setAdapter(myadapter);*/
         //setuprecycleview(formList)
     }
-  /*  fun updateTimer(secondsLeft: Int) {
-        val minute = secondsLeft / 360
-        val minuteString = Integer.toString(minute)
-        Log.d("minutemmm", "$minute--$secondsLeft")
-        timerTextVieww.setText(minuteString)
-     *//*   val linearLayout = window.decorView.findViewWithTag(ultraViewPager.getCurrentItem())
-        val textView = linearLayout.findViewById(R.id.pager_textview)
-        textView.setText(minuteString)*//*
-    }*/
-  /*  fun countDown(strime: Int) {
 
 
-    }
-    fun countdown(stime:Int ) {
-        countDownTimer = object : CountDownTimer((stime * 60 * 1000 + 59000).toLong(), 1000) {
-            override fun onTick(millisUntilFinished: Long) {
-                Log.d("bbbbbb", "" + stime)
-                updateTimer(millisUntilFinished.toInt() / 1000)
-            }
-            override fun onFinish() {
-                //UltraPagerAdapter.countDownextview.setText("0");
-               *//* val linearLayout = window.decorView.findViewWithTag(ultraViewPager.getCurrentItem())
-                val textView = linearLayout.findViewById(R.id.pager_textview)*//*
-                timerTextVieww.setText("0")
-                // textView.setText(stime);
-                MediaPlayerService.pauseMedia()
-               // buttonContinue.setText("Continue")
-            }
-        }.start()
-    }*/
-  /*  override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        //Handle the back button
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            //Ask the user if they want to quit
-            /// InterstitialAd
-            // interstitialAd();
-            // mInterstitialAd.loadAd(new AdRequest.Builder().build());
-           *//* if (!getPremium.isPurchased) {
-             //   mInterstitialAd.show()
-            }*//*
-            AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
-                //.setIcon(android.R.drawable.ic_dialog_alert)
-                //.setTitle("quit")
-                .setMessage("Are you sure to exit app?")
-                .setPositiveButton("EXIT") { dialog, which ->
-                    //Stop the activity
-                    //this@MainActivity.finish()
-                   // MediaPlayerService.stopMedia()
-                    val stopIntent =
-                        Intent(applicationContext, MediaPlayerServiceSecond::class.java)
-                    stopIntent.setAction(MediaPlayerServiceSecond.ACTION_STOP)
-                    //startService(stopIntent);
-                    // MediaPlayerService.substopMedia();
-                    MediaPlayerService.stopMedia()
-                    stopService(stopIntent)
-                    val floatingWidgetShowService= FloatingWidgetShowService();
-                    floatingWidgetShowService.stopSelf();
-                    finish()
-                }
-                .setNegativeButton("CANCEL", null)
-                .show()
-            return true
-        } else {
-            return super.onKeyDown(keyCode, event)
-        }
-    }
-*/
+    // Audio Focus for call
     override fun onAudioFocusChange(focusChange: Int) {
         val iconpos = shared.getBoolean("puaseIcon", false)
         if (focusChange <= 0) {
@@ -701,22 +577,26 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
             }
         }
     }
+
     public override fun onSaveInstanceState(savedInstanceState: Bundle) {
         savedInstanceState.putBoolean("ServiceState", serviceBound)
         super.onSaveInstanceState(savedInstanceState)
     }
+
     public override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         serviceBound = savedInstanceState.getBoolean("ServiceState")
     }
+
+    // App Destroy
     override fun onDestroy() {
         super.onDestroy()
-       /* if (serviceBound) {
-            unbindService(serviceConnection)
-            mAudioManager.abandonAudioFocus(this)
-            //service is active
-            player.stopSelf()
-        }*/
+        /* if (serviceBound) {
+             unbindService(serviceConnection)
+             mAudioManager.abandonAudioFocus(this)
+             //service is active
+             player.stopSelf()
+         }*/
         val mNotificationManager =
             getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         mNotificationManager.cancel(101)
@@ -727,70 +607,71 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
         stopService(stopIntent)
         shared.edit().putBoolean("puaseIcon", false).apply()
         MediaPlayerService.stopMedia()
-        val floatingWidgetShowService= FloatingWidgetShowService();
+        val floatingWidgetShowService = FloatingWidgetShowService();
         floatingWidgetShowService.stopSelf();
         stopService(floatingIntent)
     }
+
     fun RuntimePermissionForUser() {
 
-        val PermissionIntent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-        Uri.parse("package:$packageName"))
+        val PermissionIntent = Intent(
+            Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+            Uri.parse("package:$packageName")
+        )
         startActivityForResult(PermissionIntent, SYSTEM_ALERT_WINDOW_PERMISSION)
     }
+
+    // OnResume
     override fun onResume() {
 
-        Log.d("lplplpl","done2")
-        val floatingWidgetShowService= FloatingWidgetShowService();
+        Log.d("lplplpl", "done2")
+        val floatingWidgetShowService = FloatingWidgetShowService();
         floatingWidgetShowService.stopSelf();
         stopService(floatingIntent)
-        timerTextVieww=findViewById(R.id.timerTextView)
-        Log.d("lplplpl","done3"+MediaPlayerServiceSecond.playpause)
-       // MediaPlayerService.PlayingMedia()
-        if (MediaPlayerServiceSecond.playpause) {
-            Log.d("lplpjkklpl","done3")
-            PuaseRelativee.visibility=View.VISIBLE
-            PlayRelativee.visibility=View.GONE
-          //  playingBolean=false
-        }
-        else {
-            Log.d("lplpjkklpl","done39")
+        timerTextVieww = findViewById(R.id.timerTextView)
+        Log.d("lplplpl", "done3" + MediaPlayerServiceSecond.playpause)
+        playingBolean = false
+        MediaPlayerService.PlayingMedia()
+        if (playingBolean) {
+            Log.d("lplpjkklpl", "done3")
+            PuaseRelativee.visibility = View.VISIBLE
+            PlayRelativee.visibility = View.GONE
+            //  playingBolean=false
+        } else {
+            Log.d("lplpjkklpl", "done39")
             PuaseRelativee.visibility = View.GONE
             PlayRelativee.visibility = View.VISIBLE
         }
         super.onResume()
     }
+
+    // App Pause
     override fun onPause() {
 
-       // val ss:Boolean = intent.getBooleanExtra("fromwidget",false)
-       // Log.d("jhjkbjkb",""+ss)
-     MediaPlayerService.PlayingMedia()
+        // val ss:Boolean = intent.getBooleanExtra("fromwidget",false)
+        // Log.d("jhjkbjkb",""+ss)
+        playingBolean = false
+        MediaPlayerService.PlayingMedia()
         if (playingBolean) {
             showCard()
 
         }
         super.onPause()
     }
+
+    // App BackPressed
     override fun onBackPressed() {
 
         AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
             //.setIcon(android.R.drawable.ic_dialog_alert)
             //.setTitle("quit")
             .setMessage("Are you sure to exit app?")
-
             .setPositiveButton("EXIT") { dialog, which ->
-                //Stop the activity
-                //this@MainActivity.finish()
-
-                // MediaPlayerService.stopMedia()
                 val stopIntent =
                     Intent(applicationContext, MediaPlayerServiceSecond::class.java)
                 stopIntent.setAction(MediaPlayerServiceSecond.ACTION_STOP)
-                //startService(stopIntent);
-                // MediaPlayerService.substopMedia();
                 MediaPlayerService.stopMedia()
                 stopService(stopIntent)
-               /* val floatingWidgetShowService= FloatingWidgetShowService();
-                floatingWidgetShowService.stopSelf();*/
                 finish()
                 super.onBackPressed()
             }
@@ -798,14 +679,16 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
             .show()
 
     }
+
+    // Overlay calling function
     private fun showCard() {
         Log.d("bhjn", "donme")
         try {
             //  GetPremium getPremium = new GetPremium(this,this);
             floatingIntent = Intent(this, FloatingWidgetShowService::class.java)
-          //  floatingIntent.("Activity",this)
-               floatingIntent.putExtra("exercise", timerView.text)
-           // floatingIntent.putExtra("loop",loop);
+            //  floatingIntent.("Activity",this)
+            floatingIntent.putExtra("exercise", timerView.text)
+            // floatingIntent.putExtra("loop",loop);
             //floatingIntent.putExtra("Activity", activity);
             //  floatingIntent.putExtra("currentExercisePosition",sharedPreferences.getInt("currentExercisePosition",0));
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {

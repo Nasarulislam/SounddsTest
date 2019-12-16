@@ -2,8 +2,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
 
-    android:layout_width="100dp"
-    android:layout_height="100dp"
+    android:layout_width="110dp"
+    android:layout_height="110dp"
     android:padding="5dp"
 android:layout_gravity="center"
     android:layout_centerInParent="true"
@@ -18,9 +18,9 @@ android:layout_gravity="center"
 
 
         <ImageView
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/ic_music_video_black_24dp"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:scaleType="fitXY"
             android:id="@+id/imageid"
             android:layout_centerHorizontal="true"
 
@@ -50,15 +50,15 @@ android:layout_gravity="center"
 
 
     <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@drawable/ic_music_video_black_24dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:scaleType="fitXY"
         android:id="@+id/imageid2"
         android:layout_centerHorizontal="true"
         >
 
-    </ImageView>
-
+    </ImageView><!--
+        android:background="@drawable/ic_music_video_black_24dp"-->
    <!-- <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

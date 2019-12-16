@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:id="@+id/linearMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activitys.MainActivity">
+    tools:context=".Activitys.MainActivity"
+
+    >
 
     <fragment
         android:id="@+id/nav_host_fragment"
@@ -15,62 +18,78 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/rain_nav" />
+        app:navGraph="@navigation/rain_nav" >
+
+    </fragment>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/bottom_navigation"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="80dp"
         android:orientation="horizontal"
-        android:padding="5dp">
+        android:padding="5dp"
+
+        >
 
         <androidx.cardview.widget.CardView
             android:id="@+id/disCardView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:foreground="?android:attr/selectableItemBackgroundBorderless"
-            android:padding="5dp"
+            android:padding="10dp"
             app:cardCornerRadius="10dp"
             app:cardElevation="4dp"
             app:cardMaxElevation="4dp"
             app:cardPreventCornerOverlap="false"
             app:cardUseCompatPadding="true"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+
+                android:weightSum="3"
+
+                >
 
                 <RelativeLayout
                     android:id="@+id/timer_relative"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+
+                    >
 
                     <RelativeLayout
                         android:id="@+id/relative_timer_start"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:visibility="gone">
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_centerInParent="true"
+                        android:padding="15dp"
+                        android:visibility="gone"
+                        android:foreground="?android:attr/selectableItemBackgroundBorderless">
 
                         <ImageView
                             android:id="@+id/timerStart"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:layout_marginLeft="13dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginRight="10dp"
-                            android:background="@drawable/ic_timer_start" />
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/ic_timer_start"
+                            />
 
                         <TextView
                             android:id="@+id/timerTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="15dp"
                             android:layout_below="@id/timerStart"
+                            android:layout_centerHorizontal="true"
+                            android:fontFamily="@font/roboto_bold"
                             android:gravity="center"
-                            android:paddingLeft="6dp"
                             android:text="00:00"
                             android:textColor="@color/black"
                             android:textSize="12dp">
@@ -80,74 +99,111 @@
 
                     <RelativeLayout
                         android:id="@+id/relative_timer_stop"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp">
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                        android:padding="15dp"
+                        >
+
                         <ImageView
                             android:id="@+id/timerImage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
                             android:background="@drawable/ic_timer_black"
-                            android:foreground="?android:attr/selectableItemBackgroundBorderless" />
+
+                             />
                     </RelativeLayout>
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
+
+                    android:layout_weight="1"
                     >
 
                     <RelativeLayout
                         android:id="@+id/playRelative"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:padding="15dp"
+                        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                        >
 
                         <ImageView
                             android:id="@+id/playImage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+
                             android:background="@drawable/ic_play_arrow_black"
-                            android:foreground="?android:attr/selectableItemBackgroundBorderless" />
+                             />
                     </RelativeLayout>
 
                     <RelativeLayout
                         android:id="@+id/puaseRelative"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="gone">
+                        android:visibility="gone"
+                        android:padding="15dp"
+                        android:foreground="?android:attr/selectableItemBackgroundBorderless" >
 
                         <ImageView
                             android:id="@+id/puaseImage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
                             android:background="@drawable/ic_pause_black_24dp"
-                            android:foreground="?android:attr/selectableItemBackgroundBorderless" />
+                           />
                     </RelativeLayout>
                 </RelativeLayout>
 
-                <ImageView
-                    android:id="@+id/listPlaySound"
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:padding="15dp"
+                    android:layout_weight="1"
+                    android:id="@+id/listPlaySound"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                   >
+                <ImageView
+                    android:id="@+id/listPlaySoundImage"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+
                     android:background="@drawable/ic_volume_up_black_list"
-                    android:foreground="?android:attr/selectableItemBackgroundBorderless" />
+                   />
 
-
+                </RelativeLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>
+
+    <com.google.android.gms.ads.AdView
+
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="@string/banner_ad_unit_id"
+        android:paddingBottom="4dp"
+        >
+
+    </com.google.android.gms.ads.AdView>
+        <!--<ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            />
+-->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/bottonColor"
+        android:background="@color/onboarding"
         app:menu="@menu/bottom_menu"
-
+        android:layout_alignParentBottom="true"
         />
-</LinearLayout>
+</RelativeLayout>

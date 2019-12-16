@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+   >
 
     <androidx.cardview.widget.CardView
 
@@ -11,23 +12,29 @@
             android:layout_width="match_parent"
             android:foreground="?android:attr/selectableItemBackground"
             app:cardCornerRadius="12dp"
-            android:layout_height="260dp">
+            android:layout_height="240dp"
+        android:background="@color/white"
+        >
 
         <RelativeLayout
             android:id="@+id/workoutLayout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+          >
             <LinearLayout
                 android:id="@+id/image_or_youtube"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+
                 <ImageView
                     android:id="@+id/youtube_imageView"
                     android:layout_width="match_parent"
-                    android:layout_height="140dp"
-                    android:background="@drawable/ic_launcher"
-                    android:scaleType="fitCenter"/>
+                    android:layout_height="155dp"
+                    android:background="@drawable/feature_graphics"
+                    android:scaleType="centerCrop" />
 
                 <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
                     android:id="@+id/youtube_player_view"
@@ -37,7 +44,7 @@
                     app:showYouTubeButton="false"
                     app:showFullScreenButton="false" />
             </LinearLayout>
-            <TextView
+           <!-- <TextView
                 android:id="@+id/currentExerciseTextView"
                 android:layout_below="@+id/image_or_youtube"
                 android:layout_width="match_parent"
@@ -47,14 +54,16 @@
                 android:textColor="@color/black"
                 android:padding="8dp"
                 android:textSize="20sp"
-                tools:text="Jumping Jacks" />
-            <LinearLayout
+                tools:text="Sleep Sounds"
+                android:background="@color/white"/>-->
+            <!--<LinearLayout
                 android:layout_below="@+id/currentExerciseTextView"
                 android:id="@+id/control_Layout"
                 android:orientation="horizontal"
                 android:weightSum="1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/white">-->
 
                <!-- <TextView
                     android:gravity="center"
@@ -70,14 +79,16 @@
 
 
 
-            </LinearLayout>
+           <!-- </LinearLayout>-->
             <LinearLayout
-                android:layout_below="@+id/control_Layout"
+                android:layout_below="@+id/image_or_youtube"
                 android:orientation="horizontal"
                 android:weightSum="3"
-                android:paddingBottom="8dp"
+                android:paddingBottom="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingTop="20dp">
 
 
 
@@ -204,7 +215,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:paddingTop="36dp"
+                    android:paddingTop="30dp"
                     android:layout_weight="1"
                     android:id="@+id/laterTextView"
                     android:layout_width="match_parent"
@@ -216,7 +227,7 @@
                     android:text="@string/later" />
 
                 <TextView
-                    android:paddingTop="36dp"
+                    android:paddingTop="30dp"
                     android:layout_weight="1"
                     android:id="@+id/getPremiumTestView"
                     android:layout_width="match_parent"

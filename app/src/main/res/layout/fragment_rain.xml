@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.RainFragment"
     android:id="@+id/framerain"
-    style="@style/Rainfragment">
+    style="@style/Rainfragment"
+    android:background="@color/RainFragmentBG">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -30,7 +31,10 @@
             android:text="Rain Sounds"
             android:textSize="20dp"
             android:padding="5dp"
-            android:layout_margin="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginBottom="5dp"
             android:id="@+id/rainFragmentText"
             android:textColor="@color/RainFragmentColor"
             >
@@ -43,13 +47,25 @@
             android:gravity="center"
             android:text="___________"
             ></TextView>-->
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/recyclerView"
-        android:padding="10dp"
+        android:padding="5dp"
         >
 
     </androidx.recyclerview.widget.RecyclerView>
+
     </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            />
+    </RelativeLayout>
 </FrameLayout>

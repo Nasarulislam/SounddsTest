@@ -9,9 +9,9 @@
         android:id="@+id/custom_toast_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Remove one Sound"
+        android:text=" Remove one Sound "
         android:textColor="#FFFFFF"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:padding="10dp"
         />
 

@@ -6,22 +6,28 @@
     <item
         android:id="@+id/rainFragment"
         android:title="Rain Sounds"
-        android:icon="@drawable/ic_grain_black_24dp"
+        android:icon="@drawable/ic_rain"
 
         />
     <item
         android:id="@+id/relaxingFragment"
         android:title="Relaxing Sounds"
-        android:icon="@drawable/ic_person_black_24dp"
+        android:icon="@drawable/ic_relax"
+        
         />
     <item
         android:id="@+id/thirdFragment"
         android:title="Nature Sounds"
-        android:icon="@drawable/ic_location_city_black_24dp"
+        android:icon="@drawable/ic_nature"
         />
     <item
         android:id="@+id/waterFragment"
         android:title="Water Sounds"
-        android:icon="@drawable/ic_android_black_24dp"
+        android:icon="@drawable/ic_water"
+        />
+    <item
+        android:id="@+id/settingsFragment"
+        android:title="Settings"
+        android:icon="@drawable/ic_settings"
         />
 </menu>

@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.ThirdFragment"
+    android:background="@color/CityFragmentBG"
     >
 
     <!-- TODO: Update blank fragment layout -->
@@ -29,7 +30,10 @@
             android:textSize="20dp"
             android:textColor="@color/CityFragmentColor"
             android:padding="5dp"
-            android:layout_margin="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginBottom="5dp"
             android:id="@+id/CityFragmentColor"
             >
 

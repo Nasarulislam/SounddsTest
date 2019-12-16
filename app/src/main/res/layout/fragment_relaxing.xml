@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.RelaxingFragment">
+    tools:context=".Fragments.RelaxingFragment"
+    android:background="@color/RelaxingFragmentBG">
 
     <!-- TODO: Update blank fragment layout -->
    <!-- <Button
@@ -27,7 +28,10 @@
             android:text="Relaxing Sounds"
             android:textSize="20dp"
             android:padding="5dp"
-            android:layout_margin="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginBottom="5dp"
             android:id="@+id/relaxingFragmentText"
             android:textColor="@color/RelaxingFragmentColor"
             >
@@ -48,4 +52,14 @@
 
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
+  <!--  <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            />
+    </RelativeLayout>-->
 </FrameLayout>

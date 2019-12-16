@@ -1,36 +1,73 @@
 <resources>
-    <string name="app_name">Sounds App</string>
+    <string name="app_name">Sleep Sounds</string>
+    <string name="app_id">ca-app-pub-8059732698195520~1514604871</string>
+
+
+
+                     <!-- Original id -->
+    // interstitial_ad_id
+    <string name="interstitial_ad_unit_id">ca-app-pub-8059732698195520/7313726466</string>
+
+    // banner id
+    <string name="banner_ad_unit_id">ca-app-pub-8059732698195520/9939889800</string>
+    // IAP id
+    <string name="premium_sku" translatable="false">lifetime_iap</string>  // change test id IAP
+    // sleepJSONURL
+    <string name="sleepJSON_URL">https://sleep-sounds.herokuapp.com/sleepSounds.json</string>
+    // sound and imag Url
+    <string name="Sound_URL">https://sleep-sounds.herokuapp.com/SleepSounds/</string>
+    <string name="Image_URL">https://sleep-sounds.herokuapp.com/SleepImages/</string>
+
+
+
+                       <!-- Test id -->
+  <!--  <string name="premium_sku" translatable="false">android.test.purchased</string>
+
+// sleepJSONURL
+    <string name="sleepJSON_URL">https://sleep-sounds.herokuapp.com/sleepSounds.json</string>
+    // sound and imag Url
+    <string name="Sound_URL">https://sleep-sounds.herokuapp.com/SleepSounds/</string>
+    <string name="Image_URL">https://sleep-sounds.herokuapp.com/SleepImages/</string>
+
+    // interstitial_ad_id test
+    <string name="interstitial_ad_unit_id">ca-app-pub-3940256099942544/1033173712</string>
+    // banner id test
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>-->
+
+
+
+                    <!-- Comman Strings -->
+    <string name="Rain">Rain</string>
+    <string name="Relax">Relax</string>
+    <string name="Nature">Nature</string>
+    <string name="Water">water</string>
+
+
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
      <string name="RainJSON_URL">http://fstream.in/RainSoundsAppAudio/audiomix.json</string>
-    <!--<string name="RainSoundpath">http://fstream.in/RainSoundsAppAudio/</string>-->
-    <!--<string name="JSON_URL"> https://relaxing-sounds-data-server.herokuapp.com/api.php</string>-->
-
-  <!--  <string name="RainJSON_URL"> https://rain-sounds.herokuapp.com/audiomix.json</string>-->
     <string name="RainSoundpath">https://rain-sounds.herokuapp.com/</string>
     <string name="imageUrl">https://rain-sounds.herokuapp.com/</string>
-
-   <!-- <string name="imageUrl">https://fstream.in/RelaxingSoundsImages/</string>-->
-     <!--<string name="imageUrl">http://fstream.in/RainSoundsAppAudio/</string>-->
-    <!--<string name="soundpath">http://fstream.in/RainSoundsAppAudio/</string>-->
     <string name="RainJsonData">RainJsonData</string>
     <string name="RelaxingJsonData">RelaxingJsonData</string>
     <string name="JSON_URL">https://relaxing-sounds-data-server.herokuapp.com/api.php</string>
-    <!-- <string name="RelaxingSoundpath">http://riafyme.com/OtherApps/soundsapp/</string>-->
     <string name="RelaxingSoundpath">https://relaxing-sounds-data-server.herokuapp.com/</string>
 
-    <string name="premium_sku" translatable="false">lifetime_iap</string>
+
+   <!-- <string name="premium_sku" translatable="false">lifetime_iap</string>-->
     <string name="premium_sub_sixmonth" translatable="false">6month_premium</string>
     <string name="premium_sub_monthly" translatable="false">monthly_premium</string>
 
-    <string name="application_id" translatable="false">walking.workout.weightloss</string>
+   <!-- <string name="application_id" translatable="false">walking.workout.weightloss</string>-->
+    <string name="application_id" translatable="false">relaxing.sounds.sleeping</string>
     <string name="please_connect_to_internet">Please Connect to Internet</string>
     <string name="retry">Retry</string>
 
     <string name="premium">Premium</string>
-    <string name="wish_workouts_kept_playing_when_you_closed_the_app">Do you want  to keep playing, even when you close the app?</string>
+    <string name="wish_workouts_kept_playing_when_you_closed_the_app">Do you want controls, even when you close the app?</string>
     <string name="get_background_play_with_premium">Get background play with premium</string>
     <string name="later">LATER</string>
     <string name="start_trial">START TRIAL</string>
@@ -43,7 +80,23 @@
     <string name="workout_has_been_paused">The playing has been paused.</string>
   <!--  <string name="workout_has_been_paused">hi Nasarul islam.</string>-->
     <string name="notification_title_one">Sleep</string>
-    <string name="notification_subtext_one">Night is Dark..</string>
+    <string name="notification_subtext_one">Nighty night.Time to sleep...</string>
+    <string name="Click_on_sound_icons">Click on sound icons to create a relaxing ambience.</string>
+
+    <string name="remove_ads">Get Premium</string>
+    <string name="on">on</string>
+    <string name="steptrack">step track</string>
+    <string name="change_preferences">Change Preferences</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="terms_of_use">Terms of use</string>
+    <string name="tell_a_friend">Tell a friend</string>
+    <string name="follow_us_on_facebook">follow us on facebook</string>
+    <string name="walkingappofficial">sleep sounds app official</string>
+    <string name="rate_walking">Rate us</string>
+    <string name="more_apps_from_riafy">More apps from Riafy</string>
+    <string name="need_help">Need Help</string>
+    <string name="notifications">Notifications</string>
+    <string name="high_quality_outputs">High Quality Outputs</string>
 
 
 </resources>

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "606636790379",
+    "firebase_url": "https://sleep-sounds-a91cb.firebaseio.com",
+    "project_id": "sleep-sounds-a91cb",
+    "storage_bucket": "sleep-sounds-a91cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:606636790379:android:4b438caddd08c1055b572e",
+        "android_client_info": {
+          "package_name": "relaxing.sounds.sleeping"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "606636790379-vti290e8r5q6f91se9b3n8kd61mr9is9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgkIDzHSdSe-Qp5A29Dhja6CNJf95OjFY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "606636790379-vti290e8r5q6f91se9b3n8kd61mr9is9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

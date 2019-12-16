@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimary">#383F7E</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="toastColor">#1D2323</color>
+    <color name="toastColor">#888A8A</color>
 
-    <color name="RainFragmentColor">#CA5324</color>
-    <color name="RelaxingFragmentColor">#23C098</color>
-    <color name="CityFragmentColor">#E854F8</color>
+    <color name="RainFragmentColor">#28C0AF</color>
+    <color name="RelaxingFragmentColor">#59AC7D</color>
+    <color name="CityFragmentColor">#944EC0</color>
     <color name="waterFragmentColor">#DAC62E</color>
 
+    <color name="RainFragmentBG">#E7F7F3</color>
+    <color name="RelaxingFragmentBG">#E0F5E9</color>
+    <color name="CityFragmentBG">#F0E5F7</color>
+    <color name="waterFragmentBG">#F7F3E5</color>
+    <color name="settingscolor">#03FFFF00</color>
+
+    F7F5F5
+    <color name="onboarding">#F86638</color>
     <color name="black">#000000</color>
 
     <color name="colorHeadText">#C4000000</color>
@@ -19,5 +27,6 @@
     <color name="card_background_color">#dbfbed</color>
 
     <color name="icons_color">#B0B0B0</color>
-    <color name="bottonColor">#B1A9A9</color>
+    <color name="bottonColor">#8F8FB1</color>
+    <color name="white">#FFFFFFFF</color>
 </resources>

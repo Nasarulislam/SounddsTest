@@ -126,12 +126,12 @@ public class NatureRecyclerViewAdapter extends RecyclerView.Adapter<NatureRecycl
         images.add(new ImagesIcons(R.drawable.bird));
         images.add(new ImagesIcons(R.drawable.crickets));
 
-        images.add(new ImagesIcons(R.drawable.crows));
-        images.add(new ImagesIcons(R.drawable.dogs));
+        images.add(new ImagesIcons(R.drawable.new_crow));
+        images.add(new ImagesIcons(R.drawable.new_dog));
         images.add(new ImagesIcons(R.drawable.fire));
         images.add(new ImagesIcons(R.drawable.frogs));
 
-        images.add(new ImagesIcons(R.drawable.owls));
+        images.add(new ImagesIcons(R.drawable.new_owl));
         images.add(new ImagesIcons(R.drawable.waterflowing));
         images.add(new ImagesIcons(R.drawable.wind));
 
@@ -374,7 +374,7 @@ public class NatureRecyclerViewAdapter extends RecyclerView.Adapter<NatureRecycl
 
                 try {
                     if (((MainActivity) context).getCountDownTimer() != null) {
-                        ((MainActivity) activity).countdown(MainActivity.Companion.getSecoundsleftPause(), (MainActivity) activity);
+                     //   ((MainActivity) activity).countdown(MainActivity.Companion.getSecoundsleftPause(), (MainActivity) activity);
                         //MainActivity.Companion.countdown(MainActivity.Companion.getSecoundsleftPause());
                         ((MainActivity) activity).relativeTimerStopp.setVisibility(View.GONE);
                         ((MainActivity) activity).relativeTimerStartt.setVisibility(View.VISIBLE);
@@ -440,9 +440,11 @@ public class NatureRecyclerViewAdapter extends RecyclerView.Adapter<NatureRecycl
                         ((MainActivity) context).cardView.setVisibility(View.GONE);
                         ((MainActivity) context).relativeTimerStopp.setVisibility(View.VISIBLE);
                         ((MainActivity) context).relativeTimerStart.setVisibility(View.GONE);
-                        if (((MainActivity) context).getCountDownTimer() != null)
+                        if (((MainActivity) context).getCountDownTimer() != null) {
                             ((MainActivity) context).getCountDownTimer().cancel();
-
+                            ((MainActivity) context).setCountDownTimer(null);
+                            shared.edit().putInt("position", 0).commit();
+                        }
                         Toast toast = new Toast(context);
                         toast.setDuration(Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.CENTER,0, 0);
@@ -852,7 +854,7 @@ public class NatureRecyclerViewAdapter extends RecyclerView.Adapter<NatureRecycl
     public void VisibilityPayTime(final int position,final MyViewHolder holder){
 
         try {
-            MediaPlayerService.resumeMedia();
+            MediaPlayerService.resumeMedia(context);
 
             if (((MainActivity) activity).getCountDownTimer() != null) {
                 //   ((MainActivity)activity).countdown(MainActivity.Companion.getSecoundsleftPause(),(MainActivity)activity);

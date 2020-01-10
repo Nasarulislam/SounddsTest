@@ -7,15 +7,16 @@
                      <!-- Original id -->
     // interstitial_ad_id
     <string name="interstitial_ad_unit_id">ca-app-pub-8059732698195520/7313726466</string>
-
+`
     // banner id
     <string name="banner_ad_unit_id">ca-app-pub-8059732698195520/9939889800</string>
     // IAP id
-    <string name="premium_sku" translatable="false">lifetime_iap</string>  // change test id IAP
-    // sleepJSONURL
-    <string name="sleepJSON_URL">https://sleep-sounds.herokuapp.com/sleepSounds.json</string>
+    <string name="premium_sku" translatable="false">rstream_premium__iap</string>  // change test id IAP
+    // sleepJSONURL   lifetime_iap
+    <string name="sleepJSON_URL">https://photoapps.s3.amazonaws.com/sleepsoundsjson.json</string>
     // sound and imag Url
-    <string name="Sound_URL">https://sleep-sounds.herokuapp.com/SleepSounds/</string>
+    <string name="Sound_URL">https://photoapps.s3.amazonaws.com/SleepSounds/</string>
+    // image from heroku not use
     <string name="Image_URL">https://sleep-sounds.herokuapp.com/SleepImages/</string>
 
 
@@ -40,7 +41,7 @@
     <string name="Rain">Rain</string>
     <string name="Relax">Relax</string>
     <string name="Nature">Nature</string>
-    <string name="Water">water</string>
+    <string name="Water">Water</string>
 
 
 

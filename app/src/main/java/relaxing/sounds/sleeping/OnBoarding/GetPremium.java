@@ -99,6 +99,8 @@ public class GetPremium implements PurchasesUpdatedListener {
             mContext.startActivity(intent);
 
 
+
+
 //monthly
             //sixmonth
             //Intent intent = new Intent(MainActivity.mContext,SecondActivity.class);

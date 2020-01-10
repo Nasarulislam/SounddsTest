@@ -373,7 +373,7 @@ public class FloatingWidgetShowService extends Service {
                     sharedPreferences.edit().putBoolean("isPlayingService", false).apply();
                     playPauseImageView.setImageResource(R.drawable.ic_play_arrow_black);
 
-                    MediaPlayerService.pauseMedia();
+                    MediaPlayerService.pauseMedia(getApplicationContext());
 
                     //\\MainActivity.PuaseRelative.setVisibility(View.GONE);
                     //\\MainActivity.PlayRelative.setVisibility(View.VISIBLE);
@@ -406,7 +406,7 @@ public class FloatingWidgetShowService extends Service {
                     playPauseImageView.setImageResource(R.drawable.ic_pause_black_24dp);
                     getTime();
                     // announceNext();
-                    MediaPlayerService.resumeMedia();
+                    MediaPlayerService.resumeMedia(getApplicationContext());
                     //\\MainActivity.PuaseRelative.setVisibility(View.VISIBLE);
                     //\\MainActivity.PlayRelative.setVisibility(View.GONE);
 

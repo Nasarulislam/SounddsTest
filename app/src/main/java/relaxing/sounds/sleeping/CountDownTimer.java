@@ -37,7 +37,7 @@ public class CountDownTimer extends AppCompatActivity {
 
 
                 // textView.setText(stime);
-                MediaPlayerService.pauseMedia();
+                MediaPlayerService.pauseMedia(context);
                // buttonContinue.setText("Continue");
 
             }

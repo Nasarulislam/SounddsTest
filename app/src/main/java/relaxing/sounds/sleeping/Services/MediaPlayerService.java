@@ -3,11 +3,13 @@ package relaxing.sounds.sleeping.Services;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.session.MediaController;
 import android.media.session.MediaSession;
 import android.media.session.MediaSessionManager;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
@@ -18,44 +20,35 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.View;
 import android.widget.RemoteViews;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import relaxing.sounds.sleeping.Activitys.MainActivity;
 import relaxing.sounds.sleeping.Adapters.NatureRecyclerViewAdapter;
 import relaxing.sounds.sleeping.Adapters.RecyclerViewAdapter;
 import relaxing.sounds.sleeping.Adapters.RelaxingRecyclerViewAdapter;
 import relaxing.sounds.sleeping.Adapters.WaterRecyclerViewAdapter;
+import relaxing.sounds.sleeping.Fragments.RainFragment;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static relaxing.sounds.sleeping.Adapters.customListviewAdapter.progresssy;
 
 public class MediaPlayerService extends Service implements MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
         MediaPlayer.OnInfoListener, MediaPlayer.OnBufferingUpdateListener {
     public static final String ACTION_PLAY = "action_play";
     public static final String ACTION_PAUSE = "action_pause";
 
-  /*  public static MediaPlayer mediaPlayer1;
-    public static MediaPlayer mediaPlayer2; Log.d("lplppppp", "" + iconpos)
-    public static MediaPlayer mediaPlayer3;
-    public static MediaPlayer mediaPlayer4;
-    public static MediaPlayer mediaPlayer5;
-    public static MediaPlayer mediaPlayer9;
-    public static MediaPlayer mediaPlayer6;
-    public static MediaPlayer mediaPlayer7;
-    public static MediaPlayer mediaPlayer8;
-    public static MediaPlayer mediaPlayer10;
-    public static MediaPlayer mediaPlayer11;
-    public static MediaPlayer mediaPlayer12;
-    public static MediaPlayer mediaPlayer13;
-    public static MediaPlayer mediaPlayer14;
-    public static MediaPlayer mediaPlayer15;
-    public static MediaPlayer mediaPlayer16;
-    public static MediaPlayer mediaPlayer17;
-    public static MediaPlayer mediaPlayer18;
-    public static MediaPlayer mediaPlayer19;
-    public static MediaPlayer mediaPlayer20;*/
+
     public static final String ACTION_REWIND = "action_rewind";
     public static final String ACTION_FAST_FORWARD = "action_fast_foward";
     public static final String ACTION_NEXT = "action_next";
@@ -77,6 +70,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     public static int currentDuration = 0;
     public static int maxDuration = 0;
     public static HashMap<String, MediaPlayer> mediaPlayerHashMap = new HashMap();
+    public static Gson gson = new Gson();
     //    lat mediaPlayerHashMap: HashMap<String, MediaPlayer>
 ///Notification
 //         public static final String ACTION_PLAY = "com.valdioveliu.valdio.audioplayer.ACTION_PLAY";
@@ -89,6 +83,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     public static MediaSessionManager mediaSessionManager;
     public static MediaControllerCompat.TransportControls transportControls;
     public static ArrayList<String> nowplaysounds = new ArrayList<>();
+    static float vl;
     /* public static Runnable mUpdateTimeTask=new Runnable() {
          @Override
          public void run() {
@@ -297,7 +292,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
     /* public static void playMedia(Context context) {
 
-     *//*  // startFadeIn(mediaPlayerA,SecondActivity.seekvolumeA);
+     */
+    /*  // startFadeIn(mediaPlayerA,SecondActivity.seekvolumeA);
             mediaPlayerA.start();
       //  startFadeIn(mediaPlayer1_1,SecondActivity.seekvolume1);
             mediaPlayer1_1.start();
@@ -501,8 +497,11 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
     }
 
-    public static void stopMedia() {
+    public static void stopMedia(Context context) {
         Log.d("nowplaysounds", "click");
+        //hashmapset(context);
+
+      /*
         for (int i = 0; i < RecyclerViewAdapter.formList.size(); i++) {
             if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " ")) != null) {
                 if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " ")).isPlaying()) {
@@ -526,13 +525,13 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
                 }
             }
-         /*   if (mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")) != null) {
+         *//*   if (mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")) != null) {
 
                 if (mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")).isPlaying()) {
                     mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSubsound2Name().replaceAll("_", " ")).stop();
                 }
             }
-        */}
+        *//*}
         for (int i = 0; i < NatureRecyclerViewAdapter.formList.size(); i++) {
             if (mediaPlayerHashMap.get(NatureRecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " ")) != null) {
                 if (mediaPlayerHashMap.get(NatureRecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " ")).isPlaying()) {
@@ -550,12 +549,85 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
                 }
             }
         }
+
+        */
+        SharedPreferences shared = context.getSharedPreferences("App_settings", MODE_PRIVATE);
+        Set<String> set5 = shared.getStringSet("LIST_SOUNDS", null);
+        if (set5 != null)
+            nowplaysounds.addAll(set5);
+        for (int i = 0; i < nowplaysounds.size(); i++) {
+            Log.d("ygjhbkbjn", ""+nowplaysounds.get(i) );
+            if (mediaPlayerHashMap.get(nowplaysounds.get(i).replaceAll("_", " ")) != null) {
+                Log.d("ygjhbkbjn", "!null" );
+                if (mediaPlayerHashMap.get(nowplaysounds.get(i).replaceAll("_", " ")).isPlaying()) {
+                    Log.d("ygjhbkbjn", "playing");
+                    mediaPlayerHashMap.get(nowplaysounds.get(i).replaceAll("_", " ")).stop();
+                    //nowplaysounds.add(WaterRecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " "));
+                    Log.d("nowplaysounds", "" + nowplaysounds);
+                }
+            }
+        }
+
+       // hashmapset(context);
         MainActivity.Companion.setPlayingBolean(false);
     }
 
-    public static void pauseMedia() {
+    public static void timerpuas(){
+        vl =RainFragment.Volumevalues.get(0);
+        //float intrervl=
+        final Timer timer = new Timer(true);
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                Log.d("volume222", "" + vl);
+
+                vl-=5;
+                for (int i = 0; i < RecyclerViewAdapter.formList.size(); i++) {
+                    if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " ")) != null) {
+                        if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " ")).isPlaying()) {
+                          ///   mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " ")).;
+                            //  if(RainFragment.Volumevalues.size()>0)
+                            //startFadeOut( mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " ")),MainActivity.Companion.getCuphoneVolume());
+                            //if (done)
+
+                            mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " ")).setVolume(vl,vl);
+                          //  nowplaysounds.add(RecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " "));
+                            Log.d("kkkvolume111z", "f" + vl);
+                        }
+                    }
+            /*if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " ")) != null) {
+
+                if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " ")).isPlaying()) {
+                    mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " ")).pause();
+                    nowplaysounds.add(RecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " "));
+                    Log.d("nowplaysounds", "" + nowplaysounds);
+                }
+            }
+      */  }
+                //  fadeOutStep(deltaVolume, media); //Do a fade step
+
+                Log.d("kkkvolume111z", "w" + vl);
+                //Cancel and Purge the Timer if the desired volume has been reached
+                if (vl <= 0) {
+                    Log.d("kkkvolume111z", "" + vl);
+                    timer.cancel();
+                    timer.purge();
+                    done = true;
+                    //media.stop();
+                   // pauseMedia();
+
+                }
+
+            }
+
+
+        };
+        timer.schedule(timerTask, 1000, 1000);
+    }
+    public static void pauseMedia(Context context) {
         Log.d("nowplaysounds", "click");
         nowplaysounds.clear();
+        done=false;
         /* if (mediaPlayerA==null)
             return;
         else if (mediaPlayerA.isPlaying())
@@ -563,15 +635,22 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             mediaPlayerA.pause();
            // SecondActivity.resumePositionA = mediaPlayerA.getCurrentPosition();
         }*/
-        for (int i = 0; i < RecyclerViewAdapter.formList.size(); i++) {
+        //startFadeOut( mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(1).getSoundName().replaceAll("_", " ")),RainFragment.Volumevalues.get(0));
+
+
+      /*  for (int i = 0; i < RecyclerViewAdapter.formList.size(); i++) {
             if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " ")) != null) {
                 if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " ")).isPlaying()) {
+                   // mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " ")).pause();
+                  //  if(RainFragment.Volumevalues.size()>0)
+                    //startFadeOut( mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " ")),MainActivity.Companion.getCuphoneVolume());
+                    //if (done)
                     mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " ")).pause();
                     nowplaysounds.add(RecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " "));
                     Log.d("nowplaysounds", "" + nowplaysounds);
                 }
             }
-            if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " ")) != null) {
+            *//*if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " ")) != null) {
 
                 if (mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " ")).isPlaying()) {
                     mediaPlayerHashMap.get(RecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " ")).pause();
@@ -579,7 +658,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
                     Log.d("nowplaysounds", "" + nowplaysounds);
                 }
             }
-        }
+      *//*  }
 
         for (int i = 0; i < RelaxingRecyclerViewAdapter.formList.size(); i++) {
             if (mediaPlayerHashMap.get(RelaxingRecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " ")) != null) {
@@ -607,7 +686,28 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
                     Log.d("nowplaysounds", "" + nowplaysounds);
                 }
             }
+        }*/
+
+        hashmapget(context);
+        nowplaysounds.clear();
+        SharedPreferences shared = context.getSharedPreferences("App_settings", MODE_PRIVATE);
+        Set<String> set5 = shared.getStringSet("LIST_SOUNDS", null);
+        if (set5 != null)
+            nowplaysounds.addAll(set5);
+        for (int i = 0; i < nowplaysounds.size(); i++) {
+            Log.d("ygjhbkbjn", ""+nowplaysounds.get(i) );
+            if (mediaPlayerHashMap.get(nowplaysounds.get(i).replaceAll("_", " ")) != null) {
+                Log.d("ygjhbkbjn", "!null" );
+                if (mediaPlayerHashMap.get(nowplaysounds.get(i).replaceAll("_", " ")).isPlaying()) {
+                    Log.d("ygjhbkbjn", "playing");
+                    mediaPlayerHashMap.get(nowplaysounds.get(i).replaceAll("_", " ")).pause();
+                    //nowplaysounds.add(WaterRecyclerViewAdapter.formList.get(i).getSoundName().replaceAll("_", " "));
+                    Log.d("nowplaysounds", "" + nowplaysounds);
+                }
+            }
         }
+
+
 
     }
 
@@ -669,43 +769,119 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             }
           }
 
+
+
     }
 
-    public static void resumeMedia() {
+    public static void resumeMedia(Context context) {
        /* if (mediaPlayerA==null)
             return;
         else if (!mediaPlayerA.isPlaying()&&SecondActivity.resumePositionA!=0) {
             mediaPlayerA.seekTo(SecondActivity.resumePositionA);
             mediaPlayerA.start();
         }*/
+        try {
+            nowplaysounds.clear();
+            SharedPreferences shared = context.getSharedPreferences("App_settings", MODE_PRIVATE);
+            Set<String> set5 = shared.getStringSet("LIST_SOUNDS", null);
+            if (set5 != null)
+                nowplaysounds.addAll(set5);
 
-        for (int i = 0; i < nowplaysounds.size(); i++) {
-            if (mediaPlayerHashMap.get(nowplaysounds.get(i)) != null) {
-                //  if (mediaPlayerHashMap.get(MainActivity.formList.get(i).getSubsound1Name().replaceAll("_", " ")).isPlaying()) {
-                mediaPlayerHashMap.get(nowplaysounds.get(i)).start();
-                mediaPlayerHashMap.get(nowplaysounds.get(i)).setLooping(true);
-                // nowplaysounds.add(MainActivity.formList.get(i).getSubsound1Name().replaceAll("_", " "));
-                Log.d("nowplaysounds", "" + nowplaysounds);
+            Log.d("inniihbfbnn", "" + nowplaysounds);
 
-                // }
+        /*if (nowplaysounds.size() > 0) {
+                ((MainActivity) getActivity()).cardView.setVisibility(View.VISIBLE);
+                // cardView.setVisibility(View.VISIBLE);
+            } else {
+                ((MainActivity) getActivity()).cardView.setVisibility(View.GONE);
+
+            }*/
+            int MAX_VOLUME =100;
+            int seekvolume1 = MAX_VOLUME / 2;
+            volume1 = (float) (1 - (Math.log(MAX_VOLUME - MAX_VOLUME / 2) / Math.log(MAX_VOLUME)));
+
+
+            hashmapget(context);
+        if (!((MainActivity)context).getFirstopen())
+        {
+            try {
+                ((MainActivity)context).setFirstopen(true);
+                Log.d("inniihsdbfbnn", "if" );
+                if (nowplaysounds.size()>0) {
+                   // mediaPlayerHashMap.clear();
+
+                    //hashmapget(context);
+
+                    for (int h = 0; h < nowplaysounds.size(); h++) {
+                        final File file = new File(context.getFilesDir().getAbsolutePath() + nowplaysounds.get(h).replaceAll("_", " ") + ".mp3");
+                        // if (!file.exists())
+                        float volume2  = (float) (1 - (Math.log(MAX_VOLUME - MainActivity.VolumeHashMap.get(nowplaysounds.get(h))) / Math.log(MAX_VOLUME)));
+                        mediaPlayerHashMap.put(nowplaysounds.get(h).replaceAll("_", " "), MediaPlayer.create(context, Uri.fromFile(file)));
+                        mediaPlayerHashMap.get(nowplaysounds.get(h).replaceAll("_", " ")).setVolume(volume2,volume2);
+                        mediaPlayerHashMap.get(nowplaysounds.get(h).replaceAll("_", " ")).start();
+                        mediaPlayerHashMap.get(nowplaysounds.get(h).replaceAll("_", " ")).setLooping(true);
+                      //  MainActivity.VolumeHashMap.put(nowplaysounds.get(h), seekvolume1);
+
+                        /*SharedPreferences.Editor editor = shared.edit();
+                        String hashMapString = gson.toJson(MainActivity.VolumeHashMap);
+                        editor.putString("VolumeHashMap", hashMapString);
+                        editor.apply();*/
+                    }
+                }
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
             }
-
         }
+        else {
+            Log.d("inniihsdbfbnn", "else" );
+            if (nowplaysounds.size()>0)
+                for (int i = 0; i < nowplaysounds.size(); i++) {
+                    if (mediaPlayerHashMap.get(nowplaysounds.get(i)) != null) {
+                        //  if (mediaPlayerHashMap.get(MainActivity.formList.get(i).getSubsound1Name().replaceAll("_", " ")).isPlaying()) {
+
+                        float volume2  = (float) (1 - (Math.log(MAX_VOLUME - MainActivity.VolumeHashMap.get(nowplaysounds.get(i))) / Math.log(MAX_VOLUME)));
+                        // float volume2  = (float) (1 - (Math.log(MAX_VOLUME - MAX_VOLUME) / Math.log(MAX_VOLUME)));
+                        // float volume2 = (float) (1 - (Math.log(MAX_VOLUME - MAX_VOLUME / 2) / Math.log(MAX_VOLUME)));
+
+                        mediaPlayerHashMap.get(nowplaysounds.get(i).replaceAll("_", " ")).setVolume(volume2,volume2);
+                        //  startFadeIn(mediaPlayerHashMap.get(nowplaysounds.get(i)),volume2);
+
+                        // startFadeIn(mediaPlayerHashMap.get(nowplaysounds.get(i)),volume2);
+                        //  startFadeIn(mediaPlayerHashMap.get(nowplaysounds.get(i)),MAX_VOLUME);
+                        //fadeInStep(MAX_VOLUME,mediaPlayerHashMap.get(nowplaysounds.get(i)));
+                        //
+                        mediaPlayerHashMap.get(nowplaysounds.get(i).replaceAll("_", " ")).start();
+                        mediaPlayerHashMap.get(nowplaysounds.get(i).replaceAll("_", " ")).setLooping(true);
+
+                        // nowplaysounds.add(MainActivity.formList.get(i).getSubsound1Name().replaceAll("_", " "));
+                       // Log.d("nowplaysoundjbdfds", RecyclerViewAdapter.volume1+"||" +  MainActivity.VolumeHashMap.get(nowplaysounds.get(i)));
+
+                        // }
+                    }
+
+                }
+        }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //MediaPlayerService.hashmapset(context);
+        //MediaPlayerService.hashmapget(context);
+
         MainActivity.Companion.setPlayingBolean(true);
 
     }
 
-    public static void startFadeIn(final MediaPlayer media, final int seekVolume) {
+    public static void startFadeIn(final MediaPlayer media, final float seekVolume) {
         volume = 0;
         // media.setVolume(volume,volume);
         //long mDuraction= media.getDuration();
 
-        final long FADE_DURATION = 5000;
+        final long FADE_DURATION = 3000;
         //final long FADE_DURATION = (mDuraction*25/100);//The duration of the fade
         //The amount of time between volume changes. The smaller this is, the smoother the fade
-        final int FADE_INTERVAL = 10;
+        final int FADE_INTERVAL = 250;
         //final float MAX_VOLUME = 1.5f;//The volume will increase from 0 to 1
-        final int MAX_VOLUME = seekVolume;
+        final float MAX_VOLUME = seekVolume;
         long numberOfSteps = FADE_DURATION / FADE_INTERVAL; //Calculate the number of fade steps
         //Calculate by how much the volume changes each step
         final float deltaVolume = MAX_VOLUME / (float) numberOfSteps;
@@ -716,13 +892,14 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             @Override
             public void run() {
                 fadeInStep(deltaVolume, media); //Do a fade step
-                Log.d("volume33", "" + volume);
+               // FadeIn(deltaVolume,media);
+                Log.d("volume33", seekVolume+"||" + volume);
                 //Cancel and Purge the Timer if the desired volume has been reached
                 if (volume >= seekVolume) {
                     Log.d("jjjvolume44", "" + volume);
                     timer.cancel();
                     timer.purge();
-
+                    volume = 0;
                 }
             }
         };
@@ -737,11 +914,11 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         Log.d("seeeeeeeee", "" + seekVolume);
         // Log.d("pppvolume111z",correntValue+""+progresssy);
         //  media.setVolume(volume,volume);
-        final long FADE_DURATION = 5000;
+        final long FADE_DURATION = 3000;
         //final long FADE_DURATION = (mDuraction*25/100); //The duration of the fade
         Log.d("bbbb", "mkmkmkmk");
         //The amount of time between volume changes. The smaller this is, the smoother the fade
-        final int FADE_INTERVAL = 10;
+        final int FADE_INTERVAL = 20;
         final int MAX_VOLUME = seekVolume; //The volume will increase from 0 to 1
         long numberOfSteps = FADE_DURATION / FADE_INTERVAL; //Calculate the number of fade steps
         //Calculate by how much the volume changes each step
@@ -761,6 +938,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
                     timer.purge();
                     done = true;
                     //media.stop();
+                    //pauseMedia();
 
                 }
             }
@@ -768,7 +946,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
         };
 
-        timer.schedule(timerTask, FADE_INTERVAL, FADE_INTERVAL);
+        timer.schedule(timerTask, 100, 100);
     }
 
     public static void fadeInStep(float deltaVolume, MediaPlayer media) {
@@ -780,10 +958,25 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     public static void fadeOutStep(float deltaVolume, MediaPlayer media) {
 
         media.setVolume(volume1, volume1);
-        volume1 -= deltaVolume;
+        volume1 -= deltaVolume*10;
 
     }
 
+    static float volume6 = 0;
+    static float speed = 0.05f;
+
+    public void FadeOut(float deltaTime,MediaPlayer media)
+    {
+        media.setVolume(volume6, volume6);
+        volume -= speed* deltaTime;
+
+    }
+    public static void FadeIn(float deltaTime,MediaPlayer media)
+    {
+        media.setVolume(volume6, volume6);
+        volume6 += speed* deltaTime;
+
+    }
     @Override
     public IBinder onBind(Intent intent) {
         mSession.release();
@@ -848,46 +1041,12 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             stopSelf();
         }
 
-        //Request audio focus
-       /* if (requestAudioFocus() == false) {
-            //Could not gain focus
-            stopSelf();
-        }*/
-        //if (mediaFile != null && mediaFile != "")
-        //mediaPlayerHashMap = new HashMap<>();
+
         initMediaPlayer();
 
-      /*  try {
-            initMediaSession();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }*/
-        //playMedia();
-callStateListener();
-       /* try {
+        callStateListener();
 
 
-            if (mediaSessionManager == null) {
-                try {
-                    initMediaSession();
-                    initMediaPlayer();
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                    stopSelf();
-                }
-                buildNotification(PlaybackStatus.PLAYING);
-            }
-        }catch (NullPointerException e) {
-            stopSelf();
-        }
-        //Handle Intent action from MediaSession.TransportControls
-        handleIncomingActions(intent);*/
-        //initMediaPlayer();
-        // if( mManager == null ) {
-
-        //   initMediaSessions();
-
-        //  }
         // Intent intent = new Intent( getApplicationContext(), MediaPlayerServiceSecond.class );
         intent.setAction(MediaPlayerServiceSecond.ACTION_PLAY);
         intent.setAction(MediaPlayerServiceSecond.ACTION_PAUSE);
@@ -922,128 +1081,7 @@ callStateListener();
         // mediaPlayerA.setOnSeekCompleteListener(this);
         mediaPlayerA.setOnInfoListener(this);
         mediaPlayerA.reset();
-        //  mediaPlayerA=MediaPlayer.create(this, Uri.parse(mediaFileA));
 
-        /* try {
-
-            mediaPlayerA.setDataSource(mediaFileA);
-            //mediaPlayerA=MediaPlayer.create(mediaFileA);
-        } catch (IOException e) {
-            e.printStackTrace();
-            stopSelf();
-        }*/
-        //mediaPlayerA.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        //mediaPlayerA=MediaPlayer.create(this,R.raw.dheera);
-        // mediaPlayerA.start();
-       /* try {
-            // Set the data source to the mediaFile location
-//            AssetFileDescriptor afd = getResources().openRawResourceFd(mediaFile);
-
-            String RES_PREFIX = "android.resource://com.my.package/";
-            mediaPlayerA.setDataSource(getApplicationContext(),
-                    Uri.parse(RES_PREFIX + mediaFileA));
-            mediaPlayerA.setDataSource(mediaFileA);
-        } catch (IOException e) {
-            e.printStackTrace();
-            stopSelf();
-        }*/
-//        mediaPlayerA.prepareAsync();
-
-        ////\\\\
-     /*   mediaPlayerB = new MediaPlayer();
-        //Set up MediaPlayer event listeners
-        mediaPlayerB.setOnCompletionListener(this);
-        mediaPlayerB.setOnErrorListener(this);
-        mediaPlayerB.setOnPreparedListener(this);
-        mediaPlayerB.setOnBufferingUpdateListener(this);
-        mediaPlayerB.setOnSeekCompleteListener(this);
-        mediaPlayerB.setOnInfoListener(this);
-       // mediaPlayerB.reset();
-
-        //mediaPlayerB.setAudioStreamType(AudioManager.STREAM_MUSIC);
-       // mediaPlayerB=MediaPlayer.create(this,R.raw.forestdaytimeambience);
-       *//* try {
-
-            mediaPlayerB.setDataSource(mediaFileB);
-        } catch (IOException e) {
-            e.printStackTrace();
-            stopSelf();
-        }*//*
-      //  mediaPlayerB.prepareAsync();
- ///FIRST SOUNDS
-
-        mediaPlayer1_1=new MediaPlayer();
-        mediaPlayer1_1.setOnCompletionListener(this);
-        mediaPlayer1_1.setOnErrorListener(this);
-        mediaPlayer1_1.setOnPreparedListener(this);
-        mediaPlayer1_1.setOnBufferingUpdateListener(this);
-        mediaPlayer1_1.setOnSeekCompleteListener(this);
-        mediaPlayer1_1.setOnInfoListener(this);
-
-        /////\\\\
-        mediaPlayer1_2=new MediaPlayer();
-
-        mediaPlayer1_2.setOnCompletionListener(this);
-        mediaPlayer1_2.setOnErrorListener(this);
-        mediaPlayer1_2.setOnPreparedListener(this);
-        mediaPlayer1_2.setOnBufferingUpdateListener(this);
-        mediaPlayer1_2.setOnSeekCompleteListener(this);
-        mediaPlayer1_2.setOnInfoListener(this);
-
-///SECOND SOUNDS
-
-        mediaPlayer2_1=new MediaPlayer();
-        mediaPlayer2_1.setOnCompletionListener(this);
-        mediaPlayer2_1.setOnErrorListener(this);
-        mediaPlayer2_1.setOnPreparedListener(this);
-        mediaPlayer2_1.setOnBufferingUpdateListener(this);
-        mediaPlayer2_1.setOnSeekCompleteListener(this);
-        mediaPlayer2_1.setOnInfoListener(this);
-
-        /////\\\\
-        mediaPlayer2_2=new MediaPlayer();
-
-        mediaPlayer2_2.setOnCompletionListener(this);
-        mediaPlayer2_2.setOnErrorListener(this);
-        mediaPlayer2_2.setOnPreparedListener(this);
-        mediaPlayer2_2.setOnBufferingUpdateListener(this);
-        mediaPlayer2_2.setOnSeekCompleteListener(this);
-        mediaPlayer2_2.setOnInfoListener(this);*/
-///3
-/*
-       mediaPlayer1=new MediaPlayer();
-       mediaPlayer2=new MediaPlayer();
-        mediaPlayer3 = new MediaPlayer();
-        mediaPlayer4 = new MediaPlayer();
-        mediaPlayer5 = new MediaPlayer();
-        mediaPlayer6 = new MediaPlayer();
-        mediaPlayer7 = new MediaPlayer();
-        mediaPlayer8 = new MediaPlayer();
-        mediaPlayer9 = new MediaPlayer();
-        mediaPlayer10 = new MediaPlayer();
-        mediaPlayer11 = new MediaPlayer();
-        mediaPlayer12 = new MediaPlayer();
-        mediaPlayer13 = new MediaPlayer();
-        mediaPlayer14 = new MediaPlayer();
-        mediaPlayer15 = new MediaPlayer();
-        mediaPlayer16 = new MediaPlayer();
-        mediaPlayer17 = new MediaPlayer();
-        mediaPlayer18= new MediaPlayer();
-        mediaPlayer19= new MediaPlayer();
-        mediaPlayer20 = new MediaPlayer();*/
-
-
-
-
-
-
-
-
-
-
-
-    /*    requestAudioFocus();
-        removeAudioFocus();*/
 
     }
 
@@ -1059,11 +1097,11 @@ callStateListener();
                     //if at least one call exists or the phone is ringing
                     //pause the MediaPlayer
                     case TelephonyManager.CALL_STATE_OFFHOOK:
-                        pauseMedia();
+                        pauseMedia(getApplicationContext());
                         //substopMedia();
                     case TelephonyManager.CALL_STATE_RINGING:
                         // if (mediaPlayer != null) {
-                        pauseMedia();
+                        pauseMedia(getApplicationContext());
                         //substopMedia();
                         ongoingCall = true;
                         // }
@@ -1087,138 +1125,6 @@ callStateListener();
         telephonyManager.listen(phoneStateListener,
                 PhoneStateListener.LISTEN_CALL_STATE);
     }
-   /* private void allSounds()
-    {
-
-
-        MediaPlayerService.mediaPlayer1 = MediaPlayer.create(context, R.raw.dheera);
-        MediaPlayerService.mediaPlayer2 = MediaPlayer.create(context, R.raw.dheera);
-        MediaPlayerService.mediaPlayer3 = MediaPlayer.create(context, R.raw.sea);
-        MediaPlayerService.mediaPlayer4 = MediaPlayer.create(context, R.raw.sea);
-        MediaPlayerService.mediaPlayer5 = MediaPlayer.create(context, R.raw.sea);
-        MediaPlayerService.mediaPlayer6 = MediaPlayer.create(context, R.raw.sea);
-        MediaPlayerService.mediaPlayer7 = MediaPlayer.create(context, R.raw.sea);
-        MediaPlayerService.mediaPlayer8 = MediaPlayer.create(context, R.raw.sea);
-        MediaPlayerService.mediaPlayer9 = MediaPlayer.create(context, R.raw.sea);
-        MediaPlayerService.mediaPlayer10 = MediaPlayer.create(context, R.raw.sea);
-        MediaPlayerService.mediaPlayer11 = MediaPlayer.create(context, R.raw.sea);
-        MediaPlayerService.mediaPlayer12 = MediaPlayer.create(context, R.raw.locustsound);
-        MediaPlayerService.mediaPlayer13 = MediaPlayer.create(context, R.raw.sea);
-        MediaPlayerService.mediaPlayer14 = MediaPlayer.create(context, R.raw.sea);
-        MediaPlayerService.mediaPlayer15 = MediaPlayer.create(context, R.raw.sea);
-        MediaPlayerService.mediaPlayer16 = MediaPlayer.create(context, R.raw.sea);
-        MediaPlayerService.mediaPlayer17 = MediaPlayer.create(context, R.raw.sea);
-        MediaPlayerService.mediaPlayer18 = MediaPlayer.create(context, R.raw.sea);
-        MediaPlayerService.mediaPlayer19 = MediaPlayer.create(context, R.raw.sea);
-        MediaPlayerService.mediaPlayer20 = MediaPlayer.create(context, R.raw.sea);
-
-
-
-
-    }*/
-  /* public static void substopMedia() {
-
-       if (mediaPlayer1!=null) {
-           mediaPlayer1.stop();
-           mediaPlayer1.release();
-           mediaPlayer1=null;
-       }
-       if (mediaPlayer2!=null) {
-           mediaPlayer2.stop();
-           mediaPlayer2.release();
-           mediaPlayer2=null;
-       }
-       if (mediaPlayer3!=null) {
-           mediaPlayer3.stop();
-           mediaPlayer3.release();
-           mediaPlayer3=null;
-       }
-       if (mediaPlayer4!=null) {
-           mediaPlayer4.stop();
-           mediaPlayer4.release();
-           mediaPlayer4=null;
-       }
-       if (mediaPlayer5!=null) {
-           mediaPlayer5.stop();
-           mediaPlayer5.release();
-           mediaPlayer5=null;
-       }
-       if (mediaPlayer6!=null) {
-           mediaPlayer6.stop();
-           mediaPlayer6.release();
-           mediaPlayer6=null;
-       }
-       if (mediaPlayer7!=null) {
-           mediaPlayer7.stop();
-           mediaPlayer7.release();
-           mediaPlayer7=null;
-       }
-       if (mediaPlayer8!=null) {
-           mediaPlayer8.stop();
-           mediaPlayer8.release();
-           mediaPlayer8=null;
-       }
-       if (mediaPlayer9!=null) {
-           mediaPlayer9.stop();
-           mediaPlayer9.release();
-           mediaPlayer9=null;
-       }
-       if (mediaPlayer10!=null) {
-           mediaPlayer10.stop();
-           mediaPlayer10.release();
-           mediaPlayer10=null;
-       }
-       if (mediaPlayer11!=null) {
-           mediaPlayer11.stop();
-           mediaPlayer11.release();
-           mediaPlayer11=null;
-       }
-       if (mediaPlayer12!=null) {
-           mediaPlayer12.stop();
-           mediaPlayer12.release();
-           mediaPlayer12=null;
-       }
-       if (mediaPlayer13!=null) {
-           mediaPlayer13.stop();
-           mediaPlayer13.release();
-           mediaPlayer13=null;
-       }
-       if (mediaPlayer14!=null) {
-           mediaPlayer14.stop();
-           mediaPlayer14.release();
-           mediaPlayer14=null;
-       }
-       if (mediaPlayer15!=null) {
-           mediaPlayer15.stop();
-           mediaPlayer15.release();
-           mediaPlayer15=null;
-       }
-       if (mediaPlayer16!=null) {
-           mediaPlayer16.stop();
-           mediaPlayer16.release();
-           mediaPlayer16=null;
-       }
-       if (mediaPlayer17!=null) {
-           mediaPlayer17.stop();
-           mediaPlayer17.release();
-           mediaPlayer17=null;
-       }
-       if (mediaPlayer18!=null) {
-           mediaPlayer18.stop();
-           mediaPlayer18.release();
-           mediaPlayer18=null;
-       }
-       if (mediaPlayer19!=null) {
-           mediaPlayer19.stop();
-           mediaPlayer19.release();
-           mediaPlayer19=null;
-       }
-       if (mediaPlayer20!=null) {
-           mediaPlayer20.stop();
-           mediaPlayer20.release();
-           mediaPlayer20=null;
-       }
-   }*/
 
     @Override
     public boolean onUnbind(Intent intent) {
@@ -1230,6 +1136,64 @@ callStateListener();
     public class LocalBinder extends Binder {
         public MediaPlayerService getService() {
             return MediaPlayerService.this;
+        }
+    }
+
+
+
+    public static void hashmapset(Context context)
+    {
+        SharedPreferences shared = context.getSharedPreferences("App_settings", MODE_PRIVATE);
+        Set<String> set5 = shared.getStringSet("LIST_SOUNDS", null);
+        if (set5 != null)
+            nowplaysounds.addAll(set5);
+
+        Log.d("erytcugyv","set");
+        //convert to string using gson
+
+        if (MainActivity.VolumeHashMap.size()>0) {
+
+            Log.d("erytcugyv","if hash"+MainActivity.VolumeHashMap.size());
+
+            String hashMapString = gson.toJson(MainActivity.VolumeHashMap);
+
+            //save in shared prefs
+            SharedPreferences prefs = context.getSharedPreferences("test", MODE_PRIVATE);
+
+            prefs.edit().putString("hashString", hashMapString).apply();
+            for (int j=0;j<MainActivity.VolumeHashMap.size();j++)
+                Log.d("erytcugyv","ok"+MainActivity.VolumeHashMap.get(nowplaysounds.get(j)));
+            // Toast.makeText(context, MainActivity.VolumeHashMap.size(), Toast.LENGTH_LONG).show();
+        }
+        //get from shared prefs
+
+
+
+    }
+    public static void hashmapget(Context context){
+
+        nowplaysounds.clear();
+        MainActivity.VolumeHashMap.clear();
+        SharedPreferences shared = context.getSharedPreferences("App_settings", MODE_PRIVATE);
+        Set<String> set5 = shared.getStringSet("LIST_SOUNDS", null);
+        if (set5 != null)
+            nowplaysounds.addAll(set5);
+        Log.d("erytcugyv", "dffffffgh");
+        if (nowplaysounds.size()>0) {
+
+
+
+            SharedPreferences prefs = context.getSharedPreferences("App_settings", MODE_PRIVATE);
+            String storedHashMapString = prefs.getString("VolumeHashMap", null);
+            java.lang.reflect.Type type = new TypeToken<HashMap<String, Integer>>() {
+            }.getType();
+            Log.d("erytcugyv", "1");
+            //HashMap<String, MediaPlayer> testHashMap2 = gson.fromJson(storedHashMapString, type);
+            MainActivity.VolumeHashMap = gson.fromJson(storedHashMapString, type);
+            Log.d("erytcugyv", "2");
+            // Toast.makeText(context, MainActivity.VolumeHashMap.size(), Toast.LENGTH_LONG).show();
+            //for (int j = 0; j < MainActivity.VolumeHashMap.size(); j++)
+            //    Log.d("erytcugyv", nowplaysounds.get(j)+"get" + MainActivity.VolumeHashMap.get(nowplaysounds.get(j)));
         }
     }
 

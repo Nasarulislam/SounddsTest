@@ -995,7 +995,7 @@ pointer-events: none;
                   break;
                 case 'lifetime':
                   var lifeTimePices=value.split("||");
-                  console.log('lifeTimePices is '+lifeTimePices[0]+' '+lifeTimePices[1]);
+
                   document.querySelector(".lifetime").innerHTML= lifeTimePices[0];
                   document.querySelector("#opt-lifetime .subscTitle").innerHTML=data['lifetime'];
                   value= value.replace(",","");

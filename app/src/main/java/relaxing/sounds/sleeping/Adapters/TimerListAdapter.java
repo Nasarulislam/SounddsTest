@@ -2,22 +2,34 @@ package relaxing.sounds.sleeping.Adapters;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import relaxing.sounds.sleeping.Activitys.MainActivity;
 //import com.example.Activitys.R;
+
+import relaxing.sounds.sleeping.CustomTimePickerDialog;
+import relaxing.sounds.sleeping.CustomTimerDialog;
+import relaxing.sounds.sleeping.RangeTimePickerDialog;
 import relaxing.sounds.sleeping.TImerListDialog;
 import relaxing.sounds.sleeping.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class TimerListAdapter extends BaseAdapter {
 
@@ -30,7 +42,9 @@ public class TimerListAdapter extends BaseAdapter {
     TImerListDialog mContextt;
     AlertDialog alertDialog = null;
     MainActivity mactivity;
-
+    Context mcontext;
+    final Calendar myCalender = Calendar.getInstance();
+    int hour,minute;
     public TimerListAdapter(ArrayList<String> timerList, Dialog cotext, TImerListDialog mContextt, MainActivity mactivity) {
         this.timerList = timerList;
         this.mContextt = mContextt;
@@ -96,8 +110,10 @@ public class TimerListAdapter extends BaseAdapter {
                     String selectString = timerList.get(i);
                     Log.d("selectString", selectedPosition + "" + selectString);
                     if (selectString.equals("No Timer")) {
-                        if (((MainActivity) mactivity).getCountDownTimer() != null)
+                        if (((MainActivity) mactivity).getCountDownTimer() != null) {
                             ((MainActivity) mactivity).getCountDownTimer().cancel();
+                            ((MainActivity) mactivity).setCountDownTimer(null);
+                        }
 
                         //stime=9;
                         // MainActivity.Companion.countdown(stime);
@@ -115,14 +131,127 @@ public class TimerListAdapter extends BaseAdapter {
                        /* TImerListDialog tImerListDialog=new TImerListDialog(mContext);
                         tImerListDialog.dismiss();*/
                     }
+                    if (selectString.equals("Custom Duration")) {
+                        hour = dismissSharedPreferences.getInt("hour", 0);
+                         minute = dismissSharedPreferences.getInt("minute", 0);
+                    /*    // ShowTimePicker(view);
+                      *//*  RangeTimePickerDialog tpd = new RangeTimePickerDialog(mactivity, new RangeTimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                            }
+                        }, hour, minute, true);
+                        tpd.setMin(11, 20);
+                        tpd.setMin(14, 20);
+                        tpd.show();*//*
+
+                        //int hour = myCalender.get(Calendar.HOUR_OF_DAY);
+                        //int minute = myCalender.get(Calendar.MINUTE);
+
+
+                        TimePickerDialog.OnTimeSetListener myTimeListener = new TimePickerDialog.OnTimeSetListener() {
+                     //   TimePickerDialog.OnTimeSetListener myTimeListener = new TimePickerDialog.OnTimeSetListener() {
+
+                            @Override
+                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                if (view.isShown()) {
+                                   // ShowTimePicker(view);
+                                    hideAmPmLayout(view);
+                                    Log.d("ugdvuin",""+hourOfDay);
+                                    */
+                        /*if(hourOfDay>12) {
+                                        hour=hourOfDay-12;
+                                        Log.d("ugdvuin","1"+hourOfDay);
+                                       updateDialogTitle(view,hourOfDay-12);
+                                    }else {
+
+                                        Log.d("ugdvuin","2"+hourOfDay);
+                                        myCalender.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                        myCalender.set(Calendar.MINUTE, minute);
+                                        //  myCalender.set(Calendar.AM_PM,0,0);
+                                    }*//*
+
+                                 //   Toast.makeText(mactivity, hourOfDay+":"+minute, Toast.LENGTH_SHORT).show();
+                                    if (hourOfDay>0)
+                                    {  int hur=0;
+                                        if (hourOfDay>12){
+                                            hur=(hourOfDay%12)*60;
+                                        }else {
+                                             hur=hourOfDay*60;
+                                        }
+                                        // hur=hourOfDay*60;
+                                        int hrmin=hur+minute;
+
+                                        if (((MainActivity) mactivity).getCountDownTimer() != null) {
+                                            ((MainActivity) mactivity).getCountDownTimer().cancel();
+                                            ((MainActivity) mactivity).setCountDownTimer(null);
+                                        }
+                                        try {
+                                            TImerListDialog.stime = hrmin * 60 * 1000;
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                    else {
+
+                                        if (((MainActivity) mactivity).getCountDownTimer() != null) {
+                                            ((MainActivity) mactivity).getCountDownTimer().cancel();
+                                            ((MainActivity) mactivity).setCountDownTimer(null);
+                                        }
+                                        try {
+                                            TImerListDialog.stime = minute * 60 * 1000;
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                    SharedPreferences.Editor editor = dismissSharedPreferences.edit();
+                                    editor.putInt("hour",hourOfDay);
+                                    editor.putInt("minute",minute);
+                                    editor.commit();
+
+                                    ((MainActivity) mactivity).relativeTimerStopp.setVisibility(View.GONE);
+                                    ((MainActivity) mactivity).relativeTimerStartt.setVisibility(View.VISIBLE);
+                                    mactivity.countdown(TImerListDialog.stime, CmainActivity);
+                                    MainActivity.Companion.dismisTimer(mContext, mactivity);
+                                }
+                            }
+
+
+
+                        };
+
+
+
+                        TimePickerDialog timePickerDialog = new TimePickerDialog(mactivity, android.R.style.Theme_Holo_Light_Dialog_NoActionBar, myTimeListener, hour, minute,false );
+                        timePickerDialog.setTitle("Custom Timer Duration");
+                        timePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                        timePickerDialog.show();
+                       */
+                        /* CustomTimePickerDialog timePickerDialog = new CustomTimePickerDialog(mactivity, myTimeListener, hour, minute,true );
+                        timePickerDialog.setTitle("Custom Timer Duration");
+                        timePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                        timePickerDialog.show();
+*/
+                        /*
+                        *//*RangeTimePickerDialog customTimePickerDialog=new RangeTimePickerDialog(mactivity, myTimeListener, hour, minute,true );
+                        //customTimePickerDialog.setCancelable(false);
+                        //customTimePickerDialog.setMin(11,20);
+                        //customTimePickerDialog.setMin(14,20);
+                        customTimePickerDialog.show();*/
+
+                     //   CustomTimeDialog
+                        CustomTimerDialog customTimerDialog=new CustomTimerDialog(mContext,mactivity,hour,minute);
+                        customTimerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        customTimerDialog.show();
+                        dismissSharedPreferences.edit().putInt("position", selectedPosition).commit();
+
+                        TImerListDialog tImerListDialog = new TImerListDialog(mContext, mactivity);
+                        tImerListDialog.dismiss();
+
+                    }
                     if (selectString.equals("5 minutes")) {
                         if (((MainActivity) mactivity).getCountDownTimer() != null) {
                             ((MainActivity) mactivity).getCountDownTimer().cancel();
-                            //  ((MainActivity) mactivity).setCountDownTimer();
-
-                            Log.d("jvkjvn", "if");
-                        } else {
-                            Log.d("jvkjvn", "else");
+                            ((MainActivity) mactivity).setCountDownTimer(null);
                         }
 
 
@@ -150,8 +279,10 @@ public class TimerListAdapter extends BaseAdapter {
                         // mContext.get
                     }
                     if (selectString.equals("10 minutes")) {
-                        if (((MainActivity) mactivity).getCountDownTimer() != null)
+                        if (((MainActivity) mactivity).getCountDownTimer() != null) {
                             ((MainActivity) mactivity).getCountDownTimer().cancel();
+                            ((MainActivity) mactivity).setCountDownTimer(null);
+                        }
                         dismissSharedPreferences.edit().putInt("position", selectedPosition).commit();
                         ((MainActivity) mactivity).relativeTimerStopp.setVisibility(View.GONE);
                         ((MainActivity) mactivity).relativeTimerStartt.setVisibility(View.VISIBLE);
@@ -167,8 +298,10 @@ public class TimerListAdapter extends BaseAdapter {
                         tImerListDialog.closeDialog();
                     }
                     if (selectString.equals("15 minutes")) {
-                        if (((MainActivity) mactivity).getCountDownTimer() != null)
+                        if (((MainActivity) mactivity).getCountDownTimer() != null) {
                             ((MainActivity) mactivity).getCountDownTimer().cancel();
+                            ((MainActivity) mactivity).setCountDownTimer(null);
+                        }
                         dismissSharedPreferences.edit().putInt("position", selectedPosition).commit();
                         ((MainActivity) mactivity).relativeTimerStopp.setVisibility(View.GONE);
                         ((MainActivity) mactivity).relativeTimerStartt.setVisibility(View.VISIBLE);
@@ -178,8 +311,10 @@ public class TimerListAdapter extends BaseAdapter {
                         mactivity.countdown(TImerListDialog.stime, CmainActivity);
                     }
                     if (selectString.equals("30 minutes")) {
-                        if (((MainActivity) mactivity).getCountDownTimer() != null)
+                        if (((MainActivity) mactivity).getCountDownTimer() != null) {
                             ((MainActivity) mactivity).getCountDownTimer().cancel();
+                            ((MainActivity) mactivity).setCountDownTimer(null);
+                        }
                         dismissSharedPreferences.edit().putInt("position", selectedPosition).commit();
                         ((MainActivity) mactivity).relativeTimerStopp.setVisibility(View.GONE);
                         ((MainActivity) mactivity).relativeTimerStartt.setVisibility(View.VISIBLE);
@@ -189,8 +324,10 @@ public class TimerListAdapter extends BaseAdapter {
                         mactivity.countdown(TImerListDialog.stime, CmainActivity);
                     }
                     if (selectString.equals("45 minutes")) {
-                        if (((MainActivity) mactivity).getCountDownTimer() != null)
+                        if (((MainActivity) mactivity).getCountDownTimer() != null) {
                             ((MainActivity) mactivity).getCountDownTimer().cancel();
+                            ((MainActivity) mactivity).setCountDownTimer(null);
+                        }
                         dismissSharedPreferences.edit().putInt("position", selectedPosition).commit();
                         ((MainActivity) mactivity).relativeTimerStopp.setVisibility(View.GONE);
                         ((MainActivity) mactivity).relativeTimerStartt.setVisibility(View.VISIBLE);
@@ -200,8 +337,10 @@ public class TimerListAdapter extends BaseAdapter {
                         mactivity.countdown(TImerListDialog.stime, CmainActivity);
                     }
                     if (selectString.equals("1 hour")) {
-                        if (((MainActivity) mactivity).getCountDownTimer() != null)
+                        if (((MainActivity) mactivity).getCountDownTimer() != null) {
                             ((MainActivity) mactivity).getCountDownTimer().cancel();
+                            ((MainActivity) mactivity).setCountDownTimer(null);
+                        }
                         dismissSharedPreferences.edit().putInt("position", selectedPosition).commit();
                         ((MainActivity) mactivity).relativeTimerStopp.setVisibility(View.GONE);
                         ((MainActivity) mactivity).relativeTimerStartt.setVisibility(View.VISIBLE);
@@ -211,8 +350,10 @@ public class TimerListAdapter extends BaseAdapter {
                         mactivity.countdown(TImerListDialog.stime, CmainActivity);
                     }
                     if (selectString.equals("3 hour")) {
-                        if (((MainActivity) mactivity).getCountDownTimer() != null)
+                        if (((MainActivity) mactivity).getCountDownTimer() != null) {
                             ((MainActivity) mactivity).getCountDownTimer().cancel();
+                            ((MainActivity) mactivity).setCountDownTimer(null);
+                        }
                         dismissSharedPreferences.edit().putInt("position", selectedPosition).commit();
                         ((MainActivity) mactivity).relativeTimerStopp.setVisibility(View.GONE);
                         ((MainActivity) mactivity).relativeTimerStartt.setVisibility(View.VISIBLE);
@@ -235,7 +376,31 @@ public class TimerListAdapter extends BaseAdapter {
 
         return view;
     }
+    private void updateDialogTitle(TimePicker timePicker, int hourOfDay) {
+        myCalender.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        //calendar.set(Calendar.MINUTE, minute);
 
+    }
+    private void hideAmPmLayout(TimePicker picker) {
+        final int id = Resources.getSystem().getIdentifier("layout", "id", "android");
+        final View amPmLayout = picker.findViewById(id);
+        Toast.makeText(mactivity, "view", Toast.LENGTH_SHORT).show();
+        if(amPmLayout != null) {
+            Toast.makeText(mactivity, "if", Toast.LENGTH_SHORT).show();
+            amPmLayout.setVisibility(View.GONE);
+        }
+    }
+    public void ShowTimePicker(View view){
+        RangeTimePickerDialog tpd = new RangeTimePickerDialog(mactivity, new RangeTimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                Toast.makeText(mactivity, "", Toast.LENGTH_SHORT).show();
+            }
+        }, hour, minute, true);
+        tpd.setMin(11, 20);
+        tpd.setMin(14, 20);
+        tpd.show();
+    }
     public class Holder {
         TextView textView;
         RadioButton radioButton;

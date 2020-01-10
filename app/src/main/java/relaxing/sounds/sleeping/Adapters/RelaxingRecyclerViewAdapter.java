@@ -129,14 +129,14 @@ public class RelaxingRecyclerViewAdapter extends RecyclerView.Adapter<RelaxingRe
         images.add(new ImagesIcons(R.drawable.calm));
         images.add(new ImagesIcons(R.drawable.church_bell));
 
-        images.add(new ImagesIcons(R.drawable.clocks));
-        images.add(new ImagesIcons(R.drawable.fanss));
+        images.add(new ImagesIcons(R.drawable.new_clock));
+        images.add(new ImagesIcons(R.drawable.new_fan));
         images.add(new ImagesIcons(R.drawable.flute));
         images.add(new ImagesIcons(R.drawable.ocean));
         images.add(new ImagesIcons(R.drawable.piano));
 
-        images.add(new ImagesIcons(R.drawable.showers));
-        images.add(new ImagesIcons(R.drawable.windchimess));
+        images.add(new ImagesIcons(R.drawable.new_shower));
+        images.add(new ImagesIcons(R.drawable.new_wind_chimes));
 
       //  mInterstitialAd.show();
     }
@@ -324,7 +324,7 @@ public class RelaxingRecyclerViewAdapter extends RecyclerView.Adapter<RelaxingRe
 
                 try {
                     if (((MainActivity) context).getCountDownTimer() != null) {
-                        ((MainActivity) activity).countdown(MainActivity.Companion.getSecoundsleftPause(), (MainActivity) activity);
+                       // ((MainActivity) activity).countdown(MainActivity.Companion.getSecoundsleftPause(), (MainActivity) activity);
                         //MainActivity.Companion.countdown(MainActivity.Companion.getSecoundsleftPause());
                         ((MainActivity) activity).relativeTimerStopp.setVisibility(View.GONE);
                         ((MainActivity) activity).relativeTimerStartt.setVisibility(View.VISIBLE);
@@ -395,8 +395,11 @@ public class RelaxingRecyclerViewAdapter extends RecyclerView.Adapter<RelaxingRe
                         ((MainActivity) context).cardView.setVisibility(View.GONE);
                         ((MainActivity) context).relativeTimerStopp.setVisibility(View.VISIBLE);
                         ((MainActivity) context).relativeTimerStart.setVisibility(View.GONE);
-                        if (((MainActivity) context).getCountDownTimer() != null)
+                        if (((MainActivity) context).getCountDownTimer() != null) {
                             ((MainActivity) context).getCountDownTimer().cancel();
+                            ((MainActivity) context).setCountDownTimer(null);
+                            shared.edit().putInt("position", 0).commit();
+                        }
 
                         Toast toast = new Toast(context);
                         toast.setDuration(Toast.LENGTH_SHORT);
@@ -817,7 +820,7 @@ public class RelaxingRecyclerViewAdapter extends RecyclerView.Adapter<RelaxingRe
     }
     public void VisibilityPayTime(final int position,final MyViewHolder holder){
         try {
-            MediaPlayerService.resumeMedia();
+            MediaPlayerService.resumeMedia(context);
 
             if (((MainActivity) activity).getCountDownTimer() != null) {
                 //   ((MainActivity)activity).countdown(MainActivity.Companion.getSecoundsleftPause(),(MainActivity)activity);

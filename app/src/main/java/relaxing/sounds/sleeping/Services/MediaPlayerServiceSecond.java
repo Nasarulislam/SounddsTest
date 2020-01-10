@@ -87,7 +87,8 @@ public class MediaPlayerServiceSecond extends Service {
     Context context;
 
 
-    private void handleIntent(Intent intent ) {
+    private void handleIntent(Intent intent )
+    {
         if( intent == null || intent.getAction() == null )
             return;
 
@@ -176,7 +177,8 @@ public class MediaPlayerServiceSecond extends Service {
                 .into(new Target() {
                     @Override
                     public void onBitmapLoaded (final Bitmap bitmap, Picasso.LoadedFrom from){
-                        *//* Save the bitmap or do something with it here *//*
+                        */
+        /* Save the bitmap or do something with it here *//*
 
                         //Set it in the ImageView
                         theView.setImageBitmap(bitmap);
@@ -186,7 +188,7 @@ public class MediaPlayerServiceSecond extends Service {
 
          builder   = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
         //Picasso.get().load(getString(R.string.imageUrl)+"rain1night.webp").into(new Target() {
-            Picasso.get().load(R.drawable.ic_splash_round).into(new Target() {
+            Picasso.get().load(R.drawable.appicon).into(new Target() {
         //Picasso.get().load(getString(R.string.imageUrl)+MainActivity.Companion.getStringImageName()+".webp").into(new Target() {
                                                                                      @Override
                                                                                      public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -211,8 +213,6 @@ public class MediaPlayerServiceSecond extends Service {
 
       //  builder.setLargeIcon(largeIcon);
         builder
-
-
                // .setContentTitle(SecondActivity.packname)
                 //.setLargeIcon(largeIcon)
 //                .setLargeIcon(MusicLibrary.getAlbumBitmap(this, description.getMediaId()))
@@ -309,7 +309,7 @@ public class MediaPlayerServiceSecond extends Service {
                                      Log.e( "MediaPlayerServicekkk", "onPlay");
                                      buildNotification( generateAction( android.R.drawable.ic_media_pause, "Pause", ACTION_PAUSE ) );
                                     // MediaPlayerService.playMedia(getApplicationContext());
-                                     MediaPlayerService.resumeMedia();
+                                     MediaPlayerService.resumeMedia(getApplicationContext());
                                     // MediaPlayerService.resumeMedia1();
                                    // SecondActivity.buttonContinue.setText(getString(R.string.Pause));
                                      // context=this;
@@ -347,7 +347,7 @@ public class MediaPlayerServiceSecond extends Service {
                                     // stopForeground(STOP_FOREGROUND_DETACH);
                                        // stopForeground(true);
                                     // MediaPlayerService.pausemedia1();
-                                     MediaPlayerService.pauseMedia();
+                                     MediaPlayerService.pauseMedia(getApplicationContext());
                                      playpause=false;
                                  //    if (((MainActivity)getApplicationContext()).getCountDownTimer()!=null)
                                   ///       ((MainActivity)getApplicationContext()).getCountDownTimer().cancel();

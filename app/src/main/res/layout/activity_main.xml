@@ -205,5 +205,8 @@
         android:background="@color/onboarding"
         app:menu="@menu/bottom_menu"
         android:layout_alignParentBottom="true"
+        app:itemBackground="@color/onboarding"
+        app:itemIconTint="@drawable/bottom_nav_icon_color_selector"
+        app:itemTextColor="@drawable/bottom_nav_icon_color_selector"
         />
 </RelativeLayout>

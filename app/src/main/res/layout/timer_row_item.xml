@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:weightSum="1"
     android:padding="10dp">
 
     <RadioButton
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.2"
         android:gravity="center|left"
@@ -15,6 +15,7 @@
         android:layout_gravity="right"
         android:text="1minute"
         android:padding="8dp"
+        android:buttonTint="@color/onboarding"
         >
 
     </RadioButton>

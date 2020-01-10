@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import relaxing.sounds.sleeping.OnBoarding.GetPremium;
 import relaxing.sounds.sleeping.OnBoarding.MainActivityOnboarding;
 
+import relaxing.sounds.sleeping.Services.MediaPlayerService;
 import relaxing.sounds.sleeping.showNotification;
 
 import java.util.Calendar;
@@ -39,7 +40,7 @@ public class SplashScreen extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("App_settings", Context.MODE_PRIVATE);
         shared = getSharedPreferences("prefs.xml", Context.MODE_PRIVATE);
 
-        // checking app is purchsed or not
+        //>> checking app is purchsed or not
         try {
             if (sharedPreferences.getBoolean("purchased", false) || sharedPreferences.getBoolean("monthlySubscribed", false) || sharedPreferences.getBoolean("sixMonthSubscribed", false)) {
                 openPurchase = false;
@@ -48,16 +49,17 @@ public class SplashScreen extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        // Remove List Data
+        //>> Remove List Data
         try {
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.remove("RAIN_SOUNDS");
+           /* editor.remove("RAIN_SOUNDS");
             editor.remove("RELAXING_SOUNDS");
             editor.remove("LIST_SOUNDS");
             editor.remove("NATURE_SOUNDS");
             editor.remove("WATER_SOUNDS");
             editor.remove("position");
-            editor.commit();
+            editor.commit();*/
+           // MediaPlayerService.hashmapget(this);
         } catch (Exception e) {
             e.printStackTrace();
         }

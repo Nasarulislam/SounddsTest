@@ -55,6 +55,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import static android.content.Context.AUDIO_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
@@ -126,9 +127,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }*/
         images.add(new ImagesIcons(R.drawable.heavy_rain));
         images.add(new ImagesIcons(R.drawable.light_rain));
-        images.add(new ImagesIcons(R.drawable.cars));
+        images.add(new ImagesIcons(R.drawable.new_car));
         images.add(new ImagesIcons(R.drawable.rain_on_leaves));
-        images.add(new ImagesIcons(R.drawable.tents));
+        images.add(new ImagesIcons(R.drawable.new_rain_on_tent));
         images.add(new ImagesIcons(R.drawable.rain_on_umbrella));
         images.add(new ImagesIcons(R.drawable.roof_top));
         images.add(new ImagesIcons(R.drawable.thunder));
@@ -300,10 +301,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         MAX_VOLUME = 100;
         seekvolume1 = MAX_VOLUME / 2;
         seekvolume2 = MAX_VOLUME / 4;
+        /*if (seekbarlist.size()>0){
+            if (((MainActivity)activity).getFirstopen())
+
+            else {
+                for (int i=0;i<seekbarlist.size();i++)
+                holder.withseekBar.setProgress(MainActivity.VolumeHashMap.get(seekbarlist.get(i)));
+            }
+        }else {
+
+        }*/
         // volumeA = (float) (1 - (Math.log(MAX_VOLUME - MAX_VOLUME) / Math.log(MAX_VOLUME)));
         volume1 = (float) (1 - (Math.log(MAX_VOLUME - MAX_VOLUME / 2) / Math.log(MAX_VOLUME)));
         volume2 = (float) (1 - (Math.log(MAX_VOLUME - MAX_VOLUME / 4) / Math.log(MAX_VOLUME)));
         holder.withseekBar.setProgress(seekvolume1);
+
+
+
+
         Log.d("qwertyu", "seekbarlist" + seekbarlist + "qwer" + chipNames1.size());
         try {
             for (int j = 0; j < seekbarlist.size(); j++) {
@@ -327,6 +342,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     //  Float toastString = testHashMap2.get("key1") + " | " + testHashMap2.get("key2");
                     //    Toast.makeText(this, toastString, Toast.LENGTH_LONG).show();
 
+                   // SharedPreferences prefs = activity.getPreferences(Context.MODE_PRIVATE);
+                    String sV = shared.getString("RainFragment_Volumevalues", "");
+                    StringTokenizer stV = new StringTokenizer(sV, ",");
+                    // ArrayList<Integer> result = new ArrayList<Integer>();
+                    while (stV.hasMoreTokens()) {
+                        RainFragment.Volumevalues.add(Integer.parseInt(stV.nextToken()));
+                    }
+
+                    String sP = shared.getString("RainFragment_Volumevposition", "");
+                    StringTokenizer stP = new StringTokenizer(sP, ",");
+                    // ArrayList<Integer> result = new ArrayList<Integer>();
+                    while (stP.hasMoreTokens()) {
+                        RainFragment.Volumevposition.add(Integer.parseInt(stP.nextToken()));
+                    }
+
+
                     if (RainFragment.Volumevposition.size() > 0) {
                         for (int h = 0; h < RainFragment.Volumevposition.size(); h++) {
                             if (position == RainFragment.Volumevposition.get(h)) {
@@ -334,6 +365,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                 holder.withseekBar.setProgress(progress);
                                 //RainFragment.Volumevalues.set(progress, position);
                                 //RainFragment.Volumevposition.add(position);
+
+
+
                             }
                         }
                     }
@@ -481,7 +515,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 notifyDataSetChanged();*/
                 try {
                     if (((MainActivity) context).getCountDownTimer() != null) {
-                        ((MainActivity) activity).countdown(MainActivity.Companion.getSecoundsleftPause(), (MainActivity) activity);
+                       // ((MainActivity) activity).countdown(MainActivity.Companion.getSecoundsleftPause(), (MainActivity) activity);
                         //MainActivity.Companion.countdown(MainActivity.Companion.getSecoundsleftPause());
                         ((MainActivity) activity).relativeTimerStopp.setVisibility(View.GONE);
                         ((MainActivity) activity).relativeTimerStartt.setVisibility(View.VISIBLE);
@@ -537,6 +571,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                             }
                         }
                     }
+
+                   // SharedPreferences.Editor editor = shared.edit();
+                    String sV = "";
+                    String sP = "";
+                    for (Integer i : RainFragment.Volumevalues) {
+                        sV += i + ",";
+                    }
+                    for (Integer i : RainFragment.Volumevposition) {
+                        sP += i + ",";
+                    }
+                    editor.putString("RainFragment_Volumevalues", sV);
+                    editor.putString("RainFragment_Volumevposition", sP);
+
+                    String hashMapString = gson.toJson(MainActivity.VolumeHashMap);
+                    editor.putString("VolumeHashMap", hashMapString);
+                    editor.apply();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -551,12 +601,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     if (seekbarlistsub.size() > 0) {
                         ((MainActivity) context).cardView.setVisibility(View.VISIBLE);
                         // cardView.setVisibility(View.VISIBLE);
+                        Log.d("bnubihiuhbbuibn","if");
                     } else {
-                        ((MainActivity) context).cardView.setVisibility(View.GONE);
-                        ((MainActivity) context).relativeTimerStopp.setVisibility(View.VISIBLE);
-                        ((MainActivity) context).relativeTimerStart.setVisibility(View.GONE);
-                        if (((MainActivity) context).getCountDownTimer() != null)
+                        Log.d("bnubihiuhbbuibn","else");
+                        if (((MainActivity) context).getCountDownTimer() != null) {
                             ((MainActivity) context).getCountDownTimer().cancel();
+                            ((MainActivity) context).setCountDownTimer(null);
+                            shared.edit().putInt("position", 0).commit();
+                        }
+                        ((MainActivity) context).relativeTimerStart.setVisibility(View.GONE);
+                        ((MainActivity) context).relativeTimerStopp.setVisibility(View.VISIBLE);
+                        ((MainActivity) context).cardView.setVisibility(View.GONE);
+
+
+
                         Toast toast = new Toast(context);
                         toast.setDuration(Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.CENTER,0, 0);
@@ -634,6 +692,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                             }
                         }
                     }
+                    SharedPreferences.Editor editor = shared.edit();
+                    String sV = "";
+                    String sP = "";
+                    for (Integer i : RainFragment.Volumevalues) {
+                        sV += i + ",";
+                    }
+                    for (Integer i : RainFragment.Volumevposition) {
+                        sP += i + ",";
+                    }
+                    editor.putString("RainFragment_Volumevalues", sV);
+                    editor.putString("RainFragment_Volumevposition", sP);
+                    //editor.apply();
+
+                    String hashMapString = gson.toJson(MainActivity.VolumeHashMap);
+                    editor.putString("VolumeHashMap", hashMapString);
+                    editor.apply();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -763,9 +838,28 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                     RainFragment.Volumevalues.add(seekvolume1);
                                     RainFragment.Volumevposition.add(position);
                                     MainActivity.VolumeHashMap.put(chipNames1.get(position), seekvolume1);
+
+
+                                    SharedPreferences.Editor editor = shared.edit();
+                                    String sV = "";
+                                    String sP = "";
+                                    for (Integer i : RainFragment.Volumevalues) {
+                                        sV += i + ",";
+                                    }
+                                    for (Integer i : RainFragment.Volumevposition) {
+                                        sP += i + ",";
+                                    }
+                                    editor.putString("RainFragment_Volumevalues", sV);
+                                    editor.putString("RainFragment_Volumevposition", sP);
+
+
+                                    String hashMapString = gson.toJson(MainActivity.VolumeHashMap);
+                                    editor.putString("VolumeHashMap", hashMapString);
+                                    editor.apply();
     //                               MainActivity.ListvolumeSeekbar.add(seekvolume1);
                                     // Set<String> set4 = new HashSet<String>();
                                     // seekbarlistsub.add(fin);
+
                                     /*set4.addAll(seekbarlistsub);
                                     editor4.putStringSet("LIST_SOUNDS", set4);
                                     editor4.apply();*/
@@ -839,6 +933,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     Intent intent = new Intent(context, MediaPlayerServiceSecond.class);
                     intent.setAction(MediaPlayerServiceSecond.ACTION_NEXT);
                     context.startService(intent);
+
+                    SharedPreferences.Editor editor = shared.edit();
+                    String sV = "";
+                    String sP = "";
+                    for (Integer i : RainFragment.Volumevalues) {
+                        sV += i + ",";
+                    }
+                    for (Integer i : RainFragment.Volumevposition) {
+                        sP += i + ",";
+                    }
+                    editor.putString("RainFragment_Volumevalues", sV);
+                    editor.putString("RainFragment_Volumevposition", sP);
+
+
+                    String hashMapString = gson.toJson(MainActivity.VolumeHashMap);
+                    editor.putString("VolumeHashMap", hashMapString);
+                    editor.apply();
 
                    /* String hashMapString = gson.toJson(RainFragment.volumeHashMap);
                     prefs.edit().putString(chipNames1.get(position), hashMapString).apply();*/
@@ -1063,13 +1174,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void VisibilityPayTime(final int position,final MyViewHolder holder)
     {
         try {
-            MediaPlayerService.resumeMedia();
+            Log.d("hgcbjvkjn",""+1);
+            MediaPlayerService.resumeMedia(context);
 
+            Log.d("hgcbjvkjn",""+2);
             if (((MainActivity) activity).getCountDownTimer() != null) {
                 //   ((MainActivity)activity).countdown(MainActivity.Companion.getSecoundsleftPause(),(MainActivity)activity);
                 //MainActivity.Companion.countdown(MainActivity.Companion.getSecoundsleftPause());
                 ((MainActivity) activity).relativeTimerStopp.setVisibility(View.GONE);
                 ((MainActivity) activity).relativeTimerStartt.setVisibility(View.VISIBLE);
+
+                Log.d("hgcbjvkjn",""+3);
             }
             //PlaypuaseImage.setBackgroundResource(R.drawable.ic_pause_black_24dp);
             // ((MainActivity)).PlayRelative$1.setVisibility(View.GONE);
@@ -1120,7 +1235,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 // MainActivity.relativeTimerStart.setVisibility(View.GONE);
                 if (((MainActivity) context).getCountDownTimer() != null)
                     ((MainActivity) context).getCountDownTimer().cancel();
+
+                Intent intent = new Intent(context, MediaPlayerServiceSecond.class);
+             //   intent.setAction(MediaPlayerServiceSecond.ACTION_NEXT);
+                context.stopService(intent);
             }
+
+            Log.d("hgcbjvkjn",""+4);
         } catch (Exception e) {
             e.printStackTrace();
         }

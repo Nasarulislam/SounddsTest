@@ -1,42 +1,42 @@
 {"Rain":[
   {
     "SoundName":"Heavy Rain",
-    "SoundURL":"HeavyRain",
+    "SoundURL":"heavyrain",
     "ImageURL":"HeavyRain"
   },
   {
     "SoundName":"Light Rain",
-    "SoundURL":"LightRain",
+    "SoundURL":"lightrain",
     "ImageURL":"LightRain"
   },
    {
     "SoundName":"Rain On Car",
-    "SoundURL":"RainOnCar",
+    "SoundURL":"rainoncar",
     "ImageURL":"RainOnCar"
   },
   {
     "SoundName":"Rain On Leaves",
-    "SoundURL":"RainOnLeaves",
+    "SoundURL":"rainonleaves",
     "ImageURL":"RainOnLeaves"
   },
   {
     "SoundName":"Rain On Tent",
-    "SoundURL":"RainOnTent",
+    "SoundURL":"rainontent",
     "ImageURL":"RainOnTent"
   },
   {
     "SoundName":"Rain On Umbrella",
-    "SoundURL":"RainOnUmbrella",
+    "SoundURL":"rainonumbrella",
     "ImageURL":"RainOnUmbrella"
   },
   {
     "SoundName":"Roof Top",
-    "SoundURL":"RoofTop",
+    "SoundURL":"rooftop",
     "ImageURL":"RoofTop"
   },
   {
     "SoundName":"Thunder",
-    "SoundURL":"Thunder",
+    "SoundURL":"thunder",
     "ImageURL":"Thunder"
   }
   ,
@@ -50,12 +50,12 @@
   "Relax":[
   {
     "SoundName":"Calm",
-    "SoundURL":"Calm",
+    "SoundURL":"calm",
     "ImageURL":"Calm"
   },
   {
     "SoundName":"ChurchBell",
-    "SoundURL":"ChurchBell",
+    "SoundURL":"churchbell",
     "ImageURL":"ChurchBell"
   },
   {
@@ -85,7 +85,7 @@
   },
   {
     "SoundName":"Shower",
-    "SoundURL":"Shower",
+    "SoundURL":"shower",
     "ImageURL":"Shower"
   },
   {
@@ -100,12 +100,12 @@
   "Nature":[
   {
     "SoundName":"Bird",
-    "SoundURL":"Bird",
+    "SoundURL":"bird",
     "ImageURL":"Bird"
   },
   {
     "SoundName":"Crickets",
-    "SoundURL":"Crickets",
+    "SoundURL":"crickets",
     "ImageURL":"Crickets"
   },
   {
@@ -120,12 +120,12 @@
   },
   {
     "SoundName":"Fire",
-    "SoundURL":"Fire",
+    "SoundURL":"fire",
     "ImageURL":"Fire"
   },
   {
     "SoundName":"Frogs",
-    "SoundURL":"Frogs",
+    "SoundURL":"frogs",
     "ImageURL":"Frogs"
   },
   {
@@ -140,20 +140,20 @@
   },
   {
     "SoundName":"Wind",
-    "SoundURL":"Wind",
+    "SoundURL":"wind",
     "ImageURL":"Wind"
   }
   
   ],
-  "water":[
+  "Water":[
     {
     "SoundName":"Boat",
-    "SoundURL":"Boat",
+    "SoundURL":"boat",
     "ImageURL":"Boat"
   },
    {
     "SoundName":"Creek",
-    "SoundURL":"Creek",
+    "SoundURL":"creek",
     "ImageURL":"Creek"
   },
   {
@@ -163,7 +163,7 @@
   },
   {
     "SoundName":"Tribal Rain",
-    "SoundURL":"TribalRain",
+    "SoundURL":"tribalrain",
     "ImageURL":"TribalRain"
   },
   {
@@ -173,7 +173,7 @@
   },
   {
     "SoundName":"Waterfall",
-    "SoundURL":"Waterfall",
+    "SoundURL":"waterfall",
     "ImageURL":"Waterfall"
   },
   {
@@ -183,12 +183,12 @@
   },
   {
     "SoundName":"Water Spraying",
-    "SoundURL":"WaterSpraying",
+    "SoundURL":"waterspraying",
     "ImageURL":"WaterSpraying"
   },
   {
     "SoundName":"Waves",
-    "SoundURL":"Waves",
+    "SoundURL":"waves",
     "ImageURL":"Waves"
   }
   

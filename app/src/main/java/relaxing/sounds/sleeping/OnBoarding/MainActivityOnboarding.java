@@ -156,15 +156,18 @@ public class MainActivityOnboarding extends AppCompatActivity {
         else {
 
             Log.d("appisopenedbbb",sharedPreferences.getBoolean("appOpened",false)+" running " + sharedPreferences.getBoolean("purchased",false));
-            if (sharedPreferences.getBoolean("purchased",false)|| sharedPreferences.getBoolean("appOpened",false)){
+            if (sharedPreferences.getBoolean("purchased",false)||sharedPreferences.getBoolean("monthlySubscribed",false)||sharedPreferences.getBoolean("sixMonthSubscribed",false)|| sharedPreferences.getBoolean("appOpened",false)){
                 checkSubscription();
                 Log.d("appisopened",sharedPreferences.getBoolean("appOpened",false)+"");
                 Intent intent1 = new Intent(this, MainActivity.class);
                 startActivity(intent1);
-                finish();
+              //  finish();
+                MainActivityOnboarding.this.finish();
+
             }
             else{
                // sharedPreferences.edit().putBoolean("appOpened",true).apply();
+                Log.d("dcdhckjdjcj",""+urlVal);
                 webView.loadUrl(urlVal);
             }
 
@@ -290,7 +293,7 @@ public class MainActivityOnboarding extends AppCompatActivity {
             params += "data=1&";
 
         params += "appname="
-                + "com.rstream.mindfulness"
+                + "relaxing.sounds.sleeping"
                 + "&country="
                 + country
                 + "&devid="

@@ -33,7 +33,7 @@
                     android:id="@+id/youtube_imageView"
                     android:layout_width="match_parent"
                     android:layout_height="155dp"
-                    android:background="@drawable/feature_graphics"
+                    android:background="@drawable/appicon"
                     android:scaleType="centerCrop" />
 
                 <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView

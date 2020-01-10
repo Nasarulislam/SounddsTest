@@ -58,6 +58,7 @@ MainActivity activity;
 
         timerlist=new ArrayList<>();
         timerlist.add("No Timer");
+        timerlist.add("Custom Duration");
         timerlist.add("5 minutes");
         timerlist.add("10 minutes");
         timerlist.add("15 minutes");

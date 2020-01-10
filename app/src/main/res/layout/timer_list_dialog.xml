@@ -5,6 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
+    android:background="@drawable/dailog_timer_customise"
     >
    <!-- <androidx.cardview.widget.CardView
         android:id="@+id/disCardView"
@@ -25,6 +26,7 @@
         android:textSize="16sp"
         android:paddingTop="8dp"
         android:fontFamily="@font/roboto_bold"
+        android:textColor="@color/onboarding"
         >
 
     </TextView>

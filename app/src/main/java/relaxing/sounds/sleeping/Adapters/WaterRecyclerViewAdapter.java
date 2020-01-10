@@ -122,14 +122,14 @@ public class WaterRecyclerViewAdapter extends RecyclerView.Adapter<WaterRecycler
         this.formList = formList;
         this.activity = activity;
 
-        images.add(new ImagesIcons(R.drawable.boatsss));
-        images.add(new ImagesIcons(R.drawable.creeks));
+        images.add(new ImagesIcons(R.drawable.new_boat));
+        images.add(new ImagesIcons(R.drawable.new_creek));
         images.add(new ImagesIcons(R.drawable.river));
         images.add(new ImagesIcons(R.drawable.tribal_rain));
         images.add(new ImagesIcons(R.drawable.waterdrops));
         images.add(new ImagesIcons(R.drawable.waterfall));
         images.add(new ImagesIcons(R.drawable.waterflowing));
-        images.add(new ImagesIcons(R.drawable.waterspray));
+        images.add(new ImagesIcons(R.drawable.new_water_spray));
         images.add(new ImagesIcons(R.drawable.waves));
 
 
@@ -346,7 +346,7 @@ public class WaterRecyclerViewAdapter extends RecyclerView.Adapter<WaterRecycler
 
                 try {
                     if (((MainActivity) context).getCountDownTimer() != null) {
-                        ((MainActivity) activity).countdown(MainActivity.Companion.getSecoundsleftPause(), (MainActivity) activity);
+                       // ((MainActivity) activity).countdown(MainActivity.Companion.getSecoundsleftPause(), (MainActivity) activity);
                         //MainActivity.Companion.countdown(MainActivity.Companion.getSecoundsleftPause());
                         ((MainActivity) activity).relativeTimerStopp.setVisibility(View.GONE);
                         ((MainActivity) activity).relativeTimerStartt.setVisibility(View.VISIBLE);
@@ -417,8 +417,11 @@ public class WaterRecyclerViewAdapter extends RecyclerView.Adapter<WaterRecycler
                         ((MainActivity) context).cardView.setVisibility(View.GONE);
                         ((MainActivity) context).relativeTimerStopp.setVisibility(View.VISIBLE);
                         ((MainActivity) context).relativeTimerStart.setVisibility(View.GONE);
-                        if (((MainActivity) context).getCountDownTimer() != null)
+                        if (((MainActivity) context).getCountDownTimer() != null) {
                             ((MainActivity) context).getCountDownTimer().cancel();
+                            ((MainActivity) context).setCountDownTimer(null);
+                            shared.edit().putInt("position", 0).commit();
+                        }
 
                         Toast toast = new Toast(context);
                         toast.setDuration(Toast.LENGTH_SHORT);
@@ -896,7 +899,7 @@ public class WaterRecyclerViewAdapter extends RecyclerView.Adapter<WaterRecycler
     }
     public void VisibilityPayTime(final int position,final MyViewHolder holder) {
         try {
-            MediaPlayerService.resumeMedia();
+            MediaPlayerService.resumeMedia(context);
 
             if (((MainActivity) activity).getCountDownTimer() != null) {
                 //   ((MainActivity)activity).countdown(MainActivity.Companion.getSecoundsleftPause(),(MainActivity)activity);

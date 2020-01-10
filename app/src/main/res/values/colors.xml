@@ -17,7 +17,7 @@
     <color name="settingscolor">#03FFFF00</color>
 
     F7F5F5
-    <color name="onboarding">#F86638</color>
+    <color name="onboarding">#341847</color>
     <color name="black">#000000</color>
 
     <color name="colorHeadText">#C4000000</color>
@@ -27,6 +27,7 @@
     <color name="card_background_color">#dbfbed</color>
 
     <color name="icons_color">#B0B0B0</color>
-    <color name="bottonColor">#8F8FB1</color>
+    <color name="bottonColor">#727272</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="gray">#727272</color>
 </resources>

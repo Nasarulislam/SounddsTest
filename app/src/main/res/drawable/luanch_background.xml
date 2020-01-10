@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:drawable="@color/bottonColor" />
+    <item android:drawable="@color/onboarding" />
 
     <item>
         <bitmap
-            android:src="@drawable/ic_splash_round4"
+            android:src="@drawable/ic_launcher_foreground_appicon"
             android:gravity="center" />
 
     </item>

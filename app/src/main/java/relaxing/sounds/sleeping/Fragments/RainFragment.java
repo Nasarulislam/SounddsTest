@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import relaxing.sounds.sleeping.Activitys.MainActivity;
 import relaxing.sounds.sleeping.Adapters.RecyclerViewAdapter;
 //import com.example.Activitys.R;
+import relaxing.sounds.sleeping.Services.MediaPlayerService;
 import relaxing.sounds.sleeping.sleepJSONFile;
 import relaxing.sounds.sleeping.R;
 import com.google.gson.Gson;
@@ -211,6 +212,7 @@ public class RainFragment extends Fragment {
             Log.d("inniinn", "" + seekbarlistsub);
             if (seekbarlistsub.size() > 0) {
                 ((MainActivity) getActivity()).cardView.setVisibility(View.VISIBLE);
+              //  MediaPlayerService.hashmapget(getContext());
                 // cardView.setVisibility(View.VISIBLE);
             } else {
                 ((MainActivity) getActivity()).cardView.setVisibility(View.GONE);

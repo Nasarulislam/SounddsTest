@@ -7,7 +7,9 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
@@ -109,7 +111,9 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
     private var mAdView: AdView? = null
     var mInterstitialAd: InterstitialAd? = null
 
+    var volume :Int=0
 
+     var firstopen:Boolean=false
     //lateinit var countDownTimer: CountDownTimer
     public companion object {
 
@@ -197,7 +201,7 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
         }
 
 
-        // checking app is purchsed or not
+        //>> checking app is purchsed or not
 
         try {
             sharedisPurchase =
@@ -240,23 +244,12 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
         PuaseRelativee = findViewById(R.id.puaseRelative) as RelativeLayout
         PlayRelativ = findViewById(R.id.playRelative) as RelativeLayout
         PuaseRelativ = findViewById(R.id.puaseRelative) as RelativeLayout
-        //timerTextView=findViewById(R.id.timerTextView)as ImageView
-        //listimageView.setColorFilter(R.color.colorAccent)
-        //listimageView.colorFilter.
 
-        // timerTextView =findViewById(R.id.timerTextView)as TextViewLog.d("xtfcvv","above text")
-        Log.d("xtfcvv", "above text inititalise")
 
-        //timerTextVieww.text="fgekfaj"
         cardView = findViewById(R.id.disCardView)
-        /* relativeTimerStop.setOnClickListener {
-             relativeTimerStop.visibility=View.GONE
-             relativeTimerStart.visibility=View.VISIBLE
-         }
-         relativeTimerStart.setOnClickListener {
-             relativeTimerStart.visibility=View.GONE
-             relativeTimerStop.visibility=View.VISIBLE
-         }*/
+
+
+        //>>  Load data from Server
         try {
             Log.d("loaddata", "before first from main activity")
 
@@ -264,27 +257,22 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
             jsontest(JSON_URL!!, Nature!!)
             jsontest(JSON_URL!!, Water!!)
             jsontest(JSON_URL!!, Rain!!)
-            // SharedPreferences
             Log.d("loaddata", "first from main activity")
         } catch (e: Exception) {
         }
-       // if (formList?.size!!> 0) {
-        //loadData("Relax")
+
+
+
+       //>> Navigation fragment
             val host: NavHostFragment = supportFragmentManager
                 .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
             navController = host.navController
             appBarConfiguration = AppBarConfiguration(navController.graph)
-
-            //  bottom_navigation.setupWithNavController(navController)
             NavigationUI.setupWithNavController(bottom_navigation, navController)
+            bottomNavigationView = findViewById(R.id.bottom_navigation)
 
 
 
-            // jsontest(RainJSON_URL!!, RainJsonData!!)
-       // }
-
-        //soundIni()
-        bottomNavigationView = findViewById(R.id.bottom_navigation)
 
 //        linearLayout = findViewById(R.id.linearMain)
         linearLayoutMain = findViewById(R.id.linearMain)
@@ -292,6 +280,7 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
         //        rainFragment = supportFragmentManager.findFragmentById(R.id.rainFragment) as RainFragment
         // rainFragment.callAboutUsActivity()
         shared = getSharedPreferences("App_settings", Context.MODE_PRIVATE)
+        sharedisPurchase.edit().putBoolean("appOpened", true).apply();
         // Clear Seekbarlist
         //rainFragment= RainFragment()
         /*  val editor = shared.edit()
@@ -308,7 +297,7 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
         }
         cardView.visibility = View.GONE
 
-        // Playing Sounds in Listview
+        //>> Playing Sounds in Listview
         try {
             val set5 = shared.getStringSet("LIST_SOUNDS", null)
             if (set5 != null)
@@ -329,13 +318,13 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
             }
         } catch (e: Exception) {
         }
-// for volume control
+//>> for volume control
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
         cuphoneVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
         MAX_VOLUME = cuphoneVolume * 10
         mAudioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
 
-// Overlay
+//>> Overlay
         alertDialog = AlertDialog.Builder(this).create()
         floatingIntent = Intent(this, FloatingWidgetShowService::class.java)
         timerView.text = intent.getStringExtra("exercise")
@@ -362,26 +351,68 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
         } catch (e: Exception) {
         }
 
-        // Set Timer
+        //>> Set Timer
         try {
             timerRelative.setOnClickListener {
                 Log.d("asdfghjkhgghjg", "dane")
 
                 val tImerListDialog =
                     TImerListDialog(this, this)
+                tImerListDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 tImerListDialog.show()
             }
         } catch (e: Exception) {
         }
 
-        // Play Puase button
+        //>> Play Puase button
         try {
             PlayRelativee = findViewById(R.id.playRelative) as RelativeLayout
             PlayRelativee.setOnClickListener {
                 Log.d("timeeejhbbbr", "naaz")
                 PuaseRelativee.visibility = View.VISIBLE
                 PlayRelativee.visibility = View.GONE
-                MediaPlayerService.resumeMedia()
+                MediaPlayerService.resumeMedia(this)
+
+         /*       val curvolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+
+                // media.setVolume(volume,volume);
+//long mDuraction= media.getDuration();
+                val FADE_DURATION: Int = 3000
+                //final long FADE_DURATION = (mDuraction*25/100);//The duration of the fade
+                //The amount of time between volume changes. The smaller this is, the smoother the fade
+                //final long FADE_DURATION = (mDuraction*25/100);//The duration of the fade
+//The amount of time between volume changes. The smaller this is, the smoother the fade
+                val FADE_INTERVAL:Int = 30
+                //final float MAX_VOLUME = 1.5f;//The volume will increase from 0 to 1
+                //final float MAX_VOLUME = 1.5f;//The volume will increase from 0 to 1
+                val MAX_VOLUME:Int = curvolume*10
+                val numberOfSteps:Int=
+                    FADE_DURATION / FADE_INTERVAL //Calculate the number of fade steps
+
+                //Calculate by how much the volume changes each step
+                //Calculate by how much the volume changes each step
+                val deltaVolume:Int =1
+               // audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,0,0);
+                //Create a new Timer and Timer task to run the fading outside the main UI thread
+                val timer = Timer(true)
+                val timerTask: TimerTask = object : TimerTask() {
+                    override fun run() {
+                       fadeInStep(deltaVolume)
+                        Log.d("timeeejhbdghbbr", "$volume||$deltaVolume||$curvolume")
+                        //Cancel and Purge the Timer if the desired volume has been reached
+                        if (volume >= MAX_VOLUME) {
+                            Log.d("timeeejhbdghbbr", "$volume")
+                            timer.cancel()
+                            timer.purge()
+
+                        }
+                    }
+                }
+
+                timer.schedule(timerTask, 100, 100)
+
+*/
+
 
                 try {
                     if (secoundsleftPause > 0) {
@@ -408,7 +439,8 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
                 PuaseRelativee.visibility = View.GONE
                 PlayRelativee.visibility = View.VISIBLE
 
-                MediaPlayerService.pauseMedia()
+               MediaPlayerService.pauseMedia(this)
+               // MediaPlayerService.timerpuas()
                 if (countDownTimer != null)
                     countDownTimer?.cancel()
                 //countdown(100)
@@ -422,7 +454,7 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
         } catch (e: Exception) {
         }
 
-        // Play List
+        //>> Play List
         try {
             listimageView = findViewById(R.id.listPlaySoundImage) as ImageView
             listimageView.setColorFilter(
@@ -442,6 +474,7 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
                         this,
                         formList1
                     )
+                    playListDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                     val set4 = shared.getStringSet("LIST_SOUNDS", null)
                     if (set4 != null) {
                         seekbarlist.clear()
@@ -463,7 +496,7 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
         } catch (e: Exception) {
         }
 
-        // Timer Visibility
+        //>> Timer Visibility
         try {
             var countDownTimer: CountDownTimer? = null
             //   if ((this as MainActivity).countDownTimer!=null)
@@ -477,7 +510,7 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
         } catch (e: Exception) {
         }
 
-        // Play Puase Button Visibility
+        //>> Play Puase Button Visibility
         try {
             playingBolean = false
             MediaPlayerService.PlayingMedia()
@@ -494,8 +527,11 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
             }
         } catch (e: Exception) {
         }
-        // Banner Ad
-        // Banner Ad
+
+
+
+        //>> Banner Ad
+
        /* mAdView = findViewById(R.id.adView)
         val adRequest: AdRequest = AdRequest.Builder().build()
         mAdView?.loadAd(adRequest)*/
@@ -535,7 +571,7 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
 
     }
 
-    // Timer CountDown Funtion
+    //>> Timer CountDown Funtion
     public fun countdown(stime: Long, activity: MainActivity) {
         countDownTimer = object : CountDownTimer((stime).toLong(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
@@ -555,7 +591,7 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
                     relativeTimerStop.visibility = View.VISIBLE
                     relativeTimerStart.visibility = View.GONE
                     Log.d("jbdbjknk", "okokko")
-                    MediaPlayerService.pauseMedia()
+                    MediaPlayerService.pauseMedia(applicationContext)
 
                     PlayRelativ.visibility = View.VISIBLE
                     PuaseRelativ.visibility = View.GONE
@@ -603,12 +639,12 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
     }
 
 
-    // Fragment navigation
+    //>> Fragment navigation
     override fun onSupportNavigateUp(): Boolean {
         return findNavController(R.id.nav_host_fragment).navigateUp(appBarConfiguration)
     }
 
-    // Data from server using JSON
+    //>> Data from server using JSON
     private fun jsontest(JSON_URLl: String, SP_String: String) {
         Log.d("formList", "2")
         try {
@@ -670,7 +706,7 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
         //setuprecycleview(formList);
     }
 
-    // Save Data from server
+    //>> Save Data from server
     private fun saveData(SP_String: String) {   //SharedPreferences
 
         try {
@@ -689,7 +725,7 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
 
     }
 
-    // Load Data
+    //>> Load Data
     private fun loadData(SP_String: String) {
         // SharedPreferences
         try {
@@ -732,7 +768,7 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
     }
 
 
-    // Audio Focus for call
+    //>> Audio Focus for call
     override fun onAudioFocusChange(focusChange: Int) {
 
         try {
@@ -742,7 +778,7 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
                 //LOSS -> PAUSE
               //  if (iconpos) {
                     // MediaPlayerService.substopMedia();
-                    MediaPlayerService.pauseMedia()
+                    MediaPlayerService.pauseMedia(applicationContext)
                     val intent = Intent(applicationContext, MediaPlayerServiceSecond::class.java)
                     intent.action = MediaPlayerServiceSecond.ACTION_PREVIOUS
                     startService(intent)
@@ -755,7 +791,7 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
                 Log.d("lplppppp", "" + iconpos)
              //   if (iconpos) {
                     // MediaPlayerService.playMedia(this);
-                    MediaPlayerService.resumeMedia()
+                    MediaPlayerService.resumeMedia(this)
 
                     val intent = Intent(applicationContext, MediaPlayerServiceSecond::class.java)
                     intent.action = MediaPlayerServiceSecond.ACTION_NEXT
@@ -776,7 +812,7 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
         serviceBound = savedInstanceState.getBoolean("ServiceState")
     }
 
-    // App Destroy
+    //>> App Destroy
     override fun onDestroy() {
         super.onDestroy()
         /* if (serviceBound) {
@@ -795,11 +831,16 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
 
             stopService(stopIntent)
             shared.edit().putBoolean("puaseIcon", false).apply()
-            MediaPlayerService.stopMedia()
+          //  MediaPlayerService.hashmapset(this)
+            MediaPlayerService.stopMedia(this)
             val floatingWidgetShowService =
                 FloatingWidgetShowService();
             floatingWidgetShowService.stopSelf();
             stopService(floatingIntent)
+            finish()
+
+        //   if (countDownTimer!=null)
+               countDownTimer?.cancel()
         } catch (e: Exception) {
         }
     }
@@ -890,9 +931,17 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
                 val stopIntent =
                     Intent(applicationContext, MediaPlayerServiceSecond::class.java)
                 stopIntent.setAction(MediaPlayerServiceSecond.ACTION_STOP)
-                MediaPlayerService.stopMedia()
+
+                val a = Intent(Intent.ACTION_MAIN);
+            a.addCategory(Intent.CATEGORY_HOME);
+            a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(a)
+
+               // MediaPlayerService.hashmapset(this)
+                MediaPlayerService.stopMedia(this)
                 stopService(stopIntent)
                 finish()
+
                 super.onBackPressed()
             }
             .setNegativeButton("CANCEL", null)
@@ -1047,6 +1096,12 @@ class MainActivity : AppCompatActivity(), AudioManager.OnAudioFocusChangeListene
             mInterstitialAd?.loadAd(AdRequest.Builder().build())
         } catch (e: Exception) {
         }
+    }
+
+    fun fadeInStep(deltaVolume: Int) {
+       // media.setVolume(MediaPlayerService.volume, MediaPlayerService.volume)
+        audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,volume,volume);
+      volume += deltaVolume
     }
 
 }

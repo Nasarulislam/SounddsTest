@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="50dp"
+    android:paddingRight="50dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    android:background="@drawable/dailog_timer_customise"
+    >
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Custom Timer Duration"
+android:id="@+id/text"
+    android:textSize="18dp"
+    android:layout_alignParentTop="true"
+    android:textColor="@color/onboarding">
+
+</TextView>
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:id="@+id/numberpickerlaout"
+    android:layout_centerInParent="true"
+    android:layout_below="@+id/text"
+    android:layout_marginTop="10dp">
+
+
+<NumberPicker
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:timePickerMode="spinner"
+    android:amPmBackgroundColor="#ffffff"
+    android:amPmTextColor="#ffffff"
+    android:id="@+id/hour"
+    android:layout_margin="5dp"
+    android:theme="@style/NumberPickerText"
+
+
+
+    >
+
+</NumberPicker>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text=":"
+        android:textSize="20dp"
+        android:fontFamily="@font/roboto_black">
+
+    </TextView>
+    <NumberPicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:timePickerMode="spinner"
+        android:amPmBackgroundColor="#ffffff"
+        android:amPmTextColor="#ffffff"
+        android:id="@+id/minute"
+android:layout_margin="5dp"
+        android:theme="@style/NumberPickerText"
+        >
+    </NumberPicker>
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+        android:layout_below="@+id/numberpickerlaout"
+        android:id="@+id/textnumberpicker"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="hours"
+            android:paddingRight="20dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="min"
+            android:paddingLeft="20dp"/>
+
+
+    </LinearLayout>
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/textnumberpicker"
+   android:layout_centerHorizontal="true"
+
+
+
+    >
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="START TIMER"
+        android:padding="15dp"
+        android:textAlignment="center"
+        android:id="@+id/startbutton"
+        android:textColor="@color/white"
+        android:background="@drawable/button_customise"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+
+        />
+</LinearLayout>
+</RelativeLayout>

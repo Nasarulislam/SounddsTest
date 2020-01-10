@@ -93,10 +93,14 @@ public class BrowserData extends WebViewClient {
         }
         else if (url.contains("http://riafy.me/skip")){
             try {
-               // Log.d("itcamehere", "skip " + URLDecoder.decode(url, StandardCharsets.UTF_8.name()));
+                Log.d("itcamehere", "skip " + URLDecoder.decode(url, StandardCharsets.UTF_8.name()));
                 sharedPreferences.edit().putBoolean("appOpened",true).apply();
                 Intent intent = new Intent(mContext,MainActivity.class);
                 mContext.startActivity(intent);
+                Log.d("hghvhjvjhvjh","Done");
+
+
+
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -113,6 +117,8 @@ public class BrowserData extends WebViewClient {
                     sharedPreferences.edit().putBoolean("appOpened",true).apply();
                     Intent intent = new Intent(MainActivityOnboarding.mContext,MainActivity.class);
                     mContext.startActivity(intent);
+
+
                 }
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
